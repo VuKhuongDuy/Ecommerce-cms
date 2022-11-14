@@ -1,7 +1,7 @@
 {
   "name": "vue-studio",
   "version": "0.0.0",
-  "license": "SEE LICENSE IN ./70073952-vuestudio-bootstrap-4-admin-template-license.pdf",
+  "license": "SEE LICENSE IN ./license.pdf",
   "repository": {
     "type": "git",
     "url": "git@github.com:VuKhuongDuy/Cms-ecommerce.git"
