@@ -1,0 +1,17 @@
+<!-- background & border -->
+<card class="bg-primary border-primary bg-opacity-25 mb-3">
+  <card-header class="border-primary fw-bold small text-primary">...</card-header>
+  <card-body>
+    <h5 class="card-title text-primary">...</h5>
+    <p class="card-text text-primary text-opacity-75">...</p>
+  </card-body>
+</card>
+
+<!-- border & color -->
+<card class="border-primary mb-3">
+  <card-header class="border-primary fw-bold small text-primary">...</card-header>
+  <card-body>
+    <h5 class="card-title text-primary">...</h5>
+    <p class="card-text text-primary text-opacity-75">...</p>
+  </card-body>
+</card>

@@ -1,0 +1,32 @@
+<script>
+import chartjs from '@/components/plugins/Chartjs.vue';
+import { useAppVariableStore } from '@/stores/app-variable';
+
+const appVariable = useAppVariableStore();
+
+export default {
+  data () {
+    return {
+      chart: {
+        type: 'pie',
+        data: {
+          labels: ['Total Visitor', 'New Visitor', 'Returning Visitor'],
+          datasets: [{
+            data: [300, 50, 100],
+            backgroundColor: [appVariable.color.blue, appVariable.color.indigo, appVariable.color.gray900],
+            hoverBackgroundColor: [appVariable.color.blue, appVariable.color.indigo, appVariable.color.gray900],
+            borderWidth: 0
+          }]
+        }
+      }
+    }
+  },
+  components: {
+    chartjs: chartjs
+  }
+}
+</script>
+
+<template>
+  <chartjs :type="chart.type" :data="chart.data" />
+</template>

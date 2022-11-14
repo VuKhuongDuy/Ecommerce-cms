@@ -1,0 +1,33 @@
+<script>
+import { useAppVariableStore } from '@/stores/app-variable';
+import apexchart from '@/components/plugins/Apexcharts.vue';
+
+const appVariable = useAppVariableStore();
+
+export default {
+  data() {
+    return {
+      chart: {
+        height: 365,
+        series: [44, 55, 13, 43, 22],
+        options: {
+          chart: { type: 'pie' },
+          stroke: { show: true, colors: [appVariable.color.componentBg], width: 2, dashArray: 0 },
+          dataLabels: { dropShadow: { enabled: false, top: 1, left: 1, blur: 1, opacity: 0.45 } },
+          colors: [appVariable.color.pink, appVariable.color.orange, appVariable.color.blue, appVariable.color.teal, appVariable.color.indigo],
+          labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+          series: [44, 55, 13, 43, 22],
+          title: { text: 'HeatMap Chart (Single color)' }
+        }
+      }
+    }
+  },
+  components: {
+    apexchart: apexchart
+  }
+}
+</script>
+
+<template>
+  <apexchart :height="chart.height" :options="chart.options" :series="chart.series"></apexchart>
+</template>

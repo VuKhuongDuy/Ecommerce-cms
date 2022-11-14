@@ -1,0 +1,21 @@
+<card class="border-0 overflow-hidden">
+  <card-body class="bg-gradient-orange-red rounded-top text-white text-center">
+    <div class="fs-16px fw-600">Weekly Web Analytics</div>
+    <div class="fs-13px mb-3">Week 11 May - 17 May</div>
+    <chartjs :type="chart.type" :data="chart.data" :options="chart.options" />
+  </card-body>
+  <div class="list-group">
+    <div class="list-group-item border-top-0 rounded-top-0 d-flex align-items-center p-3">
+      <div class="w-40px h-40px rounded bg-gradient-orange-red text-white d-flex align-items-center justify-content-center">
+        <i class="fa fa-user fa-lg"></i>
+      </div>
+      <div class="flex-fill ps-3 pe-3">
+        <div class="fw-600">Total Visitors</div>
+        <div class="fs-12px text-muted">11 May - 17 May</div>
+      </div>
+      <div>
+        <h2 class="mb-0">1.3m</h2>
+      </div>
+    </div>
+  </div>
+</card>

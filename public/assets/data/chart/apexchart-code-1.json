@@ -1,0 +1,39 @@
+<script>
+import { useAppVariableStore } from '@/stores/app-variable';
+import apexchart from '@/components/plugins/Apexcharts.vue';
+
+const appVariable = useAppVariableStore();
+
+export default {
+  data() {
+    return {
+      chart: {
+        height: 350,
+        series: [
+          { name: 'High - 2021', data: [28, 29, 33, 36, 32, 32, 33] }, 
+          { name: 'Low - 2021', data: [12, 11, 14, 18, 17, 13, 13] }
+        ],
+        options: {
+          chart: { type: 'bar' },
+          title: { text: 'Profit & Margin Chart', align: 'center' },
+          plotOptions: { bar: { horizontal: false, columnWidth: '55%', endingShape: 'rounded' } },
+          dataLabels: { enabled: false },
+          stroke: { show: true, width: 2, colors: ['transparent'] },
+          colors: ['rgba('+ appVariable.color.componentColorRgb + ', .5)', appVariable.color.indigo, 'rgba('+ appVariable.color.componentColorRgb + ', .25)'],
+          xaxis: { categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'] },
+          yaxis: { title: { text: '$ (thousands)' } },
+          fill: { opacity: 1 },
+          tooltip: { y: { formatter: function (val) { return "$ " + val + " thousands" } } }
+        }
+      }
+    }
+  },
+  components: {
+    apexchart: apexchart
+  }
+}
+</script>
+
+<template>
+  <apexchart :height="chart.height" :options="chart.options" :series="chart.series"></apexchart>
+</template>
