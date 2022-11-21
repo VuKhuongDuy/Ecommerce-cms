@@ -107,6 +107,17 @@
 		padding: 0;
 	
 		@include clearfix();
+
+		& > .wrap-image {
+			position: relative;
+			float: left;
+
+			& > .inside-image {
+				position: absolute;
+				right: 5px;
+				top: 5px;
+			}
+		}
 	
 		& > li {
 			position: relative;

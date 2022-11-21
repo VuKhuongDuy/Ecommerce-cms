@@ -3,14 +3,17 @@
     <div>
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">PAGES</a></li>
-        <li class="breadcrumb-item active">ORDERS</li>
+        <li class="breadcrumb-item active">User</li>
       </ul>
-      <h1 class="page-header mb-0">Orders</h1>
+      <h1 class="page-header mb-0">User</h1>
     </div>
 
     <div class="ms-auto">
       <a href="#" class="btn btn-primary"
-        ><i class="fa fa-plus-circle fa-fw me-1"></i> Create Orders</a
+        ><i class="fa fa-plus-circle fa-fw me-1"></i> Create User</a
+      >
+      <a href="#" class="btn btn-danger ms-2"
+        ><i class="fa fa-plus-circle fa-fw me-1"></i> Delete User</a
       >
     </div>
   </div>
@@ -55,21 +58,6 @@
           >Unpaid</a
         >
       </li>
-      <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab"
-          >Open</a
-        >
-      </li>
-      <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab"
-          >Closed</a
-        >
-      </li>
-      <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab"
-          >Local delivery</a
-        >
-      </li>
     </ul>
     <div class="tab-content p-4">
       <div class="tab-pane fade show active" id="allTab">
@@ -80,7 +68,7 @@
               <input
                 type="text"
                 class="form-control ps-35px"
-                placeholder="Filter orders"
+                placeholder="Filter users"
               />
               <div
                 class="input-group-text position-absolute top-0 bottom-0 bg-none border-0"
@@ -89,39 +77,6 @@
                 <i class="fa fa-search opacity-5"></i>
               </div>
             </div>
-          </div>
-          <button
-            class="btn btn-default dropdown-toggle rounded-0"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            <span class="d-none d-md-inline">Payment Status</span
-            ><span class="d-inline d-md-none"
-              ><i class="fa fa-credit-card"></i
-            ></span>
-            &nbsp;
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-          <button
-            class="btn btn-default dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            <span class="d-none d-md-inline">Fulfillment status</span
-            ><span class="d-inline d-md-none"><i class="fa fa-check"></i></span>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
           </div>
         </div>
         <!-- END input-group -->
@@ -132,14 +87,13 @@
             <thead>
               <tr>
                 <th class="border-top-0 pt-0 pb-2"></th>
-                <th class="border-top-0 pt-0 pb-2">Order</th>
-                <th class="border-top-0 pt-0 pb-2">Date</th>
-                <th class="border-top-0 pt-0 pb-2">Customer</th>
-                <th class="border-top-0 pt-0 pb-2">Total</th>
-                <th class="border-top-0 pt-0 pb-2">Payment status</th>
-                <th class="border-top-0 pt-0 pb-2">Fulfillment status</th>
-                <th class="border-top-0 pt-0 pb-2">Items</th>
-                <th class="border-top-0 pt-0 pb-2">Delivery method</th>
+                <th class="border-top-0 pt-0 pb-2">ID</th>
+                <th class="border-top-0 pt-0 pb-2">Name</th>
+                <th class="border-top-0 pt-0 pb-2">Role</th>
+                <th class="border-top-0 pt-0 pb-2">Address</th>
+                <th class="border-top-0 pt-0 pb-2">Phone</th>
+                <th class="border-top-0 pt-0 pb-2">Email</th>
+                <th class="border-top-0 pt-0 pb-2">Sex</th>
               </tr>
             </thead>
             <tbody>
@@ -175,7 +129,6 @@
                   >
                 </td>
                 <td class="align-middle">3 items</td>
-                <td class="align-middle">Free shipping</td>
               </tr>
               <tr>
                 <td class="w-10px align-middle">
@@ -209,7 +162,6 @@
                   >
                 </td>
                 <td class="align-middle">1 item</td>
-                <td class="align-middle">Local pickup</td>
               </tr>
               <tr>
                 <td class="w-10px align-middle">
@@ -241,7 +193,6 @@
                   >
                 </td>
                 <td class="align-middle">2 items</td>
-                <td class="align-middle">Express</td>
               </tr>
               <tr>
                 <td class="w-10px align-middle">
@@ -273,7 +224,6 @@
                   >
                 </td>
                 <td class="align-middle">2 items</td>
-                <td class="align-middle">Express</td>
               </tr>
               <tr>
                 <td class="w-10px align-middle">
@@ -305,179 +255,6 @@
                   >
                 </td>
                 <td class="align-middle">2 items</td>
-                <td class="align-middle">Express</td>
-              </tr>
-              <tr>
-                <td class="w-10px align-middle">
-                  <div class="form-check">
-                    <input
-                      type="checkbox"
-                      class="form-check-input"
-                      id="product6"
-                    />
-                    <label class="form-check-label" for="product6"></label>
-                  </div>
-                </td>
-                <td class="align-middle"><a href="#">#1945</a></td>
-                <td class="align-middle">Thu 24 Nov, 2:43pm</td>
-                <td class="align-middle">Lelouch Wong</td>
-                <td>$900.00</td>
-                <td class="py-1 align-middle">
-                  <span
-                    class="badge bg-teal text-teal-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i class="fa fa-circle text-teal fs-9px fa-fw me-5px"></i>
-                    Paid</span
-                  >
-                </td>
-                <td class="align-middle">
-                  <span
-                    class="badge bg-primary bg-opacity-20 text-primary px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i
-                      class="fa fa-circle text-primary text-opacity-80 fs-9px fa-fw me-5px"
-                    ></i>
-                    Ready for pickup</span
-                  >
-                </td>
-                <td class="align-middle">2 items</td>
-                <td class="align-middle">Local pickup</td>
-              </tr>
-              <tr>
-                <td class="w-10px align-middle">
-                  <div class="form-check">
-                    <input
-                      type="checkbox"
-                      class="form-check-input"
-                      id="product7"
-                    />
-                    <label class="form-check-label" for="product7"></label>
-                  </div>
-                </td>
-                <td class="align-middle"><a href="#">#1944</a></td>
-                <td class="align-middle">Thu 23 Nov, 2:43pm</td>
-                <td class="align-middle">Cynthia Ting</td>
-                <td>$625.00</td>
-                <td class="py-1 align-middle">
-                  <span
-                    class="badge bg-teal text-teal-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i class="fa fa-circle text-teal fs-9px fa-fw me-5px"></i>
-                    Paid</span
-                  >
-                </td>
-                <td class="align-middle">
-                  <span
-                    class="badge bg-primary bg-opacity-20 text-primary px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i
-                      class="fa fa-circle text-primary text-opacity-80 fs-9px fa-fw me-5px"
-                    ></i>
-                    Ready for delivery</span
-                  >
-                </td>
-                <td class="align-middle">1 item</td>
-                <td class="align-middle">Local pickup</td>
-              </tr>
-              <tr>
-                <td class="w-10px align-middle">
-                  <div class="form-check">
-                    <input
-                      type="checkbox"
-                      class="form-check-input"
-                      id="product8"
-                    />
-                    <label class="form-check-label" for="product8"></label>
-                  </div>
-                </td>
-                <td class="align-middle"><a href="#">#1943</a></td>
-                <td class="align-middle">Thu 23 Nov, 11:59am</td>
-                <td class="align-middle">Richard Leong</td>
-                <td>$195.00</td>
-                <td class="py-1 align-middle">
-                  <span
-                    class="badge bg-gray-100 text-black text-opacity-50 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i
-                      class="fa fa-circle text-gray-500 fs-9px fa-fw me-5px"
-                    ></i>
-                    Partially refunded</span
-                  >
-                </td>
-                <td class="align-middle">
-                  <span
-                    class="badge bg-danger bg-opacity-30 text-black text-opacity-50 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i
-                      class="fa fa-circle fs-9px fa-fw me-5px text-danger text-opacity-80"
-                    ></i>
-                    Partially fulfilled</span
-                  >
-                </td>
-                <td class="align-middle">2 items</td>
-                <td class="align-middle">Express</td>
-              </tr>
-              <tr>
-                <td class="w-10px align-middle">
-                  <div class="form-check">
-                    <input
-                      type="checkbox"
-                      class="form-check-input"
-                      id="product9"
-                    />
-                    <label class="form-check-label" for="product9"></label>
-                  </div>
-                </td>
-                <td class="align-middle"><a href="#">#1942</a></td>
-                <td class="align-middle">Thu 22 Nov, 8:12am</td>
-                <td class="align-middle">Clement Tang</td>
-                <td>$195.00</td>
-                <td class="py-1 align-middle">
-                  <span
-                    class="badge bg-teal text-teal-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i class="fa fa-circle text-teal fs-9px fa-fw me-5px"></i>
-                    Paid</span
-                  >
-                </td>
-                <td class="align-middle">
-                  <span
-                    class="badge bg-gray-100 text-black text-opacity-50 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i
-                      class="fa fa-circle text-gray-500 fs-9px fa-fw me-5px"
-                    ></i>
-                    Fulfilled</span
-                  >
-                </td>
-                <td class="align-middle">1 item</td>
-                <td class="align-middle">Express</td>
-              </tr>
-              <tr>
-                <td class="w-10px align-middle">
-                  <div class="form-check">
-                    <input
-                      type="checkbox"
-                      class="form-check-input"
-                      id="product10"
-                    />
-                    <label class="form-check-label" for="product10"></label>
-                  </div>
-                </td>
-                <td class="align-middle"><a href="#">#1941</a></td>
-                <td class="align-middle">Thu 22 Nov, 7:42am</td>
-                <td class="align-middle">Richard Leong</td>
-                <td>$195.00</td>
-                <td class="py-1 align-middle">
-                  <span
-                    class="badge bg-teal text-teal-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i class="fa fa-circle text-teal fs-9px fa-fw me-5px"></i>
-                    Paid</span
-                  >
-                </td>
-                <td class="align-middle">
-                  <span
-                    class="badge bg-gray-100 text-black text-opacity-50 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
-                    ><i
-                      class="fa fa-circle text-gray-500 fs-9px fa-fw me-5px"
-                    ></i>
-                    Fulfilled</span
-                  >
-                </td>
-                <td class="align-middle">1 item</td>
-                <td class="align-middle">Express</td>
               </tr>
             </tbody>
           </table>
