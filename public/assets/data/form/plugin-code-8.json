@@ -1,5 +1,5 @@
 <script>
-import vueSelect from '@/components/plugins/vueSelect.vue';
+import vueSelect from '@/components/plugins/VueSelect.vue';
 export default {
   components: {
     vueSelect: vueSelect
