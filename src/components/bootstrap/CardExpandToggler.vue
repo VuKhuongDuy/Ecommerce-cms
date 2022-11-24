@@ -7,9 +7,9 @@ export default {
 		this.$refs.toggler.onclick = function(e) {
 			e.preventDefault();
 			
-			var target = this.closest('.card');
-			var targetClass = 'card-expand';
-			var targetTop = 40;
+			const target = this.closest('.card');
+			const targetClass = 'card-expand';
+			const targetTop = 40;
 
 			if (document.body.classList.contains(targetClass) && target.classList.contains(targetClass)) {
 				target.removeAttribute('style');
