@@ -1,0 +1,18 @@
+export const state = {
+  user: {},
+  listUser: [],
+  category: {},
+  listCategory: [],
+  product: {},
+  listProduct: [],
+  order: {},
+  listOrder: [],
+  discount: {},
+  listDiscount: [],
+  cart: {},
+  listCart: [],
+  log: [],
+  listLog: [],
+  post: {},
+  listPost: [],
+};

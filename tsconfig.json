@@ -1,5 +1,9 @@
 {
   "files": [],
+  "compilerOptions": {
+    "strict": false,
+    "noImplicitAny": false
+  },
   "references": [
     {
       "path": "./tsconfig.vite-config.json"
