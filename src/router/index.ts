@@ -4,19 +4,23 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: "/", component: () => import("../views/Dashboard.vue") },
-	{ path: "/user", component: () => import("../views/PageUser.vue") },
-	{ path: "/product", component: () => import("../views/PageProduct.vue") },
-	{ path: "/category", component: () => import("../views/PageUser.vue") },
-	{ path: "/order", component: () => import("../views/PageOrder.vue") },
-	{ path: "/discount", component: () => import("../views/PageUser.vue") },
-	{ path: "/event", component: () => import("../views/PageUser.vue") },
-	{ path: "/post", component: () => import("../views/PageUser.vue") },
-  {
-    path: "/product/:id",
-    component: () => import("../views/PageProductDetail.vue"),
-  },
+    { path: "/user", component: () => import("../views/PageUser.vue") },
+    {
+      path: "/user/create",
+      component: () => import("../views/CreateUser.vue"),
+    },
+    { path: "/product", component: () => import("../views/PageProduct.vue") },
+    { path: "/category", component: () => import("../views/PageUser.vue") },
+    { path: "/order", component: () => import("../views/PageOrder.vue") },
+    { path: "/discount", component: () => import("../views/PageUser.vue") },
+    { path: "/event", component: () => import("../views/PageUser.vue") },
+    { path: "/post", component: () => import("../views/PageUser.vue") },
+    {
+      path: "/product/:id",
+      component: () => import("../views/PageProductDetail.vue"),
+    },
 
-	/////////////////////////
+    /////////////////////////
     { path: "/analytics", component: () => import("../views/Analytics.vue") },
     {
       path: "/email/inbox",

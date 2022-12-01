@@ -1,5 +1,6 @@
+import { ListUser, User01 } from "@/enums/mockdata";
 import axios from "axios";
-import { authHeader } from './auth-header';
+import { authHeader } from "./auth-header";
 
 const API_URL = "http://localhost:8080/api/v1/";
 
@@ -18,5 +19,20 @@ export const UserService = () => ({
 
   getAdminBoard: () => {
     return axios.get(API_URL + "admin", { headers: authHeader() });
-  }
-})
+  },
+  createOne(data: any) {
+    return User01;
+  },
+  getAll() {
+    return ListUser;
+  },
+  getOne(id: number) {
+    return User01;
+  },
+  updateOne(data: any) {
+    return User01;
+  },
+  deleteOne(id: number) {
+    return true;
+  },
+});

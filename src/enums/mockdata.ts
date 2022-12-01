@@ -1,14 +1,30 @@
 import { GenderUser, RoleUser } from "./user.enum";
 
-export const User = {
+export const User01 = {
+  id: 1,
   username: "User name",
   password: "password",
   role: RoleUser.ADMIN,
   phone: "013456789",
-  birthday: "22/22/2022",
+  birthday: "2022/12/12",
+  address: "Address test 123, Hanoi",
   sex: GenderUser.MALE,
   email: "admin_email_test@mail.com",
 };
+
+export const User02 = {
+  id: 2,
+  username: "User name2",
+  password: "password2",
+  role: RoleUser.NORMAL,
+  phone: "013456799",
+  birthday: "2022/12/12",
+  address: "Address test 456, Hanoi",
+  sex: GenderUser.MALE,
+  email: "admin_normal_test@mail.com",
+};
+
+export const ListUser = [User01, User02];
 
 export const Category01 = {
   id: 1,
@@ -215,7 +231,7 @@ export const Cart = {
 
 export const Log = {
   id: 1,
-  actor: User,
+  actor: User01,
   type: "UPDATE",
   table: "Order",
   content: "UPDATE status = 1 WHERE id =1  ",

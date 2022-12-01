@@ -24,7 +24,7 @@ import CardFooter from "@/components/bootstrap/CardFooter.vue";
 import CardGroup from "@/components/bootstrap/CardGroup.vue";
 import CardImgOverlay from "@/components/bootstrap/CardImgOverlay.vue";
 import CardExpandToggler from "@/components/bootstrap/CardExpandToggler.vue";
-
+import contenteditable from "vue-contenteditable";
 import { store } from "@/stores/vuex/store";
 const emitter = mitt();
 const app = createApp(App);
@@ -43,6 +43,7 @@ app.use(router);
 app.use(Vue3ProgressPlugin);
 app.use(PerfectScrollbar);
 app.use(store);
+app.use(contenteditable);
 
 app.config.globalProperties.emitter = emitter;
 app.mount("#app");
