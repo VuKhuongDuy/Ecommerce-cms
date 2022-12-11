@@ -4,8 +4,8 @@ import navscrollto from '@/components/app/NavScrollTo.vue';
 import datepicker from '@/components/plugins/Datepicker.vue';
 import typeahead from '@/components/plugins/Typeahead.vue';
 import tagsInput from '@/components/plugins/TagsInput.vue';
-import quillEditor from '@/components/plugins/quillEditor.vue';
-import vueSelect from '@/components/plugins/vueSelect.vue';
+import QuillEditor from '@/components/plugins/QuillEditor.vue';
+import VueSelect from '@/components/plugins/VueSelect.vue';
 import colorPicker from '@caohenghu/vue-colorpicker';
 import { useAppVariableStore } from '@/stores/app-variable';
 import { maska } from 'maska';
@@ -15,7 +15,7 @@ import axios from 'axios';
 const appVariable = useAppVariableStore();
 
 export default {
-	data () {
+	data() {
 		return {
 			code1: '',
 			code2: '',
@@ -27,9 +27,9 @@ export default {
 			code8: '',
 			code9: '',
 			color: 'rgba(0, 122, 255, 1)',
-      tag: '',
-      tags: [],
-      tagsAutocomplete: [{ text: 'javascript'}, { text: 'css'}, { text: 'html'}]
+			tag: '',
+			tags: [],
+			tagsAutocomplete: [{ text: 'javascript' }, { text: 'css' }, { text: 'html' }]
 		}
 	},
 	components: {
@@ -38,9 +38,9 @@ export default {
 		datepicker: datepicker,
 		typeahead: typeahead,
 		tagsInput: tagsInput,
-		quillEditor: quillEditor,
+		QuillEditor: QuillEditor,
 		colorPicker: colorPicker,
-		vueSelect: vueSelect
+		VueSelect: VueSelect
 	},
 	directives: { maska },
 	methods: {
@@ -77,7 +77,7 @@ export default {
 		axios.get('/assets/data/form/plugin-code-9.json').then((response) => {
 			this.code9 = response.data;
 		});
-		
+
 		new ScrollSpy(document.body, {
 			target: '#sidebar-bootstrap',
 			offset: 200
@@ -100,17 +100,20 @@ export default {
 							<li class="breadcrumb-item"><a href="#">FORMS</a></li>
 							<li class="breadcrumb-item active">FORM PLUGINS</li>
 						</ul>
-						
+
 						<h1 class="page-header">
 							Form Plugins <small>page header description goes here...</small>
 						</h1>
-						
+
 						<hr class="mb-4" />
-						
+
 						<!-- BEGIN #datepicker -->
 						<div id="datepicker" class="mb-5">
 							<h4>Datepicker</h4>
-							<p>Vue 3 date time picker is a lightweight yet powerful and reusable datepicker component. It aims to provide a high level of customization to fit within any project. Please read the <a href="https://vue3datepicker.com/" target="_blank">official documentation</a> for the full list of options.</p>
+							<p>Vue 3 date time picker is a lightweight yet powerful and reusable datepicker component. It aims to
+								provide a high level of customization to fit within any project. Please read the <a
+									href="https://vue3datepicker.com/" target="_blank">official documentation</a> for the full list of
+								options.</p>
 							<card>
 								<card-body class="pb-2">
 									<form>
@@ -128,11 +131,14 @@ export default {
 							</card>
 						</div>
 						<!-- END #vue3Datepicker -->
-						
+
 						<!-- BEGIN #daterangepicker -->
 						<div id="daterangepicker" class="mb-5">
 							<h4>Daterangepicker</h4>
-							<p>Vue 3 date time picker is a lightweight yet powerful and reusable datepicker component. It aims to provide a high level of customization to fit within any project. Please read the <a href="https://vue3datepicker.com/" target="_blank">official documentation</a> for the full list of options.</p>
+							<p>Vue 3 date time picker is a lightweight yet powerful and reusable datepicker component. It aims to
+								provide a high level of customization to fit within any project. Please read the <a
+									href="https://vue3datepicker.com/" target="_blank">official documentation</a> for the full list of
+								options.</p>
 							<card>
 								<card-body class="pb-2">
 									<form>
@@ -157,17 +163,20 @@ export default {
 											</div>
 										</div>
 									</form>
-								
+
 								</card-body>
 								<highlightjs :code="code2" />
 							</card>
 						</div>
 						<!-- END #daterangepicker -->
-						
+
 						<!-- BEGIN #timepicker -->
 						<div id="timepicker" class="mb-5">
 							<h4>Timepicker</h4>
-							<p>Vue 3 date time picker is a lightweight yet powerful and reusable datepicker component. It aims to provide a high level of customization to fit within any project. Please read the <a href="https://vue3datepicker.com/" target="_blank">official documentation</a> for the full list of options.</p>
+							<p>Vue 3 date time picker is a lightweight yet powerful and reusable datepicker component. It aims to
+								provide a high level of customization to fit within any project. Please read the <a
+									href="https://vue3datepicker.com/" target="_blank">official documentation</a> for the full list of
+								options.</p>
 							<card>
 								<card-body class="pb-2">
 									<form>
@@ -180,17 +189,19 @@ export default {
 											</div>
 										</div>
 									</form>
-								
+
 								</card-body>
 								<highlightjs :code="code3" />
 							</card>
 						</div>
 						<!-- END #bootstrapTimepicker -->
-						
+
 						<!-- BEGIN #typeahead -->
 						<div id="typeahead" class="mb-5">
 							<h4>Typeahead</h4>
-							<p>A Vue3 component for a simple typeahead component. It will show a list of suggested items based on the user input. Please read the <a href="https://github.com/frikinside/vue3-simple-typeahead" target="_blank">official documentation</a> for the full list of options.</p>
+							<p>A Vue3 component for a simple typeahead component. It will show a list of suggested items based on the
+								user input. Please read the <a href="https://github.com/frikinside/vue3-simple-typeahead"
+									target="_blank">official documentation</a> for the full list of options.</p>
 							<card>
 								<card-body class="pb-2">
 									<form>
@@ -198,8 +209,9 @@ export default {
 											<div class="col-md-6">
 												<div class="mb-3">
 													<label class="form-label">Default <span class="text-danger">*</span></label>
-													<typeahead :items="['One','Two','Three']" :minInputLength="1" />
-													<div class="small pt-1 text-white text-opacity-35">Enter 'one', 'two' or 'three' for typeahead preview</div>
+													<typeahead :items="['One', 'Two', 'Three']" :minInputLength="1" />
+													<div class="small pt-1 text-white text-opacity-35">Enter 'one', 'two' or 'three' for typeahead
+														preview</div>
 												</div>
 											</div>
 										</div>
@@ -209,11 +221,13 @@ export default {
 							</card>
 						</div>
 						<!-- END #typeahead -->
-						
+
 						<!-- BEGIN #tagsInput -->
 						<div id="tagsInput" class="mb-5">
 							<h4>Tags Input</h4>
-							<p>A tags input component for VueJS with autocompletion, custom validation, templating and much more. Please read the <a href="https://github.com/JohMun/vue-tags-input" target="_blank">official documentation</a> for the full list of options.</p>
+							<p>A tags input component for VueJS with autocompletion, custom validation, templating and much more.
+								Please read the <a href="https://github.com/JohMun/vue-tags-input" target="_blank">official
+									documentation</a> for the full list of options.</p>
 							<card>
 								<card-body>
 									<form>
@@ -222,9 +236,10 @@ export default {
 												<div class="mb-0">
 													<label class="form-label">Default <span class="text-danger">*</span></label>
 													<div>
-														<tags-input v-model="tag" :tags="tags" :autocomplete-items="tagsAutocomplete"/>
+														<tags-input v-model="tag" :tags="tags" :autocomplete-items="tagsAutocomplete" />
 													</div>
-													<div class="small pt-1 text-white text-opacity-35">Enter 'javascript', 'css' for autocomplete preview</div>
+													<div class="small pt-1 text-white text-opacity-35">Enter 'javascript', 'css' for autocomplete
+														preview</div>
 												</div>
 											</div>
 										</div>
@@ -234,11 +249,13 @@ export default {
 							</card>
 						</div>
 						<!-- END #tagsInput -->
-						
+
 						<!-- BEGIN #maskedInput -->
 						<div id="maskedInput" class="mb-5">
 							<h4>Masked Input</h4>
-							<p>Simple zero-dependency input mask for Vue.js and vanilla JS. Please read the <a href="https://github.com/beholdr/maska" target="_blank">official documentation</a> for the full list of options.</p>
+							<p>Simple zero-dependency input mask for Vue.js and vanilla JS. Please read the <a
+									href="https://github.com/beholdr/maska" target="_blank">official documentation</a> for the full list
+								of options.</p>
 							<card>
 								<card-body class="pb-2">
 									<form>
@@ -256,11 +273,14 @@ export default {
 							</card>
 						</div>
 						<!-- END #maskedInput -->
-						
-						<!-- BEGIN #quillEditor -->
-						<div id="quillEditor" class="mb-5">
+
+						<!-- BEGIN #QuillEditor -->
+						<div id="QuillEditor" class="mb-5">
 							<h4>Quill Editor</h4>
-							<p>VueQuill is a Vue Component for building rich text editors, this package is a thin wrapper around Quill, to make it easier to use in a Vue 3 application. Please read the <a href="https://github.com/vueup/vue-quill" target="_blank">official documentation</a> for the full list of options.</p>
+							<p>VueQuill is a Vue Component for building rich text editors, this package is a thin wrapper around
+								Quill, to make it easier to use in a Vue 3 application. Please read the <a
+									href="https://github.com/vueup/vue-quill" target="_blank">official documentation</a> for the full list
+								of options.</p>
 							<card>
 								<card-body>
 									<form>
@@ -270,12 +290,14 @@ export default {
 								<highlightjs :code="code7" />
 							</card>
 						</div>
-						<!-- END #quillEditor -->
-						
-						<!-- BEGIN #vueSelect -->
-						<div id="vueSelect" class="mb-5">
+						<!-- END #QuillEditor -->
+
+						<!-- BEGIN #VueSelect -->
+						<div id="VueSelect" class="mb-5">
 							<h4>Vue Select</h4>
-							<p>Vue Select is a feature rich select/dropdown/typeahead component. It provides a default template that fits most use cases for a filterable select dropdown. Please read the <a href="https://vue-select.org/" target="_blank">official documentation</a> for the full list of options.</p>
+							<p>Vue Select is a feature rich select/dropdown/typeahead component. It provides a default template that
+								fits most use cases for a filterable select dropdown. Please read the <a href="https://vue-select.org/"
+									target="_blank">official documentation</a> for the full list of options.</p>
 							<card>
 								<card-body class="pb-2">
 									<form>
@@ -283,13 +305,15 @@ export default {
 											<div class="col-xl-6">
 												<div class="mb-3">
 													<label class="form-label">Default <span class="text-danger">*</span></label>
-													<vue-select :options="['Mustard', 'Ketchup', 'Relish']" placeholder="-- Select Option --"></vue-select>
+													<vue-select :options="['Mustard', 'Ketchup', 'Relish']"
+														placeholder="-- Select Option --"></vue-select>
 												</div>
 											</div>
 											<div class="col-xl-6">
 												<div class="mb-3">
 													<label class="form-label">Multiple SelectBox <span class="text-danger">*</span></label>
-													<vue-select :options="['Mustard', 'Ketchup', 'Relish']" placeholder="-- Select Multiple Options --" multiple></vue-select>
+													<vue-select :options="['Mustard', 'Ketchup', 'Relish']"
+														placeholder="-- Select Multiple Options --" multiple></vue-select>
 												</div>
 											</div>
 										</div>
@@ -298,12 +322,14 @@ export default {
 								<highlightjs :code="code8" />
 							</card>
 						</div>
-						<!-- END #vueSelect -->
-						
+						<!-- END #VueSelect -->
+
 						<!-- BEGIN #vueColorpicker -->
 						<div id="vueColorpicker" class="mb-5">
 							<h4>Vue Colorpicker</h4>
-							<p>Vue Colorpicker is a colorpicker of Vue Components. Please read the <a href="https://github.com/caohenghu/vue-colorpicker" target="_blank">official documentation</a> for the full list of options.</p>
+							<p>Vue Colorpicker is a colorpicker of Vue Components. Please read the <a
+									href="https://github.com/caohenghu/vue-colorpicker" target="_blank">official documentation</a> for the
+								full list of options.</p>
 							<card>
 								<card-body class="pb-2">
 									<form>
@@ -313,9 +339,11 @@ export default {
 													<label class="form-label">Default <span class="text-danger">*</span></label>
 													<div class="input-group position-relative">
 														<span class="input-group-text p-1">
-															<span class="h-20px w-20px rounded d-block mx-3px" v-bind:style="{ backgroundColor: color }"></span>
+															<span class="h-20px w-20px rounded d-block mx-3px"
+																v-bind:style="{ backgroundColor: color }"></span>
 														</span>
-														<a href="#" class="stretched-link" data-bs-toggle="dropdown" data-bs-auto-close="outside"></a>
+														<a href="#" class="stretched-link" data-bs-toggle="dropdown"
+															data-bs-auto-close="outside"></a>
 														<div class="dropdown-menu p-2">
 															<color-picker :color="color" @changeColor="changeColor" />
 														</div>
@@ -338,14 +366,18 @@ export default {
 						<nav id="sidebar-bootstrap" class="navbar navbar-sticky d-none d-xl-block">
 							<nav class="nav text-nowrap">
 								<nav-scroll-to class="nav-link" target="#datepicker" data-toggle="scroll-to">Datepicker</nav-scroll-to>
-								<nav-scroll-to class="nav-link" target="#daterangepicker" data-toggle="scroll-to">Daterangepicker</nav-scroll-to>
+								<nav-scroll-to class="nav-link" target="#daterangepicker"
+									data-toggle="scroll-to">Daterangepicker</nav-scroll-to>
 								<nav-scroll-to class="nav-link" target="#timepicker" data-toggle="scroll-to">Timepicker</nav-scroll-to>
 								<nav-scroll-to class="nav-link" target="#typeahead" data-toggle="scroll-to">Typeahead</nav-scroll-to>
 								<nav-scroll-to class="nav-link" target="#tagsInput" data-toggle="scroll-to">Tags Input</nav-scroll-to>
-								<nav-scroll-to class="nav-link" target="#maskedInput" data-toggle="scroll-to">Masked Input</nav-scroll-to>
-								<nav-scroll-to class="nav-link" target="#quillEditor" data-toggle="scroll-to">Quill Editor</nav-scroll-to>
-								<nav-scroll-to class="nav-link" target="#vueSelect" data-toggle="scroll-to">Vue Select</nav-scroll-to>
-								<nav-scroll-to class="nav-link" target="#vueColorpicker" data-toggle="scroll-to">Vue Colorpicker</nav-scroll-to>
+								<nav-scroll-to class="nav-link" target="#maskedInput" data-toggle="scroll-to">Masked
+									Input</nav-scroll-to>
+								<nav-scroll-to class="nav-link" target="#QuillEditor" data-toggle="scroll-to">Quill
+									Editor</nav-scroll-to>
+								<nav-scroll-to class="nav-link" target="#VueSelect" data-toggle="scroll-to">Vue Select</nav-scroll-to>
+								<nav-scroll-to class="nav-link" target="#vueColorpicker" data-toggle="scroll-to">Vue
+									Colorpicker</nav-scroll-to>
 							</nav>
 						</nav>
 						<!-- END #sidebar-bootstrap -->

@@ -1,6 +1,6 @@
 import { ListPost, Post01 } from "@/enums/mockdata";
 
-export const ProductService = () => ({
+export const PostService = () => ({
   createOne(data: any) {
     return Post01;
   },

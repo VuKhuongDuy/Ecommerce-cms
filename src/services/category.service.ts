@@ -1,12 +1,10 @@
-import { Category01, ListCategories } from "@/enums/mockdata"
-
+import { Category01, ListCategories } from "@/enums/mockdata";
 export const CategoryService = () => ({
   getAll() {
     return ListCategories;
   },
 
-  getOne(id: number){
+  getOne(id: number) {
     return Category01;
-  }
-
+  },
 });

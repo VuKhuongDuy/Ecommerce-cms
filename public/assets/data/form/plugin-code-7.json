@@ -1,9 +1,9 @@
 <script>
-import quillEditor from '@/components/plugins/QuillEditor.vue';
+import QuillEditor from '@/components/plugins/QuillEditor.vue';
 
 export default {
   components: {
-    quillEditor: quillEditor
+    QuillEditor: QuillEditor
   }
 }
 </script>

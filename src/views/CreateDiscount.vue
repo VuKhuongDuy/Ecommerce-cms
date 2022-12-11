@@ -2,59 +2,42 @@
   <div class="row form-create">
     <div class="col-xl-6">
       <div class="form-group mb-3">
-        <label class="form-label" for="username">Username</label>
-        <input v-model="createUser.username" type="text" class="form-control" id="username" placeholder="Your username">
+        <label class="form-label" for="username">Tên chương trình</label>
+        <input v-model="createDiscount.name" type="text" class="form-control" id="name" placeholder="Tên chương trình">
+      </div>
+    </div>
+    <div class="col-xl-6">
+    </div>
+    <div class="col-xl-6">
+      <div class="form-group mb-3">
+        <label class="form-label" for="birthday">Ngày bắt đầu</label>
+        <datepicker id="birthday" v-model="createDiscount.start_time" class="dateSelect" :clearable="false"
+          hideInputIcon />
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
-        <label class="form-label" for="role">Chức vụ</label>
-        <select v-model="createUser.role" class="form-control">
-          <option :value="RoleUser.ADMIN">{{ RoleUserString.ADMIN }}</option>
-          <option :value="RoleUser.NORMAL">{{ RoleUserString.NORMAL }}</option>
-        </select>
+        <label class="form-label" for="birthday">Ngày kết thúc</label>
+        <datepicker id="birthday" v-model="createDiscount.end_time" class="dateSelect" :clearable="false"
+          hideInputIcon />
+      </div>
+    </div>
+
+    <div class="col-xl-6">
+      <div class="form-group mb-3">
+        <label class="form-label" for="address">Giảm giá mặc định</label>
+        <input v-model="createDiscount.default_percent_discount" type="text" class="form-control"
+          id="default_percent_discount" placeholder="your location">
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
-        <label class="form-label" for="phone">SĐT</label>
-        <input v-model="createUser.phone" type="text" class="form-control" id="phone" placeholder="0123456789">
-      </div>
-    </div>
-    <div class="col-xl-6">
-      <div class="form-group mb-3">
-        <label class="form-label" for="password">Mật khẩu</label>
-        <input v-model="createUser.password" type="text" class="form-control" id="password" placeholder="password">
-      </div>
-    </div>
-    <div class="col-xl-6">
-      <div class="form-group mb-3">
-        <label class="form-label" for="birthday">Ngày sinh</label>
-        <datepicker id="birthday" v-model="createUser.birthday" :format="getBirthdayFormat" class="dateSelect"
-          :clearable="false" hideInputIcon />
-      </div>
-    </div>
-    <div class="col-xl-6">
-      <div class="form-group mb-3">
-        <label class="form-label" for="address">Địa chỉ</label>
-        <input v-model="createUser.address" type="text" class="form-control" id="address" placeholder="your location">
-      </div>
-    </div>
-    <div class="col-xl-6">
-      <div class="form-group mb-3">
-        <label class="form-label" for="gender">Giới tính</label>
-        <select v-model="createUser.sex" class="form-control">
+        <label class="form-label" for="gender">Danh sách sản phẩm</label>
+        <select v-model="createDiscount.sex" class="form-control">
           <option :value="GenderUser.MALE">{{ GenderUserString.MALE }}</option>
           <option :value="GenderUser.FEMALE">{{ GenderUserString.FEMALE }}</option>
           <option :value="GenderUser.OTHER">{{ GenderUserString.OTHER }}</option>
         </select>
-      </div>
-    </div>
-    <div class="col-xl-6">
-      <div class="form-group mb-3">
-        <label class="form-label" for="email">Email</label>
-        <input v-model="createUser.email" type="text" class="form-control" id="email"
-          placeholder="your_email@example.com">
       </div>
     </div>
   </div>
@@ -68,7 +51,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
       </div>
       <div class="toast-body">
-        Tạo user thành công
+        Tạo chương trình giảm giá thành công
       </div>
     </div>
     <div class="toast fade hide mb-3" data-autohide="false" id="toast-create-error">
@@ -84,7 +67,8 @@
     </div>
   </div>
 
-  <button type="button" class="btn btn-primary pr-2" @click="(event) => saveUser(event, createUser)">Save</button>
+  <button type="button" class="btn btn-primary pr-2"
+    @click="(event) => saveDiscount(event, createDiscount)">Save</button>
   <!-- toasts-container -->
 </template>
 <script>
@@ -98,7 +82,7 @@ import { RoleUserString, RoleUser, GenderUser, GenderUserString } from "../enums
 
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import { UserService } from "../services/user.service";
+import { DiscountService } from "../services/discount.service";
 import { Toast } from 'bootstrap';
 
 export default {
@@ -119,20 +103,20 @@ export default {
       RoleUserString: RoleUserString,
       GenderUser: GenderUser,
       GenderUserString: GenderUserString,
-      createUser: {},
+      createDiscount: {},
       error_message: ""
     }
   },
   methods: {
-    async saveUser(event, user) {
+    async saveDiscount(event, createDiscount) {
       event.preventDefault();
-      const userService = UserService()
+      const discountService = DiscountService()
       try {
-        userService.createOne(user);
+        discountService.createOne(createDiscount);
         const toast = new Toast(document.getElementById('toast-create-success'));
         toast.show();
         await this.delayTime();
-        this.$router.push("/user");
+        this.$router.push("/discount");
       } catch (e) {
         this.error_message = e;
         const toast = new Toast(document.getElementById('toast-create-error'));

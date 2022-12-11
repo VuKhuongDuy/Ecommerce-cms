@@ -47,4 +47,7 @@ export const getters = {
   listpost(state: any) {
     return state.listPost;
   },
+  listDiscountProduct(state: any) {
+    return state.listDiscountProduct;
+  },
 };

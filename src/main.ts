@@ -26,6 +26,7 @@ import CardImgOverlay from "@/components/bootstrap/CardImgOverlay.vue";
 import CardExpandToggler from "@/components/bootstrap/CardExpandToggler.vue";
 import contenteditable from "vue-contenteditable";
 import { store } from "@/stores/vuex/store";
+
 const emitter = mitt();
 const app = createApp(App);
 

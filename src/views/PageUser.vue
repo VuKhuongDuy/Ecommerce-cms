@@ -265,7 +265,6 @@ export default {
       return `${year}/${month}/${day}`
     },
     checkRowEdit(index) {
-      console.log("herer");
       this.listEditted[index] = true
     },
     getClassEditted(index) {
@@ -300,6 +299,7 @@ select {
   max-width: 105px;
 }
 
+/* style hover input editted */
 input {
   border: none;
 }

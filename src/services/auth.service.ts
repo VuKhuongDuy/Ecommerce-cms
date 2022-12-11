@@ -1,14 +1,19 @@
-import { User } from "@/enums/mockdata";
+import { User01 } from "@/enums/mockdata";
 import { RoleUser } from "@/enums/user.enum";
 import axios from "axios";
-
-const API_URL = "http://localhost:8080/api/auth/";
+import { httpClient } from "./httpClient";
 
 export const AuthService = () => ({
-  login(user: any) {
-    localStorage.setItem("user", JSON.stringify(User));
+  async login(user: any) {
+    const response = await httpClient.post("/auth/login", {
+      email: user.email,
+      password: user.password,
+    });
+
+    console.log(response);
+    localStorage.setItem("user", JSON.stringify(User01));
     return {
-      user: User,
+      user: User01,
       token: "token",
     };
   },

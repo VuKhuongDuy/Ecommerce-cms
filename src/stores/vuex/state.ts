@@ -15,4 +15,5 @@ export const state = {
   listLog: [],
   post: {},
   listPost: [],
+  listDiscountProduct: [],
 };

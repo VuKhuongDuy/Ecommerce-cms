@@ -12,9 +12,14 @@ const router = createRouter({
     { path: "/product", component: () => import("../views/PageProduct.vue") },
     { path: "/category", component: () => import("../views/PageUser.vue") },
     { path: "/order", component: () => import("../views/PageOrder.vue") },
-    { path: "/discount", component: () => import("../views/PageUser.vue") },
+    { path: "/discount", component: () => import("../views/PageDiscount.vue") },
+    {
+      path: "/discount/create",
+      component: () => import("../views/CreateDiscount.vue"),
+    },
     { path: "/event", component: () => import("../views/PageUser.vue") },
-    { path: "/post", component: () => import("../views/PageUser.vue") },
+    { path: "/post", component: () => import("../views/PagePost.vue") },
+    { path: "/log", component: () => import("../views/PageLog.vue") },
     {
       path: "/product/:id",
       component: () => import("../views/PageProductDetail.vue"),

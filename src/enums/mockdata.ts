@@ -37,7 +37,7 @@ export const Category02 = {
 };
 
 export const ListCategories = [Category01, Category02];
-const productImgUrl = "http://localhost:3000/test.img";
+const productImgUrl = "/assets/img/product/product-6.jpg";
 
 export const ProductProperty01 = {
   name: "Color",
@@ -64,7 +64,7 @@ export const Product01 = {
   name: "Product 1",
   description:
     "Description loremLorem tempor duis fugiat eiusmod eiusmod esse aute mollit duis incididunt adipisicing.",
-  price: 10.0,
+  addinfo: "addinfo",
   default_price: 15.0,
   selling_price: 12.0,
   sku: "sku ",
@@ -84,6 +84,18 @@ export const Product01 = {
     {
       url: productImgUrl,
       type: "type02",
+    },
+  ],
+  filters: [
+    {
+      name: "price",
+      value: 20000,
+      type: "number",
+    },
+    {
+      name: "origin",
+      value: ["us", "ja"],
+      type: "string",
     },
   ],
   properties: [ProductProperty01, ProductPropery02],
@@ -185,7 +197,7 @@ export const ListDiscount = [Discount01, Discount02, Discount03];
 
 export const Order01 = {
   id: 1,
-  user_order_id: 1,
+  user_order_id: User01,
   list_prodcuct: [
     {
       product: Product01,
@@ -196,11 +208,15 @@ export const Order01 = {
       },
     },
   ],
+  state: "DONE",
+  voucher: Discount01,
+  create_at: new Date("1999/09/09 00:00:00"),
+
 };
 
 export const Order02 = {
   id: 2,
-  user_order_id: 1,
+  user_order_id: User01,
   list_prodcuct: [
     {
       product: Product01,
@@ -211,6 +227,10 @@ export const Order02 = {
       },
     },
   ],
+  state: "",
+  voucher: Discount02,
+  create_at: new Date("1999/09/09 00:00:00"),
+
 };
 
 export const ListOrder = [Order01, Order02];
@@ -240,12 +260,16 @@ export const Log = {
   deleted_at: new Date("1999/09/09 00:00:00"),
 };
 
-export const ListLog = [Log];
+export const ListLog = [Log, Log];
 
 export const Post01 = {
   id: 1,
   title: "POST 01",
-  content:
+  description: "Description",
+  slug: "slug",
+  thumnail:
+    "https://resources.trifocal.eu.com/wp-content/uploads/2018/06/temp-logo-img.png",
+  post_content:
     "Voluptate fugiat nisi esse et dolore laboris cupidatat magna culpa enim consectetur aliquip nulla occaecat.",
   created_at: new Date("1999/09/09 00:00:00"),
 };
@@ -253,8 +277,9 @@ export const Post01 = {
 export const Post02 = {
   id: 2,
   title: "POST 02",
-  content: "Amet sunt occaecat excepteur nulla non non cupidatat nulla qui.",
+  post_content:
+    "Amet sunt occaecat excepteur nulla non non cupidatat nulla qui.",
   created_at: new Date("1999/09/09 00:00:00"),
 };
 
-export const ListPost = [Post01, Post02];
+export const ListPost = [Post01];

@@ -6,6 +6,7 @@ import {
   RoleUser,
   RoleUserString,
 } from "@/enums/user.enum";
+import moment from "moment";
 const store = useStore();
 
 export const isAuthen = () => {
@@ -46,4 +47,8 @@ export const getBirthdayFormat = (date: string) => {
 export const delayTime = (time?: number) => {
   if (!time) time = 1;
   return new Promise((resolve) => setTimeout(resolve, time * 1000));
+};
+
+export const formatFullDatetime = (time: Date) => {
+  return moment(time).format("YYYY/MM/DD h:mm:ss");
 };

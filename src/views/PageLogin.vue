@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     submitForm: async function () {
-      const result = await authService.login();
+      const result = await authService.login(this.user);
       if (result) {
         appAuth.user = result;
         localStorage.token = result.token;
@@ -31,6 +31,11 @@ export default {
       }
     },
   },
+  data() {
+    return {
+      user: {}
+    }
+  }
 };
 </script>
 <template>
@@ -45,47 +50,29 @@ export default {
         </div>
         <div class="mb-3">
           <label class="form-label">Email Address</label>
-          <input
-            type="text"
-            class="form-control form-control-lg fs-15px"
-            value=""
-            placeholder="username@address.com"
-          />
+          <input type="text" class="form-control form-control-lg fs-15px" placeholder="username@address.com"
+            v-model="user.email" />
         </div>
         <div class="mb-3">
           <div class="d-flex">
             <label class="form-label">Password</label>
             <a href="#" class="ms-auto text-muted">Forgot password?</a>
           </div>
-          <input
-            type="password"
-            class="form-control form-control-lg fs-15px"
-            value=""
-            placeholder="Enter your password"
-          />
+          <input type="password" class="form-control form-control-lg fs-15px" v-model="user.password"
+            placeholder="Enter your password" />
         </div>
         <div class="mb-3">
           <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="customCheck1"
-            />
-            <label class="form-check-label fw-500" for="customCheck1"
-              >Remember me</label
-            >
+            <input class="form-check-input" type="checkbox" value="" id="customCheck1" />
+            <label class="form-check-label fw-500" for="customCheck1">Remember me</label>
           </div>
         </div>
-        <button
-          type="submit"
-          class="btn btn-primary btn-lg d-block w-100 fw-500 mb-3"
-        >
+        <button type="submit" class="btn btn-primary btn-lg d-block w-100 fw-500 mb-3">
           Sign In
         </button>
         <div class="text-center text-muted">
           Don't have an account yet?
-          <RouterLink to="/page/register">Sign up</RouterLink>.
+          <a href="/page/register">Sign up</a>.
         </div>
       </form>
     </div>

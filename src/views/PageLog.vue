@@ -3,53 +3,13 @@
     <div>
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Trang</a></li>
-        <li class="breadcrumb-item active">Đơn hàng</li>
+        <li class="breadcrumb-item active">Log</li>
       </ul>
-      <h1 class="page-header mb-0">Đơn hàng</h1>
-    </div>
-
-    <div class="ms-auto">
-      <a href="#" class="btn btn-primary"><i class="fa fa-plus-circle fa-fw me-1"></i> Create Orders</a>
-    </div>
-  </div>
-
-  <div class="mb-md-4 mb-3 d-md-flex">
-    <div class="mt-md-0 mt-2">
-      <a href="#" class="text-dark text-decoration-none"><i class="fa fa-download fa-fw me-1 text-muted"></i> Export</a>
-    </div>
-    <div class="ms-md-4 mt-md-0 mt-2 dropdown-toggle">
-      <a href="#" data-bs-toggle="dropdown" class="text-dark text-decoration-none">More Actions</a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <div role="separator" class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Separated link</a>
-      </div>
+      <h1 class="page-header mb-0">Log</h1>
     </div>
   </div>
 
   <card>
-    <ul class="nav nav-tabs nav-tabs-v2 px-4">
-      <li class="nav-item me-3">
-        <a href="#allTab" class="nav-link active px-2" data-bs-toggle="tab">All</a>
-      </li>
-      <li class="nav-item me-3">
-        <a href="#publishedTab" class="nav-link px-2" data-bs-toggle="tab">Unfulfilled</a>
-      </li>
-      <li class="nav-item me-3">
-        <a href="#expiredTab" class="nav-link px-2" data-bs-toggle="tab">Unpaid</a>
-      </li>
-      <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab">Open</a>
-      </li>
-      <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab">Closed</a>
-      </li>
-      <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab">Local delivery</a>
-      </li>
-    </ul>
     <div class="tab-content p-4">
       <div class="tab-pane fade show active" id="allTab">
         <!-- BEGIN input-group -->
@@ -63,8 +23,7 @@
             </div>
           </div>
           <button class="btn btn-default dropdown-toggle rounded-0" type="button" data-bs-toggle="dropdown">
-            <span class="d-none d-md-inline">Payment Status</span><span class="d-inline d-md-none"><i
-                class="fa fa-credit-card"></i></span>
+            <span class="d-none d-md-inline">Tìm kiếm</span>
             &nbsp;
           </button>
           <div class="dropdown-menu">
@@ -93,39 +52,39 @@
           <table class="table table-hover text-nowrap">
             <thead>
               <tr>
-                <th class="border-top-0 pt-0 pb-2">#</th>
-                <th class="border-top-0 pt-0 pb-2">Người mua</th>
-                <th class="border-top-0 pt-0 pb-2">Danh sách sản phẩm</th>
-                <th class="border-top-0 pt-0 pb-2">Trạng thái</th>
-                <th class="border-top-0 pt-0 pb-2">Mã giảm giả</th>
-                <th class="border-top-0 pt-0 pb-2">Ngày tạo</th>
+                <th class="border-top-0 pt-0 pb-2">ID</th>
+                <th class="border-top-0 pt-0 pb-2">Người thực hiện</th>
+                <th class="border-top-0 pt-0 pb-2">Loại</th>
+                <th class="border-top-0 pt-0 pb-2">Bảng</th>
+                <th class="border-top-0 pt-0 pb-2">Nội dung</th>
+                <th class="border-top-0 pt-0 pb-2">Thời gian</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(order, index) in listOrder" :key="index">
-                <td class="w-10px align-middle">
-                  {{ order.id }}
-                </td>
-                <td class="w-10px align-middle">
-                  {{ order.user_order_id.username }}
-                </td>
-                <td>
-                  <div v-for="(product, index2) in order.list_prodcuct" :key="index2">
-                    <p>{{ product.product.name }} - {{ product.discountEvent.name }} - {{ product.property.name }} </p>
-
-                  </div>
-
-                </td>
-                <td class="w-10px align-middle">
-                  {{ order.state }}
-                </td>
-                <td class="w-10px align-middle">
-                  {{ order.voucher.name }}
-                </td>
-                <td class="w-10px align-middle">
-                  {{ formatFullDatetime(order.create_at) }}
+              <tr v-for="(log, index) in listLog" :key="index">
+                <td class=" w-10px align-middle">
+                  {{ log.id }}
                 </td>
 
+                <td class=" w-10px align-left">
+                  {{ log.actor.username }}
+                </td>
+
+                <td class=" w-10px align-left">
+                  {{ log.type }}
+                </td>
+
+                <td class=" w-10px align-left">
+                  {{ log.table }}
+                </td>
+
+                <td class=" w-10px align-left">
+                  {{ log.content }}
+                </td>
+
+                <td class=" w-10px align-left">
+                  {{ formatFullDatetime(log.created_at) }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -156,7 +115,7 @@
   </card>
 </template>
 <script>
-import { OrderService } from '../services/order.service';
+import { LogService } from '../services/log.service'
 import {
   formatFullDatetime
 } from '../mixin/mixin'
@@ -168,12 +127,36 @@ export default {
   }],
   data() {
     return {
-      listOrder: []
+      listLog: [],
     }
   },
   async mounted() {
-    this.listOrder = await OrderService().getAll()
+    this.listLog = await LogService().getAll()
+  },
+  methods: {
+
   }
+
 }
 </script>
+<style>
+#default_discount {
+  max-width: 30px;
+}
 
+input {
+  border: none;
+}
+
+.table-hover>tbody>tr.row-editted>* {
+  background: #bcd3ff !important;
+}
+
+.table-hover>tbody>tr.row-editted input {
+  background: #bcd3ff !important;
+}
+
+.table-hover>tbody>tr:hover input {
+  background: rgba(218, 224, 236, 0.85) !important;
+}
+</style>

@@ -4499,6 +4499,11 @@
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
   "version" "8.3.2"
 
+"v-upload-image@^1.0.0":
+  "integrity" "sha512-E2q3vIkiY0F0z7M+XPVBKaJEG+KyUuRfSaLGfJYIOWPdHHdLWO3nSvk0aQWRnybF/pcyTJzqzrqR/fQfYEa1Iw=="
+  "resolved" "https://registry.npmjs.org/v-upload-image/-/v-upload-image-1.0.0.tgz"
+  "version" "1.0.0"
+
 "verror@1.10.0":
   "integrity" "sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw=="
   "resolved" "https://registry.npmjs.org/verror/-/verror-1.10.0.tgz"

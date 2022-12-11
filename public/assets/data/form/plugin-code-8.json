@@ -1,8 +1,8 @@
 <script>
-import vueSelect from '@/components/plugins/VueSelect.vue';
+import VueSelect from '@/components/plugins/VueSelect.vue';
 export default {
   components: {
-    vueSelect: vueSelect
+    VueSelect: VueSelect
   }
 }
 </script>

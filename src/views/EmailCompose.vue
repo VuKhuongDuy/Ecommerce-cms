@@ -2,7 +2,7 @@
 import { useAppOptionStore } from "@/stores/app-option";
 import { onBeforeUnmount } from "vue";
 import { RouterLink } from "vue-router";
-import quillEditor from "@/components/plugins/quilleditor.vue";
+import QuillEditor from "@/components/plugins/QuillEditor.vue";
 import tagsInput from "@/components/plugins/TagsInput.vue";
 
 const appOption = useAppOptionStore();
@@ -25,7 +25,7 @@ export default {
   },
   components: {
     tagsInput: tagsInput,
-    quillEditor: quillEditor,
+    QuillEditor: QuillEditor,
   },
   mounted() {
     appOption.appContentFullHeight = true;
@@ -46,24 +46,16 @@ export default {
         <span class="mailbox-toolbar-text">New Message</span>
       </div>
       <div class="mailbox-toolbar-item">
-        <RouterLink to="/email/compose" class="mailbox-toolbar-link active"
-          >Send</RouterLink
-        >
+        <RouterLink to="/email/compose" class="mailbox-toolbar-link active">Send</RouterLink>
       </div>
       <div class="mailbox-toolbar-item">
-        <RouterLink to="/email/compose" class="mailbox-toolbar-link"
-          >Attachment</RouterLink
-        >
+        <RouterLink to="/email/compose" class="mailbox-toolbar-link">Attachment</RouterLink>
       </div>
       <div class="mailbox-toolbar-item">
-        <RouterLink to="/email/inbox" class="mailbox-toolbar-link"
-          >Discard</RouterLink
-        >
+        <RouterLink to="/email/inbox" class="mailbox-toolbar-link">Discard</RouterLink>
       </div>
       <div class="mailbox-toolbar-item dropdown">
-        <a href="#" class="mailbox-toolbar-link" data-bs-toggle="dropdown"
-          ><i class="fa fa-ellipsis-h"></i
-        ></a>
+        <a href="#" class="mailbox-toolbar-link" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-h"></i></a>
         <div class="dropdown-menu ms-n1">
           <a href="#" class="dropdown-item">Save draft</a>
           <a href="#" class="dropdown-item">Show From</a>
@@ -74,14 +66,11 @@ export default {
         </div>
       </div>
       <div class="mailbox-toolbar-item ms-auto">
-        <RouterLink to="/email/compose" class="mailbox-toolbar-link"
-          ><i class="fa fa-redo fa-fw fs-12px me-1"></i> Undo</RouterLink
-        >
+        <RouterLink to="/email/compose" class="mailbox-toolbar-link"><i class="fa fa-redo fa-fw fs-12px me-1"></i> Undo
+        </RouterLink>
       </div>
       <div class="mailbox-toolbar-item">
-        <RouterLink to="/email/inbox" class="mailbox-toolbar-link"
-          ><i class="fa fa-times fa-fw"></i> Cancel</RouterLink
-        >
+        <RouterLink to="/email/inbox" class="mailbox-toolbar-link"><i class="fa fa-times fa-fw"></i> Cancel</RouterLink>
       </div>
     </div>
     <!-- END mailbox-toolbar -->
@@ -94,54 +83,27 @@ export default {
             <div class="mailbox-form d-flex flex-column h-100">
               <div class="mailbox-form-header">
                 <div class="row mb-2">
-                  <label class="col-form-label w-100px px-2 fw-500 text-lg-end"
-                    >To:</label
-                  >
+                  <label class="col-form-label w-100px px-2 fw-500 text-lg-end">To:</label>
                   <div class="col-lg">
-                    <tags-input
-                      v-model="to"
-                      :tags="toTags"
-                      placeholder=""
-                      :autocomplete-items="tagsAutocomplete"
-                    />
+                    <tags-input v-model="to" :tags="toTags" placeholder="" :autocomplete-items="tagsAutocomplete" />
                   </div>
                 </div>
                 <div class="row mb-2">
-                  <label class="col-form-label w-100px px-2 fw-500 text-lg-end"
-                    >Cc:</label
-                  >
+                  <label class="col-form-label w-100px px-2 fw-500 text-lg-end">Cc:</label>
                   <div class="col-lg">
-                    <tags-input
-                      v-model="cc"
-                      :tags="ccTags"
-                      placeholder=""
-                      :autocomplete-items="tagsAutocomplete"
-                    />
+                    <tags-input v-model="cc" :tags="ccTags" placeholder="" :autocomplete-items="tagsAutocomplete" />
                   </div>
                 </div>
                 <div class="row mb-2">
-                  <label class="col-form-label w-100px px-2 fw-500 text-lg-end"
-                    >Bcc:</label
-                  >
+                  <label class="col-form-label w-100px px-2 fw-500 text-lg-end">Bcc:</label>
                   <div class="col-lg">
-                    <tags-input
-                      v-model="bcc"
-                      :tags="bccTags"
-                      placeholder=""
-                      :autocomplete-items="tagsAutocomplete"
-                    />
+                    <tags-input v-model="bcc" :tags="bccTags" placeholder="" :autocomplete-items="tagsAutocomplete" />
                   </div>
                 </div>
                 <div class="row mb-0">
-                  <label class="col-form-label w-100px px-2 fw-500 text-lg-end"
-                    >Subject:</label
-                  >
+                  <label class="col-form-label w-100px px-2 fw-500 text-lg-end">Subject:</label>
                   <div class="col-lg">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Email subject"
-                    />
+                    <input type="text" class="form-control" placeholder="Email subject" />
                   </div>
                 </div>
               </div>

@@ -1,93 +1,25 @@
-<script>
-export default {
-  methods: {
-    viewProductDetail: function (id) {
-			alert('asdas')
-      this.$router.push(`/product/${id}`);
-    },
-  },
-};
-</script>
-
 <template>
   <div class="d-flex align-items-center mb-3">
     <div>
       <ul class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">PAGES</a></li>
-        <li class="breadcrumb-item active">PRODUCTS</li>
+        <li class="breadcrumb-item"><a href="#">Trang</a></li>
+        <li class="breadcrumb-item active">Sản phẩm</li>
       </ul>
-      <h1 class="page-header mb-0">Products</h1>
+      <h1 class="page-header mb-0">Sản phẩm</h1>
     </div>
 
     <div class="ms-auto">
-      <a href="#" class="btn btn-primary"
-        ><i class="fa fa-plus-circle fa-fw me-1"></i> Add Product</a
-      >
-    </div>
-  </div>
-
-  <div class="mb-sm-4 mb-3 d-sm-flex">
-    <div class="mt-sm-0 mt-2">
-      <a href="#" class="text-dark text-decoration-none"
-        ><i class="fa fa-download fa-fw me-1 text-muted"></i> Export</a
-      >
-    </div>
-    <div class="ms-sm-4 mt-sm-0 mt-2">
-      <a href="#" class="text-dark text-decoration-none"
-        ><i class="fa fa-upload fa-fw me-1 text-muted"></i> Import</a
-      >
-    </div>
-    <div class="ms-sm-4 mt-sm-0 mt-2 dropdown-toggle">
-      <a
-        href="#"
-        data-bs-toggle="dropdown"
-        class="text-dark text-decoration-none"
-        >More Actions <b class="caret ms-1"></b
-      ></a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <div role="separator" class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Separated link</a>
-      </div>
+      <a href="#" class="btn btn-primary"><i class="fa fa-plus-circle fa-fw me-1"></i> Add Product</a>
     </div>
   </div>
 
   <card>
-    <ul class="nav nav-tabs nav-tabs-v2 px-4">
-      <li class="nav-item me-3">
-        <a href="#allTab" class="nav-link active px-2" data-bs-toggle="tab"
-          >All</a
-        >
-      </li>
-      <li class="nav-item me-3">
-        <a href="#publishedTab" class="nav-link px-2" data-bs-toggle="tab"
-          >Published</a
-        >
-      </li>
-      <li class="nav-item me-3">
-        <a href="#expiredTab" class="nav-link px-2" data-bs-toggle="tab"
-          >Expired</a
-        >
-      </li>
-      <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab"
-          >Deleted</a
-        >
-      </li>
-    </ul>
     <div class="tab-content p-4">
       <div class="tab-pane fade show active" id="allTab">
         <!-- BEGIN input-group -->
         <div class="input-group mb-4">
-          <button
-            class="btn btn-default dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
+          <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
             Filter products &nbsp;
           </button>
           <div class="dropdown-menu">
@@ -99,17 +31,10 @@ export default {
           </div>
           <div class="flex-fill position-relative">
             <div class="input-group">
-              <div
-                class="input-group-text position-absolute top-0 bottom-0 bg-none border-0"
-                style="z-index: 1020"
-              >
+              <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0" style="z-index: 1020">
                 <i class="fa fa-search opacity-5"></i>
               </div>
-              <input
-                type="text"
-                class="form-control ps-35px"
-                placeholder="Search products"
-              />
+              <input type="text" class="form-control ps-35px" placeholder="Search products" />
             </div>
           </div>
         </div>
@@ -121,43 +46,53 @@ export default {
             <thead>
               <tr>
                 <th class="pt-0 pb-2"></th>
-                <th class="pt-0 pb-2">Product</th>
-                <th class="pt-0 pb-2">Inventory</th>
-                <th class="pt-0 pb-2">Type</th>
-                <th class="pt-0 pb-2">Vendor</th>
+                <th class="pt-0 pb-2">Ảnh chính</th>
+                <th class="pt-0 pb-2">Ảnh chi tiết</th>
+                <th class="pt-0 pb-2">Tên</th>
+                <th class="pt-0 pb-2">Mô tả</th>
+                <th class="pt-0 pb-2">Thông tin thêm</th>
+                <th class="pt-0 pb-2">Giá mặc định</th>
+                <th class="pt-0 pb-2">Giá bán</th>
+                <th class="pt-0 pb-2">Mã SKU</th>
+                <th class="pt-0 pb-2">Slug</th>
+                <th class="pt-0 pb-2">SaleCount</th>
+                <th class="pt-0 pb-2">Danh mục</th>
+                <th class="pt-0 pb-2">Thuộc tính</th>
+                <th class="pt-0 pb-2">Filters</th>
               </tr>
             </thead>
             <tbody>
-              <tr v.on:click="() => {viewProductDetail(product1)}">
+              <tr v-for="(product, index) in listProducts" :key="index">
                 <td class="w-10px align-middle">
                   <div class="form-check">
-                    <input
-                      type="checkbox"
-                      class="form-check-input"
-                      id="product1"
-                    />
+                    <input type="checkbox" class="form-check-input" id="product1" />
                     <label class="form-check-label" for="product1"></label>
                   </div>
                 </td>
                 <td>
                   <div class="d-flex align-items-center">
-                    <div
-                      class="w-60px h-60px bg-gray-100 d-flex align-items-center justify-content-center"
-                    >
-                      <img
-                        alt=""
-                        class="mw-100 mh-100"
-                        src="/assets/img/product/product-6.jpg"
-                      />
-                    </div>
-                    <div class="ms-3">
-                      <a href="/product/product1">Force Majeure White T Shirt</a>
+                    <div class="w-60px h-60px bg-gray-100 d-flex align-items-center justify-content-center">
+                      <img alt="" class="mw-100 mh-100" src="/assets/img/product/product-6.jpg" />
                     </div>
                   </div>
                 </td>
                 <td class="align-middle">83 in stock for 3 variants</td>
-                <td class="align-middle">Cotton</td>
-                <td class="align-middle">Force Majeure</td>
+                <td class="align-middle">
+                  <input @input="checkRowEdit(index)" type="text" name="discountName" id="discountName"
+                    v-model="product.name">
+                </td>
+                <td class="align-middle">
+                  <textarea @input="checkRowEdit(index)" type="text" name="discountName" id="discountName"
+                    v-model="product.description"></textarea>
+                </td>
+                <td class="align-middle">
+                  <input @input="checkRowEdit(index)" type="text" name="discountName" id="discountName"
+                    v-model="product.addinfo">
+                </td>
+                <td class="align-middle">
+                  <input @input="checkRowEdit(index)" type="text" name="discountName" id="discountName"
+                    v-model="product.default_price">
+                </td>
               </tr>
             </tbody>
           </table>
@@ -187,3 +122,22 @@ export default {
     </div>
   </card>
 </template>
+<script>
+import { ProductService } from '../services/product.service'
+export default {
+  methods: {
+    viewProductDetail: function (id) {
+      alert('asdas')
+      this.$router.push(`/product/${id}`);
+    },
+  },
+  data() {
+    return {
+      listProducts: []
+    }
+  },
+  async mounted() {
+    this.listProducts = await ProductService().getAll()
+  }
+};
+</script>

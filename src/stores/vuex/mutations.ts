@@ -47,4 +47,7 @@ export const mutations = {
   setListpost(state: any, listPost: any) {
     state.listPost = listPost;
   },
+  setListDiscountProduct(state: any, listDiscountProduct: any) {
+    state.listDiscountProduct = listDiscountProduct;
+  },
 };
