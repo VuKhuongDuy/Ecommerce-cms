@@ -26,6 +26,7 @@ import CardImgOverlay from "@/components/bootstrap/CardImgOverlay.vue";
 import CardExpandToggler from "@/components/bootstrap/CardExpandToggler.vue";
 import contenteditable from "vue-contenteditable";
 import { store } from "@/stores/vuex/store";
+import CKEditor from "@ckeditor/ckeditor5-vue";
 
 const emitter = mitt();
 const app = createApp(App);
@@ -45,6 +46,7 @@ app.use(Vue3ProgressPlugin);
 app.use(PerfectScrollbar);
 app.use(store);
 app.use(contenteditable);
+app.use(CKEditor);
 
 app.config.globalProperties.emitter = emitter;
 app.mount("#app");

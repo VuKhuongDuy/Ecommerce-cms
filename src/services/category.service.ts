@@ -1,10 +1,27 @@
 import { Category01, ListCategories } from "@/enums/mockdata";
+import { httpClient } from "./httpClient";
 export const CategoryService = () => ({
-  getAll() {
-    return ListCategories;
+  async getAll(page = 1) {
+    const response = await httpClient.get("/category?q=&limit=10&page=1");
+    return response.data.data;
   },
 
-  getOne(id: number) {
-    return Category01;
+  async getAllNotPage(page = 1) {
+    const response = await httpClient.get("/category?q=&limit=10000&page=1");
+    return response.data.data;
+  },
+
+  async getOne(id: number) {
+    const response = await httpClient.get("/category?q=&limit=1&page=1");
+    console.log(response);
+    return response;
+  },
+
+  async createOne(category: any) {
+    return await httpClient.post("/category", category);
+  },
+
+  async updateOne(category: any) {
+    return await httpClient.put("/category", category);
   },
 });

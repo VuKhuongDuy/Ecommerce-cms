@@ -1,19 +1,25 @@
 import { listProduct, Product01 } from "@/enums/mockdata";
+import { httpClient } from "./httpClient";
 
 export const ProductService = () => ({
-  createOne(data: any) {
-    return Product01;
+  async createOne(data: any) {
+    return await httpClient.post("/product", data);
   },
-  getAll() {
+  async getAll() {
     return listProduct;
   },
-  getOne(id: number) {
+  async getProductPage(page = 1) {
+    const response = await httpClient.get(`/product?q=&limit=10&page=${page}`);
+    console.log(response.data.data);
+    return response.data.data;
+  },
+  async getOne(id: number) {
     return Product01;
   },
-  updateOne(data: any) {
+  async updateOne(data: any) {
     return Product01;
   },
-  deleteOne(id: number) {
+  async deleteOne(id: number) {
     return true;
   },
 });

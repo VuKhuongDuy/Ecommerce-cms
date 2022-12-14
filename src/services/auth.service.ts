@@ -9,13 +9,8 @@ export const AuthService = () => ({
       email: user.email,
       password: user.password,
     });
-
     console.log(response);
-    localStorage.setItem("user", JSON.stringify(User01));
-    return {
-      user: User01,
-      token: "token",
-    };
+    localStorage.setItem("token", response.data.data.token);
   },
 
   logout() {

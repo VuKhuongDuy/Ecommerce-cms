@@ -20,13 +20,10 @@ export default {
   },
   methods: {
     submitForm: async function () {
-      const result = await authService.login(this.user);
-      if (result) {
-        appAuth.user = result;
-        localStorage.token = result.token;
-        localStorage.user = result;
-        this.$router.push("/");
-      } else {
+      try {
+        await authService.login(this.user);
+        this.$router.push({ path: "/" })
+      } catch (e) {
         alert("failed rooif ban oi");
       }
     },
@@ -50,15 +47,15 @@ export default {
         </div>
         <div class="mb-3">
           <label class="form-label">Email Address</label>
-          <input type="text" class="form-control form-control-lg fs-15px" placeholder="username@address.com"
-            v-model="user.email" />
+          <input type="email" id="username" class="form-control form-control-lg fs-15px"
+            placeholder="username@address.com" v-model="user.email" />
         </div>
         <div class="mb-3">
           <div class="d-flex">
             <label class="form-label">Password</label>
             <a href="#" class="ms-auto text-muted">Forgot password?</a>
           </div>
-          <input type="password" class="form-control form-control-lg fs-15px" v-model="user.password"
+          <input type="password" id="password" class="form-control form-control-lg fs-15px" v-model="user.password"
             placeholder="Enter your password" />
         </div>
         <div class="mb-3">

@@ -9,7 +9,7 @@
     </div>
 
     <div class="ms-auto">
-      <a href="#" class="btn btn-primary"><i class="fa fa-plus-circle fa-fw me-1"></i> Add Product</a>
+      <a href="/product/create" class="btn btn-primary"><i class="fa fa-plus-circle fa-fw me-1"></i> Add Product</a>
     </div>
   </div>
 
@@ -76,7 +76,13 @@
                     </div>
                   </div>
                 </td>
-                <td class="align-middle">83 in stock for 3 variants</td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="w-60px h-60px bg-gray-100 d-flex align-items-center justify-content-center">
+                      <img alt="" class="mw-100 mh-100" src="/assets/img/product/product-6.jpg" />
+                    </div>
+                  </div>
+                </td>
                 <td class="align-middle">
                   <input @input="checkRowEdit(index)" type="text" name="discountName" id="discountName"
                     v-model="product.name">
@@ -92,6 +98,53 @@
                 <td class="align-middle">
                   <input @input="checkRowEdit(index)" type="text" name="discountName" id="discountName"
                     v-model="product.default_price">
+                </td>
+                <td class="align-middle">
+                  <input @input="checkRowEdit(index)" type="text" name="selling_price" id="selling_price"
+                    v-model="product.selling_price">
+                </td>
+                <td class="align-middle">
+                  <input @input="checkRowEdit(index)" type="text" name="sku" id="sku" v-model="product.sku">
+                </td>
+                <td class="align-middle">
+                  <input @input="checkRowEdit(index)" type="text" name="slug" id="slug" v-model="product.slug">
+                </td>
+                <td class="align-middle">
+                  <input @input="checkRowEdit(index)" type="text" name="saleCount" id="saleCount"
+                    v-model="product.saleCount">
+                </td>
+                <td class="align-middle">
+                  <select v-model="product.category_id" class="form-control">
+                    <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}
+                    </option>
+                  </select>
+                </td>
+                <td class="align-middle">
+                  <button type="button" class="btn btn-default me-2" data-bs-toggle="modal"
+                    :data-bs-target="'#modalCoverExample' + index">Xem</button>
+
+                  <div class="modal modal-cover fade" :id="'modalCoverExample' + index">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <edit-property-product @setParentProps="setParentProps($event, index)"
+                          :propertiesList="product.properties">
+                        </edit-property-product>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="align-middle">
+                  <button type="button" class="btn btn-default me-2" data-bs-toggle="modal"
+                    :data-bs-target="'#editProdFilters' + index">Xem</button>
+
+                  <div class="modal modal-cover fade" :id="'editProdFilters' + index">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <edit-filters-product @saveParentFilter="saveParentFilter($event, index)"
+                          :filtersList="product.filters"></edit-filters-product>
+                      </div>
+                    </div>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -124,20 +177,33 @@
 </template>
 <script>
 import { ProductService } from '../services/product.service'
+import { CategoryService } from '../services/category.service'
+import EditPropertyProduct from './EditPropertyProduct.vue'
+import EditFiltersProduct from './EditFiltersProduct.vue';
 export default {
+  components: { EditPropertyProduct, EditFiltersProduct },
   methods: {
     viewProductDetail: function (id) {
       alert('asdas')
       this.$router.push(`/product/${id}`);
     },
+    setParentProps(event, index) {
+      this.listProducts[index].properties = event
+    },
+    saveParentFilter(event, index) {
+      console.log(event)
+      this.listProducts[index].filters = event
+    },
   },
   data() {
     return {
-      listProducts: []
+      listProducts: [],
+      categories: []
     }
   },
   async mounted() {
-    this.listProducts = await ProductService().getAll()
+    this.listProducts = await ProductService().getProductPage()
+    this.categories = await CategoryService().getAllNotPage()
   }
 };
 </script>

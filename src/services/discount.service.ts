@@ -1,19 +1,20 @@
 import { Discount01, ListDiscount } from "@/enums/mockdata";
+import { httpClient } from "./httpClient";
 
 export const DiscountService = () => ({
-  createOne(data: any) {
-    return;
+  async createOne(discount: any) {
+    return await httpClient.post("discount", discount);
   },
-  getAll() {
+  async getAll() {
     return ListDiscount;
   },
-  getOne(id: number) {
+  async getOne(id: number) {
     return Discount01;
   },
-  editOne(data: any) {
+  async editOne(data: any) {
     return Discount01;
   },
-  deleteOne(id: number) {
+  async deleteOne(id: number) {
     return true;
   },
 });
