@@ -103,7 +103,7 @@
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title">Xác nhận xóa User</h5>
+                          <h5 class="modal-title">Xác nhận xóa danh mục </h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
@@ -117,19 +117,21 @@
                               <td>: {{ category.name }}</td>
                             </tr>
                             <tr>
-                              <td><b>Ngày bắt đầu</b></td>
-                              <td>: {{ category.start_time }}</td>
-                            </tr>
-                            <tr>
-                              <td><b>Ngày kết thúc</b></td>
-                              <td>: {{ category.end_time }}</td>
+                              <td><b>Thuôc tính</b></td>
+                              <td>
+                                <p>
+                                  <span v-for="(filter, findex) in category.filters" :key="findex">
+                                    {{ filter.name }} : {{ filter.values }} <br>
+                                  </span>
+                                </p>
+                              </td>
                             </tr>
                           </table>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-bs-dismiss="modal">Hủy</button>
-                          <button type="button" class="btn btn-primary"
-                            @click="event => deletecategory(event, user)">Xác
+                          <button type="button" data-bs-dismiss="modal" class="btn btn-primary"
+                            @click="event => deletecategory(category.id)">Xác
                             nhận</button>
                         </div>
                       </div>
@@ -188,6 +190,24 @@
       </div>
     </div>
   </div>
+  <div class="toast fade hide mb-3" data-autohide="false" id="toast-delete-error" style="z-index: 9999">
+    <div class="toast-header">
+      <i class="far fa-bell text-muted me-2"></i>
+      <strong class="me-auto">Thông báo</strong>
+      <small>Vừa xong</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body">
+      {{ error_message }}
+    </div>
+  </div>
+
+
+
+
+  '
+
+
 </template>
 <script>
 import { CategoryService } from '../services/category.service';
@@ -227,8 +247,14 @@ export default {
         toast.show();
       }
     },
-    async deletecategory(category) {
-      await CategoryService().deleteOne(category);
+    async deletecategory(categoryId) {
+      try {
+        await CategoryService().deleteOne(categoryId);
+        const toast = new Toast(document.getElementById('toast-delete-error'));
+
+      } catch (e) {
+
+      }
     },
     checkRowEdit(index) {
       this.listEditted[index] = true

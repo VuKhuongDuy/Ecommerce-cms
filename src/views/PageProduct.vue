@@ -202,7 +202,8 @@ export default {
     }
   },
   async mounted() {
-    this.listProducts = await ProductService().getProductPage()
+    const res = await ProductService().getProductPage();
+    this.listProducts = res.data
     this.categories = await CategoryService().getAllNotPage()
   }
 };

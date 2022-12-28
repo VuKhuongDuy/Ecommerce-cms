@@ -11,6 +11,11 @@ export const CategoryService = () => ({
     return response.data.data;
   },
 
+  async getCategoryPage(page = 1) {
+    const response = await httpClient.get("/category?q=&limit=10000&page=1");
+    return response.data.data;
+  },
+
   async getOne(id: number) {
     const response = await httpClient.get("/category?q=&limit=1&page=1");
     console.log(response);
@@ -23,5 +28,9 @@ export const CategoryService = () => ({
 
   async updateOne(category: any) {
     return await httpClient.put("/category", category);
+  },
+
+  async deleteOne(categoryId: string) {
+    return await httpClient.delete(`/category/${categoryId}`);
   },
 });

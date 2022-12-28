@@ -3,7 +3,8 @@
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="name">Tên sản phẩm</label>
-        <input v-model="createProduct.name" type="text" class="form-control" id="name" placeholder="Your name">
+        <input v-model="createProduct.name" type="text" class="form-control" id="name" placeholder="Your name"
+          name="product_name">
       </div>
     </div>
     <div class="col-xl-6">
@@ -11,53 +12,55 @@
         <div class="form-group mb-3">
           <label class="form-label" for="description">Mô tả</label>
           <input v-model="createProduct.description" type="text" class="form-control" id="description"
-            placeholder="Your description">
+            placeholder="Your description" name="description">
         </div>
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="addinfo">Add info</label>
-        <input v-model="createProduct.addinfo" type="text" class="form-control" id="addinfo" placeholder="0123456789">
+        <input v-model="createProduct.addinfo" type="text" class="form-control" id="addinfo" placeholder="0123456789"
+          name="add_info">
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="default_price">Giá mặc định</label>
         <input v-model="createProduct.default_price" type="text" class="form-control" id="default_price"
-          placeholder="default_price">
+          placeholder="default_price" name="default_price">
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="selling_price">Giá bán</label>
         <input v-model="createProduct.selling_price" type="text" class="form-control" id="selling_price"
-          placeholder="selling_price">
+          placeholder="selling_price" name="selling_price">
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="sku">SKU</label>
-        <input v-model="createProduct.sku" type="text" class="form-control" id="sku" placeholder="your sku">
+        <input v-model="createProduct.sku" type="text" class="form-control" id="sku" placeholder="your sku" name="sku">
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="slug">Slug</label>
-        <input v-model="createProduct.slug" type="text" class="form-control" id="slug" placeholder="your slug">
+        <input v-model="createProduct.slug" type="text" class="form-control" id="slug" placeholder="your slug"
+          name="slug">
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="saleCount">saleCount</label>
-        <input v-model="createProduct.saleCount" type="text" class="form-control" id="saleCount"
-          placeholder="your saleCount">
+        <input v-model="createProduct.sale_count" type="text" class="form-control" id="saleCount"
+          placeholder="your saleCount" name="sale_count">
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="role">Category</label>
-        <select v-model="createProduct.category_id" class="form-control">
+        <select v-model="createProduct.category_id" class="form-control" name="category">
           <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
         </select>
       </div>
@@ -118,6 +121,10 @@
                     placeholder="Giá trị" v-for="(text, jndex) in prop.value" :key="jndex"
                     @input="(event) => addOrDelTextProp(event, index, jndex)">
                 </td>
+                <td rowspan="2">
+                  <button type="button" class="btn btn-default" style="width: 100%"
+                    @click="deleteProp(index)">Xoa</button>
+                </td>
               </tr>
               <tr>
                 <td colspan="2">
@@ -158,6 +165,10 @@
                   <div style="width: 100%">
                     <button type="button" class="btn btn-default" style="width: 100%" @click="addFilter">+</button>
                   </div>
+                </td>
+                <td rowspan="2">
+                  <button type="button" class="btn btn-default" style="width: 100%"
+                    @click="deleteFilters(index)">Xoa</button>
                 </td>
               </tr>
             </table>
@@ -203,8 +214,9 @@ import {
 import * as lodash from "lodash"
 import { CategoryService } from "../services/category.service";
 import { Toast } from 'bootstrap';
-import { ProductService } from '../services/product.service'
-
+import { ProductService } from '../services/product.service';
+import { ImageService } from '../services/image.service'
+import axios from "axios";
 
 const DefaultProp = {
   name: "Tên thuộc tính",
@@ -244,30 +256,74 @@ export default {
       // console.log(file.type, new RegExp(/^image/).test(file.type))
       return new RegExp(/^data:image/).test(file)
     },
+
+    async getPresignFileURL(listFile = []) {
+      const presignDatas = []
+      for (const thumb of listFile) {
+        const response = await ImageService.getPresignUrlImageProduct(thumb.name);
+        presignDatas.push(JSON.parse(response.data.data).formData)
+      }
+      return presignDatas;
+    },
+
+    upLoadPresignImage(listFile, presignDatas) {
+      listFile.forEach((file, index) => {
+        const formData = new FormData()
+        for (const [key, value] of Object.entries(presignDatas[index])) {
+          formData.append(key, value)
+        }
+        formData.append('file', file);
+        ImageService.uploadFile(formData);
+      })
+    },
+
+    filterPresignMediaData(listFile, presignData) {
+      const listData = [];
+      for (const [index, image] of listFile.entries()) {
+        let type = "image";
+        if (!this.isImageFile(image)) {
+          type = "video"
+        }
+
+        listData.push({
+          type,
+          url: presignData[index].key
+        })
+      }
+      return listData;
+    },
+
     async saveProduct(event, product) {
-      event.preventDefault();
-      this.createProduct.thumbImage = this.thumbnailList;
-      this.createProduct.images = this.imageList;
-      this.createProduct.properties = this.properties.filter(e => e);
-      this.createProduct.filters = this.filters.filter(e => e).map(filter => {
-        if (filter.value.length === 1) {
+      try {
+        const thumbNailPresignedData = await this.getPresignFileURL(this.thumbnailList)
+        const imagePresignData = await this.getPresignFileURL(this.imageList)
+
+        this.createProduct.images = this.filterPresignMediaData(this.previewImages, imagePresignData)
+        this.createProduct.thumb_image = this.filterPresignMediaData(this.previewThumbnails, thumbNailPresignedData)
+
+        this.createProduct.filters = this.extractFilters()
+        this.createProduct.properties = this.properties
+
+        this.upLoadPresignImage(this.imageList, imagePresignData);
+        this.upLoadPresignImage(this.thumbnailList, thumbNailPresignedData);
+
+        await ProductService().createOne(this.createProduct)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+
+    extractFilters() {
+      const refFilters = lodash.cloneDeep(this.filters)
+      return refFilters.map(filter => {
+        filter.value = filter.value.filter(e => e)
+        if (filter.value.length == 1) {
           filter.value = filter.value[0]
         }
         return filter
       })
-      const data = lodash.cloneDeep(this.createProduct)
-      try {
-        await ProductService().createOne(data)
-        const toast = new Toast(document.getElementById('toast-create-success'));
-        toast.show();
-        await this.delayTime();
-        this.$router.push("/product");
-      } catch (e) {
-        this.error_message = e;
-        const toast = new Toast(document.getElementById('toast-create-error'));
-        toast.show();
-      }
     },
+
     previewMultiImages: function (event) {
       this.previewImages = [];
       this.imageList = [];
@@ -336,6 +392,14 @@ export default {
     },
     addFilter() {
       this.filters.push(lodash.cloneDeep(DefaultFilter))
+    },
+
+    deleteProp(index) {
+      this.properties.splice(index, 1)
+    },
+
+    deleteFilters(index) {
+      this.filters.splice(index, 1)
     }
   }
 }

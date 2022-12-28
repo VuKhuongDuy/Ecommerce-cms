@@ -190,6 +190,10 @@ export default {
         this.list_props[index].defaultText.push("")
       }
 
+    },
+
+    deleteProp(index) {
+      this.list_props.splice(index, 1)
     }
   }
 }

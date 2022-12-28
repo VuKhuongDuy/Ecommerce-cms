@@ -25,7 +25,7 @@
               </select>
             </td>
             <td rowspan="2">
-              <button type="button" class="btn btn-default" style="width: 100%" @click="addProp">Xoa</button>
+              <button type="button" class="btn btn-default" style="width: 100%" @click="deleteProp(index)">Xoa</button>
             </td>
 
           </tr>
@@ -194,6 +194,10 @@ export default {
         this.list_props[index].defaultText.push("")
       }
 
+    },
+
+    deleteProp(index) {
+      this.list_props.splice(index, 1)
     }
   }
 }

@@ -13,6 +13,12 @@ export const ProductService = () => ({
     console.log(response.data.data);
     return response.data.data;
   },
+
+  async getPresignUrl(filename: string) {
+    const response = await httpClient.get(`/product/s3?image_name=${filename}`);
+    return response;
+  },
+
   async getOne(id: number) {
     return Product01;
   },
