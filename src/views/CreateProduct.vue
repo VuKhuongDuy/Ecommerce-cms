@@ -4,7 +4,7 @@
       <div class="form-group mb-3">
         <label class="form-label" for="name">Tên sản phẩm</label>
         <input v-model="createProduct.name" type="text" class="form-control" id="name" placeholder="Your name"
-          name="product_name">
+          name="product_name" />
       </div>
     </div>
     <div class="col-xl-6">
@@ -12,7 +12,7 @@
         <div class="form-group mb-3">
           <label class="form-label" for="description">Mô tả</label>
           <input v-model="createProduct.description" type="text" class="form-control" id="description"
-            placeholder="Your description" name="description">
+            placeholder="Your description" name="description" />
         </div>
       </div>
     </div>
@@ -20,62 +20,65 @@
       <div class="form-group mb-3">
         <label class="form-label" for="addinfo">Add info</label>
         <input v-model="createProduct.addinfo" type="text" class="form-control" id="addinfo" placeholder="0123456789"
-          name="add_info">
+          name="add_info" />
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="default_price">Giá mặc định</label>
         <input v-model="createProduct.default_price" type="text" class="form-control" id="default_price"
-          placeholder="default_price" name="default_price">
+          placeholder="default_price" name="default_price" />
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="selling_price">Giá bán</label>
         <input v-model="createProduct.selling_price" type="text" class="form-control" id="selling_price"
-          placeholder="selling_price" name="selling_price">
+          placeholder="selling_price" name="selling_price" />
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="sku">SKU</label>
-        <input v-model="createProduct.sku" type="text" class="form-control" id="sku" placeholder="your sku" name="sku">
+        <input v-model="createProduct.sku" type="text" class="form-control" id="sku" placeholder="your sku"
+          name="sku" />
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="slug">Slug</label>
         <input v-model="createProduct.slug" type="text" class="form-control" id="slug" placeholder="your slug"
-          name="slug">
+          name="slug" />
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="saleCount">saleCount</label>
         <input v-model="createProduct.sale_count" type="text" class="form-control" id="saleCount"
-          placeholder="your saleCount" name="sale_count">
+          placeholder="your saleCount" name="sale_count" />
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="role">Category</label>
         <select v-model="createProduct.category_id" class="form-control" name="category">
-          <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+          <option v-for="category in categories" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
         </select>
       </div>
     </div>
     <div class="col-xl-12">
       <div class="form-group mb-3">
         <label class="form-label" for="role">Ảnh</label>
-        <input type="file" multiple="multiple" @change="previewMultiImages" class="form-control-file" id="my-file">
-        <div class="border p-2 mt-3 row" style="  overflow-x: auto;">
+        <input type="file" multiple="multiple" @change="previewMultiImages" class="form-control-file" id="my-file" />
+        <div class="border p-2 mt-3 row" style="overflow-x: auto">
           <p>Preview Here:</p>
           <template v-if="previewImages.length">
             <div v-for="(item, index) in previewImages" :key="index" class="preview-image col-xl-3">
               <img :src="item" class="img-fluid" v-if="isImageFile(previewImages[index])" />
               <video v-else width="320" height="240" controls>
-                <source :src="item">
+                <source :src="item" />
               </video>
             </div>
           </template>
@@ -86,14 +89,14 @@
       <div class="form-group mb-3">
         <label class="form-label" for="role">Thumbnail</label>
         <input type="file" accept="image/*" multiple="multiple" @change="previewMultiThumbnail"
-          class="form-control-file" id="my-file">
-        <div class="border p-2 mt-3 row" style="  overflow-x: auto;">
+          class="form-control-file" id="my-file" />
+        <div class="border p-2 mt-3 row" style="overflow-x: auto">
           <p>Preview Here:</p>
           <template v-if="previewThumbnails.length">
             <div v-for="(item, index) in previewThumbnails" :key="index" class="preview-image col-xl-3">
               <img :src="item" class="img-fluid" v-if="isImageFile(previewThumbnails[index])" />
               <video v-else width="320" height="240" controls>
-                <source :src="item">
+                <source :src="item" />
               </video>
             </div>
           </template>
@@ -109,27 +112,28 @@
               <tr>
                 <td>Tên thuộc tính</td>
                 <td>
-                  <input v-model="prop.name" type="text" class="form-control" id="username" placeholder="Giá trị">
+                  <input v-model="prop.name" type="text" class="form-control" id="username" placeholder="Giá trị" />
                 </td>
               </tr>
               <tr>
-                <td>
-                  Danh sách
-                </td>
+                <td>Danh sách</td>
                 <td>
                   <input v-model="prop.value[jndex]" type="text" class="form-control" id="username"
                     placeholder="Giá trị" v-for="(text, jndex) in prop.value" :key="jndex"
-                    @input="(event) => addOrDelTextProp(event, index, jndex)">
+                    @input="(event) => addOrDelTextProp(event, index, jndex)" />
                 </td>
                 <td rowspan="2">
-                  <button type="button" class="btn btn-default" style="width: 100%"
-                    @click="deleteProp(index)">Xoa</button>
+                  <button type="button" class="btn btn-default" style="width: 100%" @click="deleteProp(index)">
+                    Xoa
+                  </button>
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
                   <div style="width: 100%">
-                    <button type="button" class="btn btn-default" style="width: 100%" @click="addProp">+</button>
+                    <button type="button" class="btn btn-default" style="width: 100%" @click="addProp">
+                      +
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -147,28 +151,29 @@
               <tr>
                 <td>Tên thuộc tính</td>
                 <td>
-                  <input v-model="filter.name" type="text" class="form-control" id="username" placeholder="Giá trị">
+                  <input v-model="filter.name" type="text" class="form-control" id="username" placeholder="Giá trị" />
                 </td>
               </tr>
               <tr>
-                <td>
-                  Danh sách
-                </td>
+                <td>Danh sách</td>
                 <td>
                   <input v-model="filter.value[jndex]" type="text" class="form-control" id="username"
                     placeholder="Giá trị" v-for="(text, jndex) in filter.value" :key="jndex"
-                    @input="(event) => addOrDelTextFilter(event, index, jndex)">
+                    @input="(event) => addOrDelTextFilter(event, index, jndex)" />
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
                   <div style="width: 100%">
-                    <button type="button" class="btn btn-default" style="width: 100%" @click="addFilter">+</button>
+                    <button type="button" class="btn btn-default" style="width: 100%" @click="addFilter">
+                      +
+                    </button>
                   </div>
                 </td>
                 <td rowspan="2">
-                  <button type="button" class="btn btn-default" style="width: 100%"
-                    @click="deleteFilters(index)">Xoa</button>
+                  <button type="button" class="btn btn-default" style="width: 100%" @click="deleteFilters(index)">
+                    Xoa
+                  </button>
                 </td>
               </tr>
             </table>
@@ -185,9 +190,7 @@
           <small>Vừa xong</small>
           <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
         </div>
-        <div class="toast-body">
-          Tạo sản phẩm thành công
-        </div>
+        <div class="toast-body">Tạo sản phẩm thành công</div>
       </div>
       <div class="toast fade hide mb-3" data-autohide="false" id="toast-create-error">
         <div class="toast-header">
@@ -202,38 +205,39 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-primary pr-2"
-      @click="(event) => saveProduct(event, createProduct)">Save</button>
+    <button type="button" class="btn btn-primary pr-2" @click="(event) => saveProduct(event, createProduct)">
+      Save
+    </button>
   </div>
   <!-- toasts-container -->
 </template>
 <script>
-import {
-  delayTime
-} from '../mixin/mixin'
-import * as lodash from "lodash"
+import { delayTime } from "../mixin/mixin";
+import * as lodash from "lodash";
 import { CategoryService } from "../services/category.service";
-import { Toast } from 'bootstrap';
-import { ProductService } from '../services/product.service';
-import { ImageService } from '../services/image.service'
+import { Toast } from "bootstrap";
+import { ProductService } from "../services/product.service";
+import { ImageService } from "../services/image.service";
 import axios from "axios";
 
 const DefaultProp = {
   name: "Tên thuộc tính",
-  value: ["Giá trị 1"]
-}
+  value: ["Giá trị 1"],
+};
 
 const DefaultFilter = {
   name: "Tên filter",
-  value: ["Giá trị 1"]
-}
+  value: ["Giá trị 1"],
+};
 
 export default {
-  mixins: [{
-    methods: {
-      delayTime,
-    }
-  }],
+  mixins: [
+    {
+      methods: {
+        delayTime,
+      },
+    },
+  ],
   data() {
     return {
       createProduct: {},
@@ -245,36 +249,36 @@ export default {
       thumbnailList: [],
       properties: [lodash.cloneDeep(DefaultProp)],
       filters: [lodash.cloneDeep(DefaultFilter)],
-
-    }
+    };
   },
   async mounted() {
-    this.categories = await CategoryService().getAllNotPage()
+    this.categories = await CategoryService().getAllNotPage();
   },
   methods: {
     isImageFile(file) {
-      // console.log(file.type, new RegExp(/^image/).test(file.type))
-      return new RegExp(/^data:image/).test(file)
+      return new RegExp(/^data:image/).test(file);
     },
 
     async getPresignFileURL(listFile = []) {
-      const presignDatas = []
+      const presignDatas = [];
       for (const thumb of listFile) {
-        const response = await ImageService.getPresignUrlImageProduct(thumb.name);
-        presignDatas.push(JSON.parse(response.data.data).formData)
+        const response = await ImageService.getPresignUrlImageProduct(
+          thumb.name
+        );
+        presignDatas.push(JSON.parse(response.data.data).formData);
       }
       return presignDatas;
     },
 
     upLoadPresignImage(listFile, presignDatas) {
       listFile.forEach((file, index) => {
-        const formData = new FormData()
+        const formData = new FormData();
         for (const [key, value] of Object.entries(presignDatas[index])) {
-          formData.append(key, value)
+          formData.append(key, value);
         }
-        formData.append('file', file);
+        formData.append("file", file);
         ImageService.uploadFile(formData);
-      })
+      });
     },
 
     filterPresignMediaData(listFile, presignData) {
@@ -282,46 +286,54 @@ export default {
       for (const [index, image] of listFile.entries()) {
         let type = "image";
         if (!this.isImageFile(image)) {
-          type = "video"
+          type = "video";
         }
 
         listData.push({
           type,
-          url: presignData[index].key
-        })
+          url: presignData[index].key,
+        });
       }
       return listData;
     },
 
     async saveProduct(event, product) {
       try {
-        const thumbNailPresignedData = await this.getPresignFileURL(this.thumbnailList)
-        const imagePresignData = await this.getPresignFileURL(this.imageList)
+        const thumbNailPresignedData = await this.getPresignFileURL(
+          this.thumbnailList
+        );
+        const imagePresignData = await this.getPresignFileURL(this.imageList);
 
-        this.createProduct.images = this.filterPresignMediaData(this.previewImages, imagePresignData)
-        this.createProduct.thumb_image = this.filterPresignMediaData(this.previewThumbnails, thumbNailPresignedData)
+        this.createProduct.images = this.filterPresignMediaData(
+          this.previewImages,
+          imagePresignData
+        );
+        this.createProduct.thumb_image = this.filterPresignMediaData(
+          this.previewThumbnails,
+          thumbNailPresignedData
+        );
 
-        this.createProduct.filters = this.extractFilters()
-        this.createProduct.properties = this.properties
+        this.createProduct.filters = this.extractFilters();
+        this.createProduct.properties = this.properties;
 
         this.upLoadPresignImage(this.imageList, imagePresignData);
         this.upLoadPresignImage(this.thumbnailList, thumbNailPresignedData);
 
-        await ProductService().createOne(this.createProduct)
+        await ProductService().createOne(this.createProduct);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     },
 
     extractFilters() {
-      const refFilters = lodash.cloneDeep(this.filters)
-      return refFilters.map(filter => {
-        filter.value = filter.value.filter(e => e)
+      const refFilters = lodash.cloneDeep(this.filters);
+      return refFilters.map((filter) => {
+        filter.value = filter.value.filter((e) => e);
         if (filter.value.length == 1) {
-          filter.value = filter.value[0]
+          filter.value = filter.value[0];
         }
-        return filter
-      })
+        return filter;
+      });
     },
 
     previewMultiImages: function (event) {
@@ -336,7 +348,7 @@ export default {
           const reader = new FileReader();
           reader.onload = (e) => {
             this.previewImages.push(e.target.result);
-          }
+          };
           this.imageList.push(input.files[index]);
           reader.readAsDataURL(input.files[index]);
           index++;
@@ -355,7 +367,7 @@ export default {
           const reader = new FileReader();
           reader.onload = (e) => {
             this.previewThumbnails.push(e.target.result);
-          }
+          };
           this.thumbnailList.push(input.files[index]);
           reader.readAsDataURL(input.files[index]);
           index++;
@@ -364,45 +376,45 @@ export default {
     },
 
     addOrDelTextProp(event, index, jindex) {
-      const text = event.target.value
+      const text = event.target.value;
       if (!text && this.properties[index].value.length > 2) {
-        this.properties[index].value.splice(jindex, 1)
+        this.properties[index].value.splice(jindex, 1);
       }
 
-      const lengthNotNull = this.properties[index].value.filter(t => t).length
+      const lengthNotNull = this.properties[index].value.filter(
+        (t) => t
+      ).length;
       if (lengthNotNull === this.properties[index].value.length) {
-        this.properties[index].value.push("")
+        this.properties[index].value.push("");
       }
-
     },
     addProp() {
-      this.properties.push(lodash.cloneDeep(DefaultProp))
+      this.properties.push(lodash.cloneDeep(DefaultProp));
     },
     addOrDelTextFilter(event, index, jindex) {
-      const text = event.target.value
+      const text = event.target.value;
       if (!text && this.filters[index].value.length > 2) {
-        this.filters[index].value.splice(jindex, 1)
+        this.filters[index].value.splice(jindex, 1);
       }
 
-      const lengthNotNull = this.filters[index].value.filter(t => t).length
+      const lengthNotNull = this.filters[index].value.filter((t) => t).length;
       if (lengthNotNull === this.filters[index].value.length) {
-        this.filters[index].value.push("")
+        this.filters[index].value.push("");
       }
-
     },
     addFilter() {
-      this.filters.push(lodash.cloneDeep(DefaultFilter))
+      this.filters.push(lodash.cloneDeep(DefaultFilter));
     },
 
     deleteProp(index) {
-      this.properties.splice(index, 1)
+      if (this.properties.length > 1) this.properties.splice(index, 1);
     },
 
     deleteFilters(index) {
-      this.filters.splice(index, 1)
-    }
-  }
-}
+      if (this.filters.length > 1) this.filters.splice(index, 1);
+    },
+  },
+};
 </script>
 <style scoped>
 .form-create {

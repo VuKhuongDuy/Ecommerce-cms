@@ -7,7 +7,8 @@ export class ImageService {
   }
 
   static async uploadFile(formData: any) {
-    await axios.post("http://localhost:80/ecommerce", formData, {
+    console.log(formData)
+    await axios.post("http://localhost:9000/ecommerce", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
   }

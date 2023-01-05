@@ -40,6 +40,12 @@
         </select>
       </div>
     </div>
+    <div class="col-xl-12">
+      <div class="form-group mb-3">
+        <label class="form-label" for="phone">Sản phẩm áp dụng</label>
+
+      </div>
+    </div>
   </div>
 
   <div class="toasts-container">
@@ -66,7 +72,6 @@
       </div>
     </div>
   </div>
-
   <button type="button" class="btn btn-primary pr-2"
     @click="(event) => saveDiscount(event, createDiscount)">Save</button>
   <!-- toasts-container -->
@@ -81,13 +86,14 @@ import {
 import { RoleUserString, RoleUser, GenderUser, GenderUserString } from "../enums/user.enum";
 
 import Datepicker from '@vuepic/vue-datepicker';
+import EditListProductDiscount from '../views/EditListProductDiscount.vue'
 import '@vuepic/vue-datepicker/dist/main.css';
 import { DiscountService } from "../services/discount.service";
 import { Toast } from 'bootstrap';
 
 export default {
   components: {
-    Datepicker
+    Datepicker,
   },
   mixins: [{
     methods: {

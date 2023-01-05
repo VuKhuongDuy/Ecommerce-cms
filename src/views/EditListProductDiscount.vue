@@ -33,8 +33,6 @@
       </div>
     </div>
   </div>
-  <button type="button" data-bs-dismiss="modal" class="btn btn-primary pr-2"
-    @click="(event) => saveParentFilter(event, filters)">Save</button>
   <!-- toasts-container props-->
 </template>
 <script>
