@@ -23,6 +23,7 @@ router.beforeEach(async (to, from) => {
   document.documentElement.scrollTop = 0;
 
   if (to.path != "/page/login" && authOption.token == null) {
+    if(to.path != "/page/register")
     router.push({ path: "/page/login" });
   }
 

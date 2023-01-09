@@ -17,11 +17,9 @@ export const AuthService = () => ({
     localStorage.removeItem("user");
   },
 
-  register(user: any) {
-    return axios.post(API_URL + "signup", {
-      username: user.username,
-      email: user.email,
-      password: user.password,
-    });
+  async register(user: any) {
+    const response = await httpClient.post("/auth/register", user);
+    console.log(response);
   },
+  
 });

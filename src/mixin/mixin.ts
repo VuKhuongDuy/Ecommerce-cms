@@ -52,3 +52,17 @@ export const delayTime = (time?: number) => {
 export const formatFullDatetime = (time: Date) => {
   return moment(time).format("YYYY/MM/DD h:mm:ss");
 };
+
+export function previewImage (event?: any) {
+  const input = event.target;
+  console.log(this.preview)
+  if (input.files) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.preview = e.target.result;
+    }
+    this.image = input.files[0];
+    console.log(this.image)
+    reader.readAsDataURL(input.files[0]);
+  }
+}

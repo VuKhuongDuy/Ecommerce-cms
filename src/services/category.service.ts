@@ -33,4 +33,9 @@ export const CategoryService = () => ({
   async deleteOne(categoryId: string) {
     return await httpClient.delete(`/category/${categoryId}`);
   },
+
+  async searchCategory(text: string){
+    const response = await httpClient.get(`/category?q=${text}&limit=10&page=1`)
+    return response.data.data;
+  }
 });

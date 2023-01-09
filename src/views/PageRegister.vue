@@ -1,9 +1,9 @@
 <script>
 import { useAppOptionStore } from '@/stores/app-option';
 import { useRouter, RouterLink } from 'vue-router';
+import { AuthService } from '../services/auth.service';
 
 const appOption = useAppOptionStore();
-
 export default {
 	mounted() {
 		appOption.appSidebarHide = true;
@@ -15,9 +15,22 @@ export default {
 		appOption.appHeaderHide = false;
 		appOption.appContentClass = '';
 	},
+	data() {
+		return {
+            user: {
+				name: '',
+				email: '',
+				password: '',
+				password_confirmation: '',
+                country: '',
+				gender: '',
+				dob: ''
+			},
+        };
+	},
 	methods: {
-		submitForm: function() {
-			this.$router.push('/');
+		async submitForm() {
+			const response = await AuthService().register(this.user)
 		}
 	}
 }
@@ -32,29 +45,29 @@ export default {
 				<p class="text-muted text-center">One Admin ID is all you need to access all the Admin services.</p>
 				<div class="mb-3">
 					<label class="form-label">Name <span class="text-danger">*</span></label>
-					<input type="text" class="form-control form-control-lg fs-15px" placeholder="e.g John Smith" value="" />
+					<input type="text" class="form-control form-control-lg fs-15px" placeholder="e.g John Smith" v-model="user.name"/>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">Email Address <span class="text-danger">*</span></label>
-					<input type="text" class="form-control form-control-lg fs-15px" placeholder="username@address.com" value="" />
+					<input type="text" class="form-control form-control-lg fs-15px" placeholder="username@address.com" v-model="user.email"/>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">Password <span class="text-danger">*</span></label>
-					<input type="password" class="form-control form-control-lg fs-15px" value="" />
+					<input type="password" class="form-control form-control-lg fs-15px" v-model="user.password"/>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">Confirm Password <span class="text-danger">*</span></label>
-					<input type="password" class="form-control form-control-lg fs-15px" value="" />
+					<input type="password" class="form-control form-control-lg fs-15px" v-model="user.password_confirmation"/>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">Country <span class="text-danger">*</span></label>
-					<select class="form-control form-control-lg fs-15px">
+					<select class="form-control form-control-lg fs-15px" v-model="user.country">
 						<option>United States</option>
 					</select>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">Gender <span class="text-danger">*</span></label>
-					<select class="form-control form-control-lg fs-15px">
+					<select class="form-control form-control-lg fs-15px" v-model="user.gender">
 						<option>Female</option>
 					</select>
 				</div>

@@ -22,7 +22,7 @@ export default {
     submitForm: async function () {
       try {
         await authService.login(this.user);
-        this.$router.push({ path: "/" })
+        window.location.href="/"
       } catch (e) {
         alert("failed rooif ban oi");
       }
