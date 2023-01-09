@@ -9,8 +9,9 @@
     </div>
 
     <div class="ms-auto">
-      <a href="/discount/create" class="btn btn-primary"><i class="fa fa-plus-circle fa-fw me-1"></i> Tạo chương trình
-        mới</a>
+      <a href="/discount/create" class="btn btn-primary"
+        ><i class="fa fa-plus-circle fa-fw me-1"></i> Tạo chương trình mới</a
+      >
     </div>
   </div>
 
@@ -21,15 +22,35 @@
         <div class="input-group mb-4">
           <div class="flex-fill position-relative">
             <div class="input-group">
-              <input type="text" class="form-control ps-35px" placeholder="Filter orders" />
-              <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0" style="z-index: 1020">
+              <input
+                type="text"
+                class="form-control ps-35px"
+                placeholder="Filter orders"
+              />
+              <div
+                class="
+                  input-group-text
+                  position-absolute
+                  top-0
+                  bottom-0
+                  bg-none
+                  border-0
+                "
+                style="z-index: 1020"
+              >
                 <i class="fa fa-search opacity-5"></i>
               </div>
             </div>
           </div>
-          <button class="btn btn-default dropdown-toggle rounded-0" type="button" data-bs-toggle="dropdown">
-            <span class="d-none d-md-inline">Payment Status</span><span class="d-inline d-md-none"><i
-                class="fa fa-credit-card"></i></span>
+          <button
+            class="btn btn-default dropdown-toggle rounded-0"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <span class="d-none d-md-inline">Payment Status</span
+            ><span class="d-inline d-md-none"
+              ><i class="fa fa-credit-card"></i
+            ></span>
             &nbsp;
           </button>
           <div class="dropdown-menu">
@@ -39,9 +60,13 @@
             <div role="separator" class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
           </div>
-          <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown">
-            <span class="d-none d-md-inline">Fulfillment status</span><span class="d-inline d-md-none"><i
-                class="fa fa-check"></i></span>
+          <button
+            class="btn btn-default dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <span class="d-none d-md-inline">Fulfillment status</span
+            ><span class="d-inline d-md-none"><i class="fa fa-check"></i></span>
           </button>
           <div class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item" href="#">Action</a>
@@ -68,71 +93,94 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(discount, index) in listDiscount" :class="getClassEditted(index)">
-                <td class=" w-10px align-middle">
+              <tr
+                v-for="(discount, index) in listDiscount"
+                :class="getClassEditted(index)"
+              >
+                <td class="w-10px align-middle">
                   <div class="form-check">
                     {{ discount.id }}
                   </div>
                 </td>
                 <td class="align-middle">
-                  <input @input="checkRowEdit(index)" type="text" name="discountName" id="discountName"
-                    v-model="discount.name">
+                  <input
+                    @input="checkRowEdit(index)"
+                    type="text"
+                    name="discountName"
+                    id="discountName"
+                    v-model="discount.name"
+                  />
                 </td>
                 <td class="align-middle">
-                  <datepicker v-model="discount.start_time" class="dateSelectDiscount" :clearable="false"
-                    hideInputIcon />
+                  <datepicker
+                    v-model="discount.start_time"
+                    class="dateSelectDiscount"
+                    :clearable="false"
+                    hideInputIcon
+                  />
                 </td>
                 <td class="align-middle">
-                  <datepicker v-model="discount.end_time" class="dateSelectDiscount" :clearable="false" hideInputIcon />
-                </td>
-                <td><input @input="checkRowEdit(index)" type="text" name="default_discount" id="default_discount"
-                    v-model="discount.default_percent_discount"> %</td>
-                <td class="py-1 align-middle">
-                  <button type="button" class="btn btn-default me-2" data-bs-toggle="modal"
-                    data-bs-target="#modalCoverExample">Xem</button>
-
-                  <div class="modal modal-cover fade" id="modalCoverExample">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h3 class="modal-title">Sign Up!</h3>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                          <p class="mb-3">
-                            25% Off On Your First Purchase* Enter code WELCOME at checkout<br />
-                            Discover new apps, things to do & more great news added daily!
-                          </p>
-                          <div class="row mb-5">
-                            <div class="col-md-9">
-                              <input type="text" placeholder="Your email address here"
-                                class="form-control form-control-lg" name="icon-filter">
-                            </div>
-                            <div class="col-md-3">
-                              <button type="button" class="btn btn-default btn-lg btn-block">Continue</button>
-                            </div>
-                          </div>
-                          <div class="pt-3">
-                            <a href="#" class="text-muted fs-12px">What is it? Terms and conditions</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <datepicker
+                    v-model="discount.end_time"
+                    class="dateSelectDiscount"
+                    :clearable="false"
+                    hideInputIcon
+                  />
                 </td>
                 <td>
-                  <button type="button" class="btn btn-primary pr-2" @click="saveDiscount(discount)">Save</button>
-                  <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
-                    :data-bs-target="('#modalDeleteDiscount' + index)">Delete</button>
-                  <div class="modal fade" :id="('modalDeleteDiscount' + index)">
+                  <input
+                    @input="checkRowEdit(index)"
+                    type="text"
+                    name="default_discount"
+                    id="default_discount"
+                    v-model="discount.default_percent_discount"
+                  />
+                  %
+                </td>
+                <td class="py-1 align-middle">
+                  <button
+                    type="button"
+                    class="btn btn-default me-2"
+                    data-bs-toggle="modal"
+                    :data-bs-target="'#modalListProductsOfDiscount' + index"
+                  >
+                    Xem
+                  </button>
+
+                  <search-product-modal
+                    :listSeletedCategory="discount.listproduct.map((p) => p.id)"
+                    :index="index"
+                  ></search-product-modal>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-primary pr-2"
+                    @click="saveDiscount(discount)"
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger me-2"
+                    data-bs-toggle="modal"
+                    :data-bs-target="'#modalDeleteDiscount' + index"
+                  >
+                    Delete
+                  </button>
+                  <div class="modal fade" :id="'modalDeleteDiscount' + index">
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title">Xác nhận xóa User</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                          ></button>
                         </div>
                         <div class="modal-body">
-                          <table style="border:none">
+                          <table style="border: none">
                             <tr>
                               <td><b>ID</b></td>
                               <td>: {{ discount.id }}</td>
@@ -152,10 +200,20 @@
                           </table>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-bs-dismiss="modal">Hủy</button>
-                          <button type="button" class="btn btn-primary"
-                            @click="event => deleteDiscount(event, user)">Xác
-                            nhận</button>
+                          <button
+                            type="button"
+                            class="btn btn-default"
+                            data-bs-dismiss="modal"
+                          >
+                            Hủy
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click="(event) => deleteDiscount(event, user)"
+                          >
+                            Xác nhận
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -191,23 +249,24 @@
   </card>
 </template>
 <script>
-import { DiscountService } from '../services/discount.service';
-import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
+import { DiscountService } from "../services/discount.service";
+import Datepicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import SearchProductModal from "../components/product/SearchProductModal.vue";
 
 export default {
   components: {
-    Datepicker
+    Datepicker,
   },
   data() {
     return {
       listDiscount: [],
       listEditted: [],
-    }
+    };
   },
   async mounted() {
-    this.listDiscount = await DiscountService().getAll()
-    this.listEditted = Array(this.listDiscount.length).fill(false)
+    this.listDiscount = await DiscountService().getAll();
+    this.listEditted = Array(this.listDiscount.length).fill(false);
   },
   methods: {
     async saveDiscount(discount) {
@@ -217,13 +276,13 @@ export default {
       await DiscountService().deleteOne(discount);
     },
     checkRowEdit(index) {
-      this.listEditted[index] = true
+      this.listEditted[index] = true;
     },
     getClassEditted(index) {
-      return this.listEditted[index] ? ['row-editted'] : [];
+      return this.listEditted[index] ? ["row-editted"] : [];
     },
-  }
-}
+  },
+};
 </script>
 <style>
 #default_discount {
@@ -234,15 +293,15 @@ input {
   border: none;
 }
 
-.table-hover>tbody>tr.row-editted>* {
+.table-hover > tbody > tr.row-editted > * {
   background: #bcd3ff !important;
 }
 
-.table-hover>tbody>tr.row-editted input {
+.table-hover > tbody > tr.row-editted input {
   background: #bcd3ff !important;
 }
 
-.table-hover>tbody>tr:hover input {
+.table-hover > tbody > tr:hover input {
   background: rgba(218, 224, 236, 0.85) !important;
 }
 </style>

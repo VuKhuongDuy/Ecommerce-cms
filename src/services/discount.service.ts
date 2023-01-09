@@ -17,4 +17,8 @@ export const DiscountService = () => ({
   async deleteOne(id: number) {
     return true;
   },
+
+  async findProductPage(id: string, page:1){
+    return await httpClient.get(`/discount/${id}/list-products?page=${page}`)
+  }
 });

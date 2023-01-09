@@ -9,8 +9,7 @@ export const ProductService = () => ({
     return listProduct;
   },
   async getProductPage(page = 1) {
-    const response = await httpClient.get(`/product?q=&limit=10&page=${page}`);
-    console.log(response.data.data);
+    const response = await httpClient.get(`/product?q=&offset=1&limit=10&page=${page}`);
     return response.data.data;
   },
 
@@ -28,4 +27,9 @@ export const ProductService = () => ({
   async deleteOne(id: number) {
     return true;
   },
+
+  async findProduct(text: string){
+    const response = await httpClient.get(`/product?q=${text}&offset=1&limit=10&page=1`);
+    return response.data.data;
+  }
 });

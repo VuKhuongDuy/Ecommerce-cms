@@ -3,7 +3,7 @@ import { httpClient } from "./httpClient";
 
 export class ImageService {
   static async getPresignUrlImageProduct(file_name: string) {
-    return await httpClient.get(`/s3/presign?imageName=${file_name}`);
+    return await httpClient.get(`/product/s3?image_name=${file_name}`);
   }
 
   static async uploadFile(formData: any) {
