@@ -1,6 +1,6 @@
 <template>
   <form v-on:submit.prevent="saveProduct()" method="POST" name="create_product">
-    <div class="row form-create">
+    <div class="row form-create" @click="closeSearchResult()">
       <div class="col-xl-6">
         <div class="form-group mb-3">
           <label class="form-label" for="name">Tên sản phẩm</label>
@@ -83,19 +83,6 @@
       </div>
       <div class="col-xl-6">
         <div class="form-group mb-3">
-          <label class="form-label" for="slug">Slug</label>
-          <input
-            v-model="createProduct.slug"
-            type="text"
-            class="form-control"
-            id="slug"
-            placeholder="your slug"
-            name="slug"
-          />
-        </div>
-      </div>
-      <div class="col-xl-6">
-        <div class="form-group mb-3">
           <label class="form-label" for="saleCount">saleCount</label>
           <input
             v-model="createProduct.sale_count"
@@ -109,7 +96,7 @@
       </div>
       <div class="col-xl-6">
         <div class="form-group mb-3">
-          <label class="form-label" for="role">Category</label>
+          <label class="form-label" for="role">Danh mục</label>
           <search-category></search-category>
         </div>
       </div>
@@ -191,7 +178,7 @@
                       type="text"
                       class="form-control"
                       id="username"
-                      placeholder="Giá trị"
+                      placeholder="Tên thuộc tính"
                     />
                   </td>
                 </tr>
@@ -246,14 +233,14 @@
             <div class="form-group mb-3">
               <table>
                 <tr>
-                  <td>Tên thuộc tính</td>
+                  <td>Tên filters</td>
                   <td>
                     <input
                       v-model="filter.name"
                       type="text"
                       class="form-control"
                       id="username"
-                      placeholder="Giá trị"
+                      placeholder="Tên filter"
                     />
                   </td>
                 </tr>
@@ -320,7 +307,7 @@
               data-bs-dismiss="toast"
             ></button>
           </div>
-          <div class="toast-body">Tạo sản phẩm thành công</div>
+          <div class="toast-body">{{ success_message }}</div>
         </div>
         <div
           class="toast fade hide mb-3"
@@ -355,7 +342,7 @@
   <!-- toasts-container -->
 </template>
 <script>
-import { delayTime } from "../mixin/mixin";
+import { delayTime, closeSearchResult } from "../mixin/mixin";
 import * as lodash from "lodash";
 import { CategoryService } from "../services/category.service";
 import { Toast } from "bootstrap";
@@ -363,13 +350,13 @@ import { ProductService } from "../services/product.service";
 import { ImageService } from "../services/image.service";
 import SearchCategory from "../components/form/SearchCategory.vue";
 const DefaultProp = {
-  name: "Tên thuộc tính",
-  value: ["Giá trị 1"],
+  name: "",
+  value: [""],
 };
 
 const DefaultFilter = {
-  name: "Tên filter",
-  value: ["Giá trị 1"],
+  name: "",
+  value: [""],
 };
 
 export default {
@@ -380,6 +367,7 @@ export default {
     {
       methods: {
         delayTime,
+        closeSearchResult,
       },
     },
   ],
@@ -387,6 +375,7 @@ export default {
     return {
       createProduct: {},
       error_message: "",
+      success_message: "",
       categories: [],
       previewImages: [],
       imageList: [],
@@ -397,6 +386,7 @@ export default {
     };
   },
   async mounted() {
+    this.$store.commit("setCategory", {});
     this.categories = await CategoryService().getAllNotPage();
   },
   methods: {
@@ -415,7 +405,6 @@ export default {
         const response = await ImageService.getPresignUrlImageProduct(
           thumb.name
         );
-        console.log(response);
         presignDatas.push(JSON.parse(response.data.data).formData);
       }
       return presignDatas;
@@ -464,6 +453,10 @@ export default {
           thumbNailPresignedData
         );
 
+        if (this.$store.state.category) {
+          this.createProduct.category = this.$store.state.category.id;
+        }
+
         this.createProduct.filters = this.extractFilters();
         this.createProduct.properties = this.properties;
 
@@ -471,8 +464,21 @@ export default {
         this.upLoadPresignImage(this.thumbnailList, thumbNailPresignedData);
 
         await ProductService().createOne(this.createProduct);
+
+        const toast = new Toast(
+          document.getElementById("toast-create-success")
+        );
+        this.success_message = "Tạo sản phẩm thành công";
+        toast.show();
+        await this.delayTime();
+        this.$router.push("/product");
       } catch (e) {
-        console.log(e);
+        // console.log(e);
+        const toast = new Toast(
+          document.getElementById("toast-create-success")
+        );
+        this.success_message = e;
+        toast.show();
       }
     },
 

@@ -6,7 +6,7 @@
           <input
             type="text"
             class="form-control ps-35px"
-            placeholder="Filter orders"
+            placeholder="Tìm kiếm danh mục"
             @keyup="(event) => findCategory(event)"
           />
           <div
@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <div class="preview_category" v-if="showSelections">
+      <div class="preview_category" v-if="showSearchResult">
         <ul>
           <li v-for="category in listCategory" :key="category.id">
             <div class="list-group" @click="selectCategory(category)">
@@ -50,21 +50,7 @@
     <div class="selected_category" v-if="category.id">
       <div class="list-group mb-3">
         <div class="list-group-item d-flex align-items-center">
-          <div
-            class="
-              w-40px
-              h-40px
-              d-flex
-              align-items-center
-              justify-content-center
-              bg-gradient-cyan-blue
-              text-white
-              rounded-2
-              ms-n1
-            "
-          >
-            <i class="fab fa-apple fa-lg"></i>
-          </div>
+          <img :src="image" alt="" />
           <div class="flex-fill ps-3 pe-3">
             <div class="fw-600">{{ category.name }}</div>
             <div class="fs-12px text-muted">
@@ -89,12 +75,13 @@
 
 <script>
 import { CategoryService } from "../../services/category.service";
+import { ImageService } from "../../services/image.service";
 
 export default {
   data() {
     return {
       searchCategory: [],
-      showSelections: false,
+      image: "",
     };
   },
   computed: {
@@ -108,18 +95,23 @@ export default {
         return this.$store.state.category;
       },
     },
+    showSearchResult: {
+      get() {
+        return this.$store.state.showSearchResult;
+      },
+    },
   },
   methods: {
     async findCategory(event) {
-      this.showSelections = true;
+      this.$store.commit("setShowSearchResult", true);
       const text = event.target.value;
       const response = await CategoryService().searchCategory(text);
-      console.log(response);
       this.$store.commit("setListcategory", response);
     },
-    selectCategory(category) {
-      this.showSelections = false;
+    async selectCategory(category) {
       this.$store.commit("setCategory", category);
+      if (category.image)
+        this.image = await ImageService.getBlobSrc(category.image);
     },
     deleteCategory() {
       this.$store.commit("setCategory", {});
@@ -150,5 +142,9 @@ export default {
 
 .preview_category .list-group-item:hover {
   background: antiquewhite;
+}
+
+.selected_category img {
+  max-width: 50px;
 }
 </style>

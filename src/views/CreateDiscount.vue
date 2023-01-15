@@ -42,26 +42,45 @@
       <div class="form-group mb-3">
         <label class="form-label" for="address">Giảm giá mặc định</label>
         <input
-          v-model="createDiscount.default_percent_discount"
+          v-model="createDiscount.default_value"
           type="text"
           class="form-control"
-          id="default_percent_discount"
+          id="default_value"
           placeholder="your location"
+          name="default_value"
         />
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
-        <label class="form-label" for="gender">Danh sách sản phẩm</label>
-        <select v-model="createDiscount.sex" class="form-control">
-          <option :value="GenderUser.MALE">{{ GenderUserString.MALE }}</option>
-          <option :value="GenderUser.FEMALE">
-            {{ GenderUserString.FEMALE }}
+        <label class="form-label" for="select-discount-type"
+          >Loại giảm giá</label
+        >
+        <select
+          class="form-select"
+          id="select-discount-type"
+          v-model="createDiscount.type"
+        >
+          <option :value="DiscountType.DISCOUNT">
+            {{ DiscountType.DISCOUNT }}
           </option>
-          <option :value="GenderUser.OTHER">
-            {{ GenderUserString.OTHER }}
+          <option :value="DiscountType.VOUCHER">
+            {{ DiscountType.VOUCHER }}
           </option>
         </select>
+      </div>
+    </div>
+    <div class="col-xl-6" v-if="createDiscount.type === DiscountType.VOUCHER">
+      <div class="form-group mb-3">
+        <label class="form-label" for="gender">Mã giảm giả</label>
+        <input
+          v-model="createDiscount.voucher_code"
+          type="text"
+          class="form-control"
+          id="voucher_code"
+          placeholder="your location"
+          name="voucher_code"
+        />
       </div>
     </div>
     <div class="col-xl-12">
@@ -76,6 +95,7 @@
         >
           Chọn sản phẩm
         </button>
+        <p>Đã chọn {{ countSelect }} sản phẩm</p>
 
         <search-product-modal :index="0"></search-product-modal>
       </div>
@@ -148,6 +168,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
 import { DiscountService } from "../services/discount.service";
 import { Toast } from "bootstrap";
 import SearchProductModal from "../components/product/SearchProductModal.vue";
+import { DiscountType } from "../enums/Discount.enum";
 
 export default {
   components: {
@@ -164,8 +185,16 @@ export default {
       },
     },
   ],
+  computed: {
+    countSelect: {
+      get() {
+        return this.$store.state.listProduct?.[0]?.length ?? 0;
+      },
+    },
+  },
   data() {
     return {
+      DiscountType,
       RoleUser: RoleUser,
       RoleUserString: RoleUserString,
       GenderUser: GenderUser,
@@ -179,6 +208,11 @@ export default {
       event.preventDefault();
       const discountService = DiscountService();
       try {
+        const productDiscount = this.$store.state.listProduct?.[0];
+        if (createDiscount.type !== DiscountType.VOUCHER)
+          delete createDiscount.voucher_code;
+
+        createDiscount.listproduct = productDiscount;
         discountService.createOne(createDiscount);
         const toast = new Toast(
           document.getElementById("toast-create-success")

@@ -3,56 +3,85 @@
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="title">Tiêu đề</label>
-        <input v-model="createPost.title" type="text" class="form-control" id="title" placeholder="Tiêu đề">
+        <input
+          v-model="createPost.title"
+          type="text"
+          class="form-control"
+          id="title"
+          placeholder="Tiêu đề"
+        />
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="description">Mô tả</label>
-        <input v-model="createPost.description" type="text" class="form-control" id="description" placeholder="Mô tả">
-      </div>
-    </div>
-    <div class="col-xl-6">
-      <div class="form-group mb-3">
-        <label class="form-label" for="Slug">Slug</label>
-        <input v-model="createPost.slug" type="text" class="form-control" id="Slug" placeholder="Slug">
+        <textarea
+          v-model="createPost.description"
+          type="text"
+          class="form-control"
+          id="description"
+          placeholder="Mô tả"
+        ></textarea>
       </div>
     </div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="password">Ảnh đại diện</label>
-        <input type="file" accept="image/*" multiple="multiple" @change="previewImage" class="form-control-file"
-          id="my-file">
+        <input-multiple-file
+          :onlyImage="true"
+          :index="0"
+          :keyListFile="'previewThumbnail'"
+          :keyUploadFile="'uploadThumbnail'"
+          :mutationListFile="'setPreviewThumbnail'"
+          :mutationUpload="'setUploadThumbnail'"
+        ></input-multiple-file>
         <img :src="preview" class="img-fluid" />
-
       </div>
     </div>
     <div class="">
       <div class="form-group mb-3">
         <label class="form-label" for="birthday">Nội dung</label>
-        <ckeditor :editor="editor" v-model="createPost.post_content" :config="configEdit"></ckeditor>
+        <ckeditor
+          :editor="editor"
+          v-model="createPost.content"
+          :config="configEdit"
+        ></ckeditor>
       </div>
     </div>
   </div>
 
   <div class="toasts-container">
-    <div class="toast fade hide mb-3" data-autohide="false" id="toast-create-success">
+    <div
+      class="toast fade hide mb-3"
+      data-autohide="false"
+      id="toast-create-success"
+    >
       <div class="toast-header">
         <i class="far fa-bell text-muted me-2"></i>
         <strong class="me-auto">Thông báo</strong>
         <small>Vừa xong</small>
-        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="toast"
+        ></button>
       </div>
-      <div class="toast-body">
-        Tạo bài viết thành công
-      </div>
+      <div class="toast-body">Tạo bài viết thành công</div>
     </div>
-    <div class="toast fade hide mb-3" data-autohide="false" id="toast-create-error">
+    <div
+      class="toast fade hide mb-3"
+      data-autohide="false"
+      id="toast-create-error"
+    >
       <div class="toast-header">
         <i class="far fa-bell text-muted me-2"></i>
         <strong class="me-auto">Thông báo</strong>
         <small>Vừa xong</small>
-        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="toast"
+        ></button>
       </div>
       <div class="toast-body">
         {{ error_message }}
@@ -60,7 +89,13 @@
     </div>
   </div>
 
-  <button type="button" class="btn btn-primary pr-2" @click="(event) => savePost(event, createPost)">Save</button>
+  <button
+    type="button"
+    class="btn btn-primary pr-2"
+    @click="(event) => savePost(event, createPost)"
+  >
+    Save
+  </button>
   <!-- toasts-container -->
 </template>
 <script>
@@ -68,24 +103,35 @@ import {
   getRoleString,
   getGenderString,
   getBirthdayFormat,
-  delayTime
-} from '../mixin/mixin'
-import { RoleUserString, RoleUser, GenderUser, GenderUserString } from "../enums/user.enum";
+  delayTime,
+} from "../mixin/mixin";
+import {
+  RoleUserString,
+  RoleUser,
+  GenderUser,
+  GenderUserString,
+} from "../enums/user.enum";
 
 import { PostService } from "../services/post.service";
-import { Toast } from 'bootstrap';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { Toast } from "bootstrap";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import InputMultipleFile from "../components/form/InputMultipleFile.vue";
+import { ImageService } from "../services/image.service";
 
 export default {
-
-  mixins: [{
-    methods: {
-      getRoleString,
-      getGenderString,
-      getBirthdayFormat,
-      delayTime,
-    }
-  }],
+  components: {
+    InputMultipleFile,
+  },
+  mixins: [
+    {
+      methods: {
+        getRoleString,
+        getGenderString,
+        getBirthdayFormat,
+        delayTime,
+      },
+    },
+  ],
   data() {
     return {
       editor: ClassicEditor,
@@ -98,27 +144,42 @@ export default {
       preview: null,
       image: null,
       preview_list: [],
-      image_list: []
-    }
+      image_list: [],
+    };
+  },
+  mounted() {
+    this.$store.commit("setPreviewThumbnail", [[]]);
+    this.$store.commit("setUploadThumbnail", [[]]);
   },
   methods: {
     async savePost(event, user) {
       event.preventDefault();
+
       try {
-        const formData = new FormData()
-        Object.keys(this.createPost).forEach(k => {
-          formData.append(k, this.createPost[k])
-        })
-        formData.append('thumbnail', this.image)
-        console.log(formData)
-        await PostService().createOne(formData)
-        const toast = new Toast(document.getElementById('toast-create-success'));
+        const file = this.$store.state.uploadThumbnail?.[0]?.[0];
+        let presignFormData;
+        if (file) {
+          const response = await ImageService.getPresignUrlImageProduct(
+            file.name
+          );
+          presignFormData = JSON.parse(response.data.data).formData;
+          this.createPost.image = presignFormData.key;
+        }
+
+        await PostService().createOne(this.createPost);
+        if (presignFormData) {
+          ImageService.uploadMultiplePresign([file], [presignFormData]);
+        }
+
+        const toast = new Toast(
+          document.getElementById("toast-create-success")
+        );
         toast.show();
         await this.delayTime();
         this.$router.push("/post");
       } catch (e) {
         this.error_message = e;
-        const toast = new Toast(document.getElementById('toast-create-error'));
+        const toast = new Toast(document.getElementById("toast-create-error"));
         toast.show();
       }
     },
@@ -132,7 +193,7 @@ export default {
           const reader = new FileReader();
           reader.onload = (e) => {
             this.preview_list.push(e.target.result);
-          }
+          };
           this.image_list.push(input.files[index]);
           reader.readAsDataURL(input.files[index]);
           index++;
@@ -146,13 +207,13 @@ export default {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.preview = e.target.result;
-        }
+        };
         this.image = input.files[0];
         reader.readAsDataURL(input.files[0]);
       }
     },
-  }
-}
+  },
+};
 </script>
 <style>
 .form-create {

@@ -8,23 +8,41 @@
             <tr>
               <td>Tên thuộc tính</td>
               <td>
-                <input v-model="prop.name" type="text" class="form-control" id="username" placeholder="Giá trị">
+                <input
+                  v-model="prop.name"
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="Giá trị"
+                />
               </td>
             </tr>
             <tr>
+              <td>Danh sách</td>
               <td>
-                Danh sách
-              </td>
-              <td>
-                <input v-model="prop.value[jndex]" type="text" class="form-control" id="username" placeholder="Giá trị"
-                  v-for="(text, jndex) in prop.value" :key="jndex"
-                  @input="(event) => addOrDelTextProp(event, index, jndex)">
+                <input
+                  v-model="prop.value[jndex]"
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="Giá trị"
+                  v-for="(text, jndex) in prop.value"
+                  :key="jndex"
+                  @input="(event) => addOrDelTextProp(event, index, jndex)"
+                />
               </td>
             </tr>
             <tr>
               <td colspan="2">
                 <div style="width: 100%">
-                  <button type="button" class="btn btn-default" style="width: 100%" @click="addProp">+</button>
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    style="width: 100%"
+                    @click="addProp"
+                  >
+                    +
+                  </button>
                 </div>
               </td>
             </tr>
@@ -33,55 +51,64 @@
       </div>
     </div>
   </div>
-  <button type="button" data-bs-dismiss="modal" class="btn btn-primary pr-2"
-    @click="(event) => saveParentProp(event, properties)">Save</button>
+  <button
+    type="button"
+    data-bs-dismiss="modal"
+    class="btn btn-primary pr-2"
+    @click="(event) => saveParentProp(event, properties)"
+  >
+    Save
+  </button>
   <!-- toasts-container props-->
 </template>
 <script>
-import * as lodash from "lodash"
+import * as lodash from "lodash";
 
 const DefaultProp = {
   name: "Tên thuộc tính",
-  value: ["Giá trị 1"]
-}
+  value: ["Giá trị 1"],
+};
 
 export default {
   props: {
-    propertiesList: []
+    propertiesList: Array,
   },
+  emits: ["setParentProps"],
   data() {
     return {
       properties: [],
-    }
+    };
   },
   mounted() {
-    this.properties = lodash.cloneDeep(this.propertiesList.map(props => {
-      props.value.push("")
-      return props
-    }))
+    this.properties = lodash.cloneDeep(
+      this.propertiesList.map((props) => {
+        props.value.push("");
+        return props;
+      })
+    );
   },
   methods: {
     addOrDelTextProp(event, index, jindex) {
-      const text = event.target.value
+      const text = event.target.value;
       if (!text && this.properties[index].value.length > 2) {
-        this.properties[index].value.splice(jindex, 1)
+        this.properties[index].value.splice(jindex, 1);
       }
 
-      const lengthNotNull = this.properties[index].value.filter(t => t).length
+      const lengthNotNull = this.properties[index].value.filter(
+        (t) => t
+      ).length;
       if (lengthNotNull === this.properties[index].value.length) {
-        this.properties[index].value.push("")
+        this.properties[index].value.push("");
       }
-
     },
     addProp() {
-      this.properties.push(lodash.cloneDeep(DefaultProp))
+      this.properties.push(lodash.cloneDeep(DefaultProp));
     },
     saveParentProp(event, properties) {
-      this.$emit('setParentProps', lodash.cloneDeep(this.properties));
-
-    }
-  }
-}
+      this.$emit("setParentProps", lodash.cloneDeep(this.properties));
+    },
+  },
+};
 </script>
 <style scoped>
 .form-create {

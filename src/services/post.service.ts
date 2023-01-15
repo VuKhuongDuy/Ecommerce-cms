@@ -3,21 +3,25 @@ import { httpClient } from "./httpClient";
 
 export const PostService = () => ({
   async createOne(data: any) {
-    return await httpClient.post("/api/v1/post", data);
+    return await httpClient.post("/post", data);
   },
   async getAll() {
-    return await httpClient.get("/api/v1/post");
+    const response =  await httpClient.get("/post");
+    return response.data.data
   },
   async getPostPage(page = 1) {
-    return await httpClient.get("/api/v1/post?q=&limit=10&page=1");
+    const response = await httpClient.get("/post?q=&limit=10&page=1");
+    return response.data.data
   },
   async getOne(id: number) {
     return Post01;
   },
   async editOne(data: any) {
-    return Post01;
+    const response =  await httpClient.put("/post", data);
+    return response.data.data
   },
   async deleteOne(id: number) {
-    return true;
+    const response =  await httpClient.delete(`/post/${id}`);
+    return response.data.data
   },
 });

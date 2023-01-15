@@ -38,7 +38,7 @@
                   </div>
                 </div>
 
-                <div class="preview_product">
+                <div class="preview_product" v-if="showSearchResult">
                   <ul>
                     <li
                       v-for="(product, index) in listSearchProduct"
@@ -63,7 +63,11 @@
                               <input
                                 type="checkbox"
                                 class="form-check-input"
-                                :checked="product?.selected == true"
+                                :checked="
+                                  listSelectedProduct.find(
+                                    (select) => select.id === product.id
+                                  )
+                                "
                                 @onchange="switchSelectProduct(product, index)"
                               />
                             </div>
@@ -71,7 +75,7 @@
                         </div>
                       </div>
                     </li>
-                    <!-- <li v-if="listSearchProduct.length">
+                    <li v-if="listSearchProduct.length">
                       <div class="list-group" @click="switchSelectAllProduct()">
                         <div class="list-group-item d-flex align-items-center">
                           <div class="flex-fill">
@@ -82,13 +86,13 @@
                           <div></div>
                         </div>
                       </div>
-                    </li> -->
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
 
-            <div class="col-xl-8 selected_product">
+            <div class="col-xl-8 selected_product" @click="closeSearchResult">
               <div
                 class="list-group mb-3"
                 v-for="(product, index) in listSelectedProduct"
@@ -110,7 +114,7 @@
                   >
                     <i class="fab fa-apple fa-lg"></i>
                   </div>
-                  <div class="flex-fill ps-3 pe-3">
+                  <div class="flex-fill ps-3 pe-3 col-xl-3">
                     <div class="fw-600">{{ product?.name }}</div>
                     <div class="fs-12px text-muted">
                       <span>
@@ -119,22 +123,46 @@
                       </span>
                     </div>
                   </div>
-                  <div class="flex-fill ps-3 pe-3">
-                    <div class="fw-600">Giá khuyễn mãi</div>
-                    <input />
+                  <div class="col-xl-3">
+                    <div class="fw-600">Loại hình khuyễn mãi</div>
+                    <select
+                      v-model="product.product_discount_type"
+                      class="form-select"
+                      value="amount"
+                    >
+                      <option value="amount" selected="selected">
+                        Giá cố định
+                      </option>
+                      <option value="percent">Phần trăm</option>
+                    </select>
                   </div>
-                  <div class="flex-fill ps-3 pe-3">
+                  <div
+                    class="col-xl-3 ps-3 pe-3"
+                    v-if="product.product_discount_type === 'amount'"
+                  >
+                    <div class="fw-600">Giá khuyễn mãi</div>
+                    <input
+                      type="number"
+                      name="product_price"
+                      v-model="product.price"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="col-xl-3 ps-3 pe-3" v-else>
                     <div class="fw-600">Phần trăm khuyễn mãi</div>
-                    <input />
+                    <input
+                      type="number"
+                      name="product_percent"
+                      v-model="product.percent"
+                      class="form-control"
+                    />
                   </div>
                   <div class="dropdown">
                     <a href="#" data-bs-toggle="dropdown" class="text-muted"
                       ><i class="fa fa-ellipsis-h"></i
                     ></a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a
-                        @click="deleteProduct(product.id)"
-                        class="dropdown-item"
+                      <a @click="deleteProduct(index)" class="dropdown-item"
                         >Delete</a
                       >
                     </div>
@@ -144,6 +172,16 @@
             </div>
           </div>
         </div>
+        <!-- -->
+
+        <button
+          type="button"
+          class="btn btn-primary pr-2"
+          @click="(event) => saveProductDiscount(event)"
+          data-bs-dismiss="modal"
+        >
+          Save
+        </button>
       </div>
     </div>
   </div>
@@ -151,13 +189,21 @@
 
 <script>
 import { ProductService } from "../../services/product.service";
+import { closeSearchResult } from "../../mixin/mixin";
 
 const productService = ProductService();
 export default {
   props: {
-    listSeletedProduct: [],
+    listUpdatedSelectedProduct: Array,
     index: Number,
   },
+  mixins: [
+    {
+      methods: {
+        closeSearchResult,
+      },
+    },
+  ],
   data() {
     return {
       listSearchProduct: [],
@@ -166,13 +212,32 @@ export default {
     };
   },
   mounted() {
-    if (this.listSelectedProduct?.length) {
-      console.log(this.listSelectedProduct);
-      this.$store.commit("setListproduct", []);
+    if (this.listUpdatedSelectedProduct) {
+      this.listSelectedProduct = this.listUpdatedSelectedProduct.map((p) => {
+        if (p.price != undefined) {
+          p.product_discount_type = "amount";
+        }
+        if (p.percent != undefined) {
+          p.product_discount_type = "percent";
+        }
+        return p;
+      });
     }
+    // if (this.listSelectedProduct?.length) {
+    //   this.$store.commit("setListproduct", []);
+    // }
+  },
+  computed: {
+    showSearchResult: {
+      get() {
+        return this.$store.state.showSearchResult;
+      },
+    },
   },
   methods: {
     async findProduct(event) {
+      this.$store.commit("setShowSearchResult", true);
+
       const text = event.target.value;
       const response = await productService.findProduct(text);
       const totalPage = Math.round(response.total / 10);
@@ -195,25 +260,53 @@ export default {
         (p) => p.id === product.id
       );
       if (findSelect || select === false) {
+        console.log("find");
         this.listSelectedProduct = this.listSelectedProduct.filter(
-          (p) => p.id === product.id
+          (p) => p.id !== product.id
         );
       } else if (!findSelect || select === true) {
+        console.log("not find");
         this.listSearchProduct[index].selected =
           !this.listSearchProduct[index].selected;
-        this.listSelectedProduct.push(product);
+        this.listSelectedProduct.push({
+          ...product,
+          product_discount_type: "amount",
+          price: 0,
+          percent: 0,
+        });
       }
     },
 
-    deleteProduct(id) {
-      this.pr;
+    deleteProduct(index) {
+      this.listSelectedProduct.splice(index, 1);
     },
 
     switchSelectAllProduct() {
-      console.log(JSON.stringify(this.listSearchProduct));
+      this.listSelectedProduct = this.listSelectedProduct.filter(
+        (p) => !this.listSearchProduct.find((search) => search.id == p.id)
+      );
       this.listSearchProduct.map((product, index) => {
         this.switchSelectProduct(product, index);
       });
+    },
+    saveProductDiscount() {
+      const selectedProductDiscount = this.listSelectedProduct.map(
+        (product) => {
+          const discount = {
+            id: product.id,
+          };
+          if (product.product_discount_type === "amount") {
+            discount.price = product.price;
+          } else {
+            discount.percent = product.percent;
+          }
+          return discount;
+        }
+      );
+      const listProductState = this.$store.state.listProduct;
+      console.log(listProductState);
+      listProductState[this.index] = selectedProductDiscount;
+      this.$store.commit("setListproduct", this.$store.state.listProduct);
     },
   },
 };
@@ -255,5 +348,10 @@ export default {
 
 input {
   border: solid 0.3px grey;
+}
+
+.modal-body .row > div,
+.modal-body .row {
+  height: 100%;
 }
 </style>

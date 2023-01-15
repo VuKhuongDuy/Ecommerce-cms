@@ -8,7 +8,6 @@ export class ImageService {
 
   static async uploadFile(formData: any) {
     const file = formData.get("file");
-    console.log(file)
     await axios.post("http://localhost:9000/ecommerce", formData, {
       headers: { 
         'Content-Type': file.type,
@@ -23,9 +22,20 @@ export class ImageService {
   }
 
   static async getBlobSrc(minioUrl: string){
-    const res = await fetch(`http://localhost:9000/ecommerce/images/${minioUrl}`)
-    console.log(res)
+    // if(!minioUrl) throw new Error("blable")
+    const res = await fetch(`http://localhost:9000/ecommerce/${minioUrl}`)
   const blob = await res.blob()
   return URL.createObjectURL(blob)
   }
+
+  static uploadMultiplePresign(listFile: File[] = [], presignDatas: object[] = []) {
+      listFile.forEach((file, index) => {
+        const formData = new FormData();
+        for (const [key, value] of Object.entries(presignDatas[index])) {
+          formData.append(key, value);
+        }
+        formData.append("file", file);
+        this.uploadFile(formData);
+      });
+    }
 }

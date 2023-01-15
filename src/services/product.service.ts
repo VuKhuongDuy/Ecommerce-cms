@@ -9,7 +9,9 @@ export const ProductService = () => ({
     return listProduct;
   },
   async getProductPage(page = 1) {
-    const response = await httpClient.get(`/product?q=&offset=1&limit=10&page=${page}`);
+    const response = await httpClient.get(
+      `/product?q=&offset=1&limit=10&page=${page}`
+    );
     return response.data.data;
   },
 
@@ -21,15 +23,20 @@ export const ProductService = () => ({
   async getOne(id: number) {
     return Product01;
   },
+
   async updateOne(data: any) {
-    return Product01;
-  },
-  async deleteOne(id: number) {
-    return true;
+    const response = await httpClient.put(`/product`, data);
   },
 
-  async findProduct(text: string){
-    const response = await httpClient.get(`/product?q=${text}&offset=1&limit=10&page=1`);
+  async deleteOne(id: number) {
+    const response = await httpClient.delete(`/product/${id}`);
+    return response.data.data
+  },
+
+  async findProduct(text: string) {
+    const response = await httpClient.get(
+      `/product?q=${text}&offset=1&limit=10&page=1`
+    );
     return response.data.data;
-  }
+  },
 });

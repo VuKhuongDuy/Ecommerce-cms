@@ -18,3 +18,35 @@
 @import '_pages.scss';
 @import '_widgets.scss';
 @import '_rtl.scss';
+
+
+.table-hover > tbody > tr:hover textarea {
+  background: var(--bs-table-hover-bg) !important;
+}
+
+.modal-dialog {
+  max-width: 80%;
+  align-items: start !important;
+  height: 90vh;
+}
+
+.modal-content {
+  height: 100%;
+}
+
+.table-hover>tbody>tr.row-editted>* ,
+.table-hover>tbody>tr.row-editted:hover {
+  background: #bcd3ff !important;
+}
+
+.table-hover>tbody>tr.row-editted:hover td{
+  box-shadow: none;
+}
+
+.table-hover>tbody>tr.row-editted input, .table-hover>tbody>tr.row-editted textarea {
+  background: #bcd3ff !important;
+}
+
+select option {
+  text-transform: capitalize;
+}

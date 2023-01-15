@@ -83,11 +83,12 @@
           <table class="table table-hover text-nowrap">
             <thead>
               <tr>
-                <th class="border-top-0 pt-0 pb-2">ID</th>
                 <th class="border-top-0 pt-0 pb-2">Tên</th>
                 <th class="border-top-0 pt-0 pb-2">Bắt đầu</th>
                 <th class="border-top-0 pt-0 pb-2">Kết thúc</th>
                 <th class="border-top-0 pt-0 pb-2">Giảm giá mặc định</th>
+                <th class="border-top-0 pt-0 pb-2">Loại giảm giá</th>
+                <th class="border-top-0 pt-0 pb-2">Mã giảm giá</th>
                 <th class="border-top-0 pt-0 pb-2">Danh sách sản phẩm</th>
                 <th class="border-top-0 pt-0 pb-2">#</th>
               </tr>
@@ -96,12 +97,8 @@
               <tr
                 v-for="(discount, index) in listDiscount"
                 :class="getClassEditted(index)"
+                :key="index"
               >
-                <td class="w-10px align-middle">
-                  <div class="form-check">
-                    {{ discount.id }}
-                  </div>
-                </td>
                 <td class="align-middle">
                   <input
                     @input="checkRowEdit(index)"
@@ -127,15 +124,41 @@
                     hideInputIcon
                   />
                 </td>
-                <td>
+                <td class="align-middle">
                   <input
                     @input="checkRowEdit(index)"
                     type="text"
                     name="default_discount"
                     id="default_discount"
-                    v-model="discount.default_percent_discount"
+                    v-model="discount.default_value"
+                    style="text-align: right"
                   />
                   %
+                </td>
+                <td class="align-middle">
+                  <select
+                    class="form-select"
+                    id="select-discount-type"
+                    v-model="discount.type"
+                  >
+                    <option :value="DiscountType.DISCOUNT">
+                      {{ DiscountType.DISCOUNT }}
+                    </option>
+                    <option :value="DiscountType.VOUCHER">
+                      {{ DiscountType.VOUCHER }}
+                    </option>
+                  </select>
+                </td>
+                <td class="align-middle">
+                  <input
+                    v-if="discount.type === DiscountType.VOUCHER"
+                    v-model="discount.voucher_code"
+                    type="text"
+                    class="form-control"
+                    id="voucher_code"
+                    placeholder="your location"
+                    name="voucher_code"
+                  />
                 </td>
                 <td class="py-1 align-middle">
                   <button
@@ -148,15 +171,15 @@
                   </button>
 
                   <search-product-modal
-                    :listSeletedCategory="discount.listproduct.map((p) => p.id)"
                     :index="index"
+                    :listUpdatedSelectedProduct="discount.listproduct"
                   ></search-product-modal>
                 </td>
                 <td>
                   <button
                     type="button"
                     class="btn btn-primary pr-2"
-                    @click="saveDiscount(discount)"
+                    @click="saveDiscount(index)"
                   >
                     Save
                   </button>
@@ -210,7 +233,7 @@
                           <button
                             type="button"
                             class="btn btn-primary"
-                            @click="(event) => deleteDiscount(event, user)"
+                            @click="deleteDiscount(discount, index)"
                           >
                             Xác nhận
                           </button>
@@ -247,33 +270,79 @@
       </div>
     </div>
   </card>
+
+  <toast-message
+    :success_message="success_message"
+    :error_message="error_message"
+  ></toast-message>
 </template>
 <script>
 import { DiscountService } from "../services/discount.service";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import SearchProductModal from "../components/product/SearchProductModal.vue";
+import { DiscountType } from "../enums/Discount.enum";
+import { toastSuccess, toastError } from "../mixin/mixin";
+import ToastMessage from "../components/toast/ToastMessage.vue";
 
 export default {
   components: {
     Datepicker,
+    SearchProductModal,
+    ToastMessage,
   },
+  mixins: [
+    {
+      methods: {
+        toastSuccess,
+        toastError,
+      },
+    },
+  ],
   data() {
     return {
+      DiscountType,
       listDiscount: [],
       listEditted: [],
+      success_message: "",
+      error_message: "",
     };
   },
   async mounted() {
-    this.listDiscount = await DiscountService().getAll();
+    const response = await DiscountService().getAll();
+    this.listDiscount = response.data;
     this.listEditted = Array(this.listDiscount.length).fill(false);
+
+    const listProductDiscount = this.listDiscount.map(
+      (discount) => discount.listproduct
+    );
+    this.$store.commit("setListproduct", listProductDiscount);
   },
   methods: {
-    async saveDiscount(discount) {
-      await DiscountService().editOne(discount);
+    async saveDiscount(index) {
+      try {
+        event.preventDefault();
+        const discount = this.listDiscount[index];
+
+        const productDiscount = this.$store.state.listProduct?.[index];
+        if (discount.type !== DiscountType.VOUCHER)
+          delete discount.voucher_code;
+
+        discount.listproduct = productDiscount;
+        await DiscountService().editOne(discount);
+        this.toastSuccess("Cập nhật chương trình giảm giá thành công");
+      } catch (e) {
+        this.toastError(e);
+      }
     },
     async deleteDiscount(discount) {
-      await DiscountService().deleteOne(discount);
+      try {
+        await DiscountService().deleteOne(discount.id);
+        this.toastSuccess("Xoá giảm giá thành công");
+        window.location.reload();
+      } catch (e) {
+        this.toastError(e);
+      }
     },
     checkRowEdit(index) {
       this.listEditted[index] = true;
@@ -291,17 +360,5 @@ export default {
 
 input {
   border: none;
-}
-
-.table-hover > tbody > tr.row-editted > * {
-  background: #bcd3ff !important;
-}
-
-.table-hover > tbody > tr.row-editted input {
-  background: #bcd3ff !important;
-}
-
-.table-hover > tbody > tr:hover input {
-  background: rgba(218, 224, 236, 0.85) !important;
 }
 </style>

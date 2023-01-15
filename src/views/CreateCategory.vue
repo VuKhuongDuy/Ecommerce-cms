@@ -1,26 +1,26 @@
 <template>
   <div class="row form-create">
-    <div class="col-xl-6">
-      <div class="form-group mb-3">
-        <label class="form-label" for="username">Tên danh mục</label>
-        <input
-          v-model="createCategory.name"
-          type="text"
-          class="form-control"
-          id="username"
-          placeholder="Your username"
-        />
+    <form action="POST" name="create_category">
+      <div class="col-xl-6">
+        <div class="form-group mb-3">
+          <label class="form-label" for="username">Tên danh mục</label>
+          <input
+            v-model="createCategory.name"
+            type="text"
+            class="form-control"
+            id="category_name"
+            placeholder=""
+          />
+        </div>
       </div>
-    </div>
-    <div class="col-xl-12" v-for="(prop, index) in list_props">
-      <div class="form-group mb-3">
-        <label class="form-label" for="phone">Các thuộc tính</label>
-        <form action="POST" name="create_category">
+      <div class="col-xl-12" v-for="(prop, index) in list_props">
+        <div class="form-group mb-3">
+          <label class="form-label" for="phone">Các thuộc tính</label>
           <table>
             <tr>
               <td>Tên thuộc tính</td>
               <td>
-                <input v-model="prop.name" type="text" class="form-control" />
+                <input v-model="prop.name" type="text" class="form-control" name="category_prop_name"/>
               </td>
             </tr>
             <tr>
@@ -97,26 +97,26 @@
               </td>
             </tr>
           </table>
-        </form>
-      </div>
-    </div>
-
-    <div class="col-xl-12">
-      <div class="form-group mb-3">
-        <label class="form-label" for="role">Images</label>
-        <input
-          type="file"
-          accept="image/*"
-          @change="previewImage"
-          class="form-control-file"
-          id="my-file"
-        />
-        <div class="border p-2 mt-3 row" style="overflow-x: auto">
-          <p>Preview Here:</p>
-          <img :src="preview" class="img-fluid" />
         </div>
       </div>
-    </div>
+
+      <div class="col-xl-12 preview-create-category">
+        <div class="form-group mb-3">
+          <label class="form-label" for="role">Images</label>
+          <input
+            type="file"
+            accept="image/*"
+            @change="previewImage"
+            class="form-control-file"
+            id="my-file"
+          />
+          <div class="border p-2 mt-3 row" style="overflow-x: auto">
+            <p>Preview Here:</p>
+            <img :src="preview" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 
   <div class="toasts-container">
@@ -239,16 +239,27 @@ export default {
             });
           })
         );
-
-        let presignImage = "";
-        if (this.preview) {
-          const responsePresign =
-            await ImageService.getPresignUrlImageProduct();
-        }
-        await categoryService.createOne({
+        const category = {
           name: createCategory.name,
           filters: data,
-        });
+        };
+
+        let presignData = {};
+        //get presign url image
+        if (this.preview) {
+          const responsePresign = await ImageService.getPresignUrlImageProduct(
+            this.image.name
+          );
+          presignData = JSON.parse(responsePresign.data.data);
+          category.image = presignData.formData.key;
+        }
+        //create category
+        await categoryService.createOne(category);
+
+        //upload image
+        if (presignData) {
+          ImageService.uploadPresignFile(presignData.formData, this.image);
+        }
         const toast = new Toast(
           document.getElementById("toast-create-success")
         );
@@ -256,6 +267,7 @@ export default {
         await this.delayTime();
         this.$router.push("/category");
       } catch (e) {
+        console.log(e)
         this.error_message = e;
         const toast = new Toast(document.getElementById("toast-create-error"));
         toast.show();
@@ -267,9 +279,7 @@ export default {
     },
 
     addOrDelTextProp(event, index, jindex) {
-      console.log(1);
       const text = event.target.value;
-      // console.log("text", text)
       if (!text && this.list_props[index].defaultText.length > 2) {
         this.list_props[index].defaultText.splice(jindex, 1);
       }
@@ -277,7 +287,6 @@ export default {
       const lengthNotNull = this.list_props[index].defaultText.filter(
         (t) => t
       ).length;
-      // console.log(lengthNotNull, this.list_props[index].defaultText.length)
       if (lengthNotNull === this.list_props[index].defaultText.length) {
         this.list_props[index].defaultText.push("");
       }
@@ -292,5 +301,9 @@ export default {
 <style scoped>
 .form-create {
   max-width: 50%;
+}
+
+.preview-create-category img {
+  max-width: 350px;
 }
 </style>

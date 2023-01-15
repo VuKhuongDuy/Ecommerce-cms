@@ -6,16 +6,17 @@ export const DiscountService = () => ({
     return await httpClient.post("discount", discount);
   },
   async getAll() {
-    return ListDiscount;
+    return await httpClient.get(`/discount?q=&limit=10&page=1`)
   },
   async getOne(id: number) {
     return Discount01;
   },
   async editOne(data: any) {
-    return Discount01;
+    return await httpClient.put(`/discount`, data)
+
   },
   async deleteOne(id: number) {
-    return true;
+    return await httpClient.delete(`/discount/${id}`)
   },
 
   async findProductPage(id: string, page:1){

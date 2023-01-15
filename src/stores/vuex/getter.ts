@@ -50,4 +50,25 @@ export const getters = {
   listDiscountProduct(state: any) {
     return state.listDiscountProduct;
   },
+  showSearchResult(state: any) {
+    return state.showSearchResult;
+  },
+  uploadFile(state: any) {
+    return state.uploadFile;
+  },
+  uploadFiles(state: any) {
+    return state.uploadFiles;
+  },
+  previewFile(state: any) {
+    return state.previewFile;
+  },
+  previewFiles(state: any) {
+    return state.previewFiles;
+  },
+  uploadThumbnail(state: any) {
+    return state.uploadThumbnail;
+  },
+  previewThumbnail(state: any) {
+    return state.previewThumbnail;
+  },
 };
