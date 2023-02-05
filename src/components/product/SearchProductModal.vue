@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title">Danh sách sản phẩm</h3>
+          <h3 class="modal-title">Giá trị sản phẩm</h3>
           <button
             type="button"
             class="btn-close"
@@ -52,10 +52,10 @@
                           <div class="flex-fill">
                             <div class="fw-600">{{ product.name }}</div>
                             <div class="fs-12px text-muted">
-                              <span>
+                              <p class="product_detail">
                                 {{ product.description }} <br />
                                 {{ product.sku }}
-                              </span>
+                              </p>
                             </div>
                           </div>
                           <div>
@@ -117,10 +117,10 @@
                   <div class="flex-fill ps-3 pe-3 col-xl-3">
                     <div class="fw-600">{{ product?.name }}</div>
                     <div class="fs-12px text-muted">
-                      <span>
-                        {{ product?.description }} <br />
+                      <p class="product_detail">
+                        {{ product?.description }}
                         {{ product?.sku }}
-                      </span>
+                      </p>
                     </div>
                   </div>
                   <div class="col-xl-3">
@@ -176,7 +176,7 @@
 
         <button
           type="button"
-          class="btn btn-primary pr-2"
+          class="btn btn-primary mx-2"
           @click="(event) => saveProductDiscount(event)"
           data-bs-dismiss="modal"
         >
@@ -190,6 +190,7 @@
 <script>
 import { ProductService } from "../../services/product.service";
 import { closeSearchResult } from "../../mixin/mixin";
+const PERPAGE = import.meta.env.VITE_PERPAGE;
 
 const productService = ProductService();
 export default {
@@ -239,7 +240,11 @@ export default {
       this.$store.commit("setShowSearchResult", true);
 
       const text = event.target.value;
-      const response = await productService.findProduct(text);
+      const response = await productService.findProduct({
+        q: text,
+        limit: PERPAGE,
+        offset: 1,
+      });
       const totalPage = Math.round(response.total / 10);
       this.listSearchProduct = response.data;
 
@@ -353,5 +358,17 @@ input {
 .modal-body .row > div,
 .modal-body .row {
   height: 100%;
+}
+
+.product_detail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 15px;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.preview_product .flex-fill {
+  max-width: 90%;
 }
 </style>

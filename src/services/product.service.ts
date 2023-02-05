@@ -33,9 +33,14 @@ export const ProductService = () => ({
     return response.data.data
   },
 
-  async findProduct(text: string) {
+  async findProduct(searchData: {q?: string, categorySlug?: string, limit: number, offset: number}) {
+    let query = []
+    for (const [key, value] of Object.entries(searchData)) {
+      query.push( `${key}=${value}`);
+    }
+
     const response = await httpClient.get(
-      `/product?q=${text}&offset=1&limit=10&page=1`
+      `/product?${query.join("&")}`
     );
     return response.data.data;
   },

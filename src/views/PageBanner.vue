@@ -3,14 +3,14 @@
     <div>
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Trang</a></li>
-        <li class="breadcrumb-item active">Bài viết</li>
+        <li class="breadcrumb-item active">Banner</li>
       </ul>
-      <h1 class="page-header mb-0">Bài viết</h1>
+      <h1 class="page-header mb-0">Banner</h1>
     </div>
 
     <div class="ms-auto">
-      <a href="/Post/create" class="btn btn-primary"
-        ><i class="fa fa-plus-circle fa-fw me-1"></i> Tạo bài viết mới</a
+      <a href="/banner/create" class="btn btn-primary"
+        ><i class="fa fa-plus-circle fa-fw me-1"></i> Tạo banner mới</a
       >
     </div>
   </div>
@@ -25,7 +25,7 @@
               <input
                 type="text"
                 class="form-control ps-35px"
-                placeholder="Tìm bài viết"
+                placeholder="Tìm banner"
                 v-model="searchData"
                 @change="(event) => search()"
               />
@@ -55,35 +55,28 @@
           <table class="table table-hover text-nowrap">
             <thead>
               <tr>
+                <th class="border-top-0 pt-0 pb-2">Tên</th>
+                <th class="border-top-0 pt-0 pb-2">Hình ảnh</th>
+                <th class="border-top-0 pt-0 pb-2">URL</th>
                 <th class="border-top-0 pt-0 pb-2">Tiêu đề</th>
-                <th class="border-top-0 pt-0 pb-2">Mô tả</th>
-                <th class="border-top-0 pt-0 pb-2">Ảnh đại diện</th>
-                <th class="border-top-0 pt-0 pb-2">Nội dung</th>
+                <th class="border-top-0 pt-0 pb-2">Tiêu đề 2</th>
+                <th class="border-top-0 pt-0 pb-2">Loại</th>
                 <th class="border-top-0 pt-0 pb-2">#</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                v-for="(Post, index) in listPost"
+                v-for="(banner, index) in listBanner"
                 :class="getClassEditted(index)"
-                :key="Post.id"
+                :key="banner.id"
               >
                 <td class="align-middle">
                   <input
                     @input="checkRowEdit(index)"
                     type="text"
-                    name="post-title"
-                    id="post-title"
-                    v-model="Post.title"
-                  />
-                </td>
-                <td class="align-middle">
-                  <input
-                    @input="checkRowEdit(index)"
-                    type="text"
-                    name="post-description"
-                    id="post-description"
-                    v-model="Post.description"
+                    name="banner-name"
+                    id="banner-name"
+                    v-model="banner.name"
                   />
                 </td>
                 <td class="align-middle">
@@ -115,50 +108,60 @@
                     </div>
                   </div>
                 </td>
+                <td class="align-middle">
+                  <input
+                    @input="checkRowEdit(index)"
+                    type="text"
+                    name="banner-redirect-url"
+                    id="banner-redirect-url"
+                    v-model="banner.redirect_url"
+                  />
+                </td>
+                <td class="align-middle">
+                  <input
+                    @input="checkRowEdit(index)"
+                    type="text"
+                    name="banner-title"
+                    id="banner-title"
+                    v-model="banner.title"
+                  />
+                </td>
+                <td class="align-middle">
+                  <input
+                    @input="checkRowEdit(index)"
+                    type="text"
+                    name="banner-title2"
+                    id="banner-title2"
+                    v-model="banner.title2"
+                  />
+                </td>
 
                 <td class="align-middle">
-                  <button
-                    type="button"
-                    class="btn btn-default me-2"
-                    data-bs-toggle="modal"
-                    :data-bs-target="'#modalCoverExample' + index"
+                  <select
+                    class="form-select"
+                    id="select-banner-type"
+                    v-model="banner.type"
                   >
-                    Xem / Sửa
-                  </button>
-
-                  <div class="modal fade" :id="'modalCoverExample' + index">
-                    <div class="modal-dialog modal-xl" style="width: 100%">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Sửa nội dung</h5>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                          ></button>
-                        </div>
-                        <ckeditor
-                          :editor="editor"
-                          v-model="Post.content"
-                          :config="configEdit"
-                        ></ckeditor>
-                        <button
-                          type="button"
-                          data-bs-dismiss="modal"
-                          class="btn btn-primary mx-2"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                    <option :value="BannerType.HomeBanner">
+                      {{ BannerType.HomeBanner }}
+                    </option>
+                    <option :value="BannerType.HomeCenter">
+                      {{ BannerType.HomeCenter }}
+                    </option>
+                    <option :value="BannerType.HomeSlide">
+                      {{ BannerType.HomeSlide }}
+                    </option>
+                    <option :value="BannerType.ProductSidebarLeft">
+                      {{ BannerType.ProductSidebarLeft }}
+                    </option>
+                  </select>
                 </td>
 
                 <td>
                   <button
                     type="button"
                     class="btn btn-primary mx-2"
-                    @click="savePost(index)"
+                    @click="saveBanner(index)"
                   >
                     Save
                   </button>
@@ -166,15 +169,15 @@
                     type="button"
                     class="btn btn-danger me-2"
                     data-bs-toggle="modal"
-                    :data-bs-target="'#modalDeletePost' + index"
+                    :data-bs-target="'#modalDeleteBanner' + index"
                   >
                     Delete
                   </button>
-                  <div class="modal fade" :id="'modalDeletePost' + index">
+                  <div class="modal fade" :id="'modalDeleteBanner' + index">
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title">Xác nhận xóa bai viet</h5>
+                          <h5 class="modal-title">Xác nhận xóa banner</h5>
                           <button
                             type="button"
                             class="btn-close"
@@ -185,11 +188,14 @@
                           <table style="border: none">
                             <tr>
                               <td><b>Tiêu đề</b></td>
-                              <td>: {{ Post.title }}</td>
+                              <td>: {{ banner.name }}</td>
                             </tr>
                             <tr>
                               <td><b>Mô tả</b></td>
-                              <td>: {{ Post.description }}</td>
+                              <td>
+                                : {{ banner.title }} <br />
+                                {{ banner.title2 }}
+                              </td>
                             </tr>
                           </table>
                         </div>
@@ -204,7 +210,7 @@
                           <button
                             type="button"
                             class="btn btn-primary"
-                            @click="deletePost(Post.id)"
+                            @click="deleteBanner(banner.id)"
                           >
                             Xác nhận
                           </button>
@@ -265,13 +271,14 @@
   ></toast-message>
 </template>
 <script>
-import { PostService } from "../services/post.service";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { BannerService } from "../services/banner.service";
 import { ImageService } from "../services/image.service";
 import InputMultipleFile from "../components/form/InputMultipleFile.vue";
 import ToastMessage from "../components/toast/ToastMessage.vue";
 import { toastSuccess, toastError } from "../mixin/mixin";
 import * as lodash from "lodash";
+import { BannerType } from "../enums/banner.enum";
+
 const PERPAGE = import.meta.env.VITE_PERPAGE;
 
 export default {
@@ -289,12 +296,7 @@ export default {
   ],
   data() {
     return {
-      editor: ClassicEditor,
-      configEdit: {
-        width: "1000px",
-        height: "80%",
-      },
-      listPost: [],
+      listBanner: [],
       listEditted: [],
       preview: null,
       image: null,
@@ -306,6 +308,7 @@ export default {
       searchData: "",
       page: 1,
       totalData: 0,
+      BannerType,
     };
   },
   computed: {
@@ -331,13 +334,13 @@ export default {
     //get image
     const listUploadFiles = [];
     await Promise.all(
-      this.listPost.map(async (post, index) => {
+      this.listBanner.map(async (banner, index) => {
         //images detail
-        if (post.image) {
-          listUploadFiles[index] = [post.image];
+        if (banner.image) {
+          listUploadFiles[index] = [banner.image];
           this.listImages[index] = [
             {
-              data: await ImageService.getBlobSrc(post.image),
+              data: await ImageService.getBlobSrc(banner.image),
               type: "image",
             },
           ];
@@ -355,12 +358,12 @@ export default {
         this.page = 1;
       }
       this.listEditted = [];
-      const response = await PostService().findPost(this.searchQuery);
-      this.listPost = response.data;
+      const response = await BannerService().findBanner(this.searchQuery);
+      this.listBanner = response.data;
       console.log(response);
       this.totalData = response.total;
       this.$router.push({
-        path: "post",
+        path: "banner",
         query: this.searchQuery,
       });
     },
@@ -368,11 +371,11 @@ export default {
       this.page = page;
       this.search(false);
     },
-    async savePost(index) {
+    async saveBanner(index) {
       try {
-        const post = lodash.cloneDeep(this.listPost[index]);
+        const banner = lodash.cloneDeep(this.listBanner[index]);
 
-        delete post.slug;
+        delete banner.slug;
 
         const file = this.$store.state.uploadThumbnail?.[index]?.[0];
         let presignFormData;
@@ -381,21 +384,21 @@ export default {
             file.name
           );
           presignFormData = JSON.parse(response.data.data).formData;
-          post.image = presignFormData.key;
+          banner.image = presignFormData.key;
         }
-        await PostService().editOne(post);
+        await BannerService().editOne(banner);
         if (presignFormData) {
           ImageService.uploadMultiplePresign([file], [presignFormData]);
         }
-        this.toastSuccess("Cập nhật bài viết thành công");
+        this.toastSuccess("Cập nhật banner thành công");
       } catch (e) {
         this.toastError(e);
       }
     },
-    async deletePost(id) {
+    async deleteBanner(id) {
       try {
-        this.toastSuccess("Xoa bài viết thành công");
-        await PostService().deleteOne(id);
+        this.toastSuccess("Xoa banner thành công");
+        await BannerService().deleteOne(id);
         window.location.reload();
       } catch (e) {
         this.toastError(e);
@@ -411,7 +414,7 @@ export default {
 };
 </script>
 <style>
-#default_Post {
+#default_banner {
   max-width: 30px;
 }
 

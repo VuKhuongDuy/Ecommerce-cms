@@ -19,13 +19,15 @@
     <div class="tab-content p-4">
       <div class="tab-pane fade show active" id="allTab">
         <!-- BEGIN input-group -->
-        <div class="input-group mb-4">
+        <div class="input-group mb-3">
           <div class="flex-fill position-relative">
             <div class="input-group">
               <input
                 type="text"
                 class="form-control ps-35px"
-                placeholder="Filter orders"
+                placeholder="Tìm mã giảm giá"
+                v-model="searchData"
+                @change="(event) => search()"
               />
               <div
                 class="
@@ -42,39 +44,9 @@
               </div>
             </div>
           </div>
-          <button
-            class="btn btn-default dropdown-toggle rounded-0"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            <span class="d-none d-md-inline">Payment Status</span
-            ><span class="d-inline d-md-none"
-              ><i class="fa fa-credit-card"></i
-            ></span>
-            &nbsp;
+          <button class="btn btn-default dropdown-toggle" type="button">
+            <span class="d-none d-md-inline">Tìm kiếm</span>
           </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-          <button
-            class="btn btn-default dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            <span class="d-none d-md-inline">Fulfillment status</span
-            ><span class="d-inline d-md-none"><i class="fa fa-check"></i></span>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
         </div>
         <!-- END input-group -->
 
@@ -97,7 +69,7 @@
               <tr
                 v-for="(discount, index) in listDiscount"
                 :class="getClassEditted(index)"
-                :key="index"
+                :key="discount.id"
               >
                 <td class="align-middle">
                   <input
@@ -173,12 +145,13 @@
                   <search-product-modal
                     :index="index"
                     :listUpdatedSelectedProduct="discount.listproduct"
+                    :key="`discount-product-${discount.id}`"
                   ></search-product-modal>
                 </td>
                 <td>
                   <button
                     type="button"
-                    class="btn btn-primary pr-2"
+                    class="btn btn-primary mx-2"
                     @click="saveDiscount(index)"
                   >
                     Save
@@ -195,7 +168,7 @@
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title">Xác nhận xóa User</h5>
+                          <h5 class="modal-title">Xác nhận xóa mã giảm giá</h5>
                           <button
                             type="button"
                             class="btn-close"
@@ -233,6 +206,7 @@
                           <button
                             type="button"
                             class="btn btn-primary"
+                            data-bs-dismiss="modal"
                             @click="deleteDiscount(discount, index)"
                           >
                             Xác nhận
@@ -248,23 +222,40 @@
         </div>
         <!-- END table -->
 
-        <div class="d-md-flex align-items-center">
-          <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
-            Showing 1 to 10 of 57 entries
-          </div>
+        <div class="d-md-flex align-items-center mt-3">
+          <div class="me-md-auto text-md-left text-center mb-2 mb-md-0"></div>
           <ul class="pagination mb-0 justify-content-center">
-            <li class="page-item disabled">
-              <a class="page-link">Previous</a>
+            <li class="page-item" v-if="this.page - 2 > 0">
+              <a class="page-link" @click="goToPage(this.page - 2)">{{
+                this.page - 2
+              }}</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">2</a>
+            <li class="page-item" v-if="this.page - 1 > 0">
+              <a class="page-link" @click="goToPage(this.page - 1)">{{
+                this.page - 1
+              }}</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">6</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item active" v-if="this.page - 0 > 0">
+              <a class="page-link" @click="goToPage(this.page)">{{
+                this.page - 0
+              }}</a>
+            </li>
+            <li
+              class="page-item"
+              v-if="this.page + 1 > 0 && this.page + 1 <= this.totalPage"
+            >
+              <a class="page-link" @click="goToPage(this.page + 1)">{{
+                this.page + 1
+              }}</a>
+            </li>
+            <li
+              class="page-item"
+              v-if="this.page + 2 > 0 && this.page + 2 <= this.totalPage"
+            >
+              <a class="page-link" @click="goToPage(this.page + 2)">{{
+                this.page + 2
+              }}</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -284,6 +275,7 @@ import SearchProductModal from "../components/product/SearchProductModal.vue";
 import { DiscountType } from "../enums/Discount.enum";
 import { toastSuccess, toastError } from "../mixin/mixin";
 import ToastMessage from "../components/toast/ToastMessage.vue";
+const PERPAGE = import.meta.env.VITE_PERPAGE;
 
 export default {
   components: {
@@ -306,19 +298,56 @@ export default {
       listEditted: [],
       success_message: "",
       error_message: "",
+      searchData: "",
+      page: 1,
+      totalData: 0,
     };
   },
   async mounted() {
-    const response = await DiscountService().getAll();
-    this.listDiscount = response.data;
-    this.listEditted = Array(this.listDiscount.length).fill(false);
+    console.log(this.$route.query);
+    await this.search(false);
 
     const listProductDiscount = this.listDiscount.map(
       (discount) => discount.listproduct
     );
     this.$store.commit("setListproduct", listProductDiscount);
   },
+  computed: {
+    searchQuery: {
+      get() {
+        const page = this.page;
+        let query = { page, limit: PERPAGE };
+        if (this.searchData) {
+          query.q = this.searchData;
+        }
+        return query;
+      },
+    },
+    totalPage: {
+      get() {
+        return Math.ceil(this.totalData / PERPAGE) || 1;
+      },
+    },
+  },
   methods: {
+    async search(searchEvent = true) {
+      if (searchEvent) {
+        this.page = 1;
+      }
+      this.listEditted = [];
+      const response = await DiscountService().findDiscount(this.searchQuery);
+      this.listDiscount = response.data;
+      this.totalData = response.total;
+      const listProductDiscount = this.listDiscount.map(
+        (discount) => discount.listproduct
+      );
+      console.log("listProductDiscount", listProductDiscount);
+      this.$store.commit("setListproduct", listProductDiscount);
+      this.$router.push({
+        path: "discount",
+        query: this.searchQuery,
+      });
+    },
     async saveDiscount(index) {
       try {
         event.preventDefault();
@@ -338,8 +367,8 @@ export default {
     async deleteDiscount(discount) {
       try {
         await DiscountService().deleteOne(discount.id);
+        await this.search(false);
         this.toastSuccess("Xoá giảm giá thành công");
-        window.location.reload();
       } catch (e) {
         this.toastError(e);
       }
@@ -349,6 +378,10 @@ export default {
     },
     getClassEditted(index) {
       return this.listEditted[index] ? ["row-editted"] : [];
+    },
+    goToPage(page) {
+      this.page = page;
+      this.search(false);
     },
   },
 };

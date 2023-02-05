@@ -3,7 +3,7 @@
     <form action="POST" name="create_category">
       <div class="col-xl-6">
         <div class="form-group mb-3">
-          <label class="form-label" for="username">Tên danh mục</label>
+          <label class="form-label" for="category_name">Tên danh mục</label>
           <input
             v-model="createCategory.name"
             type="text"
@@ -11,16 +11,31 @@
             id="category_name"
             placeholder=""
           />
+          <label class="form-label mt-3" for="phone">Các thuộc tính</label>
         </div>
       </div>
-      <div class="col-xl-12" v-for="(prop, index) in list_props">
+      <div class="col-xl-12" v-for="(prop, index) in list_props" :key="index">
         <div class="form-group mb-3">
-          <label class="form-label" for="phone">Các thuộc tính</label>
           <table>
             <tr>
               <td>Tên thuộc tính</td>
               <td>
-                <input v-model="prop.name" type="text" class="form-control" name="category_prop_name"/>
+                <input
+                  v-model="prop.name"
+                  type="text"
+                  class="form-control"
+                  name="category_prop_name"
+                />
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  style="width: 100%"
+                  @click="deleteProp(index)"
+                >
+                  Xoa
+                </button>
               </td>
             </tr>
             <tr>
@@ -34,16 +49,6 @@
                     {{ PropTypesString.number }}
                   </option>
                 </select>
-              </td>
-              <td rowspan="2">
-                <button
-                  type="button"
-                  class="btn btn-default"
-                  style="width: 100%"
-                  @click="deleteProp(index)"
-                >
-                  Xoa
-                </button>
               </td>
             </tr>
 
@@ -67,7 +72,7 @@
               </td>
             </tr>
             <tr v-else>
-              <td>Danh sách</td>
+              <td>Giá trị</td>
               <td>
                 <input
                   v-model="prop.defaultText[jndex]"
@@ -160,7 +165,7 @@
 
   <button
     type="button"
-    class="btn btn-primary pr-2"
+    class="btn btn-primary mx-2"
     @click="(event) => saveCategory(event, createCategory)"
   >
     Save
@@ -180,6 +185,7 @@ import * as lodash from "lodash";
 import { Toast } from "bootstrap";
 import { CategoryService } from "../services/category.service";
 import { ImageService } from "../services/image.service";
+import { isEmptyObject } from "../mixin/mixin";
 const PropTypes = {
   text: "text",
   number: "number",
@@ -257,8 +263,11 @@ export default {
         await categoryService.createOne(category);
 
         //upload image
-        if (presignData) {
-          ImageService.uploadPresignFile(presignData.formData, this.image);
+        if (isEmptyObject(presignData)) {
+          ImageService.uploadMultiplePresign(
+            [this.image],
+            [presignData.formData]
+          );
         }
         const toast = new Toast(
           document.getElementById("toast-create-success")
@@ -267,7 +276,7 @@ export default {
         await this.delayTime();
         this.$router.push("/category");
       } catch (e) {
-        console.log(e)
+        console.log(e);
         this.error_message = e;
         const toast = new Toast(document.getElementById("toast-create-error"));
         toast.show();

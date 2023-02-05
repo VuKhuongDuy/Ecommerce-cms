@@ -1,20 +1,13 @@
 <template>
-  <div class="row form-create">
-    <div class="col-xl-6">
+  <div class="row form-create mt-3">
+    <label class="form-label" for="listCategoryValue">Các thuộc tính</label>
+    <div
+      class="col-xl-12"
+      id="listCategoryValue"
+      v-for="(prop, index) in list_props"
+      :key="index"
+    >
       <div class="form-group mb-3">
-        <label class="form-label" for="username">Tên danh mục</label>
-        <input
-          v-model="createCategory.name"
-          type="text"
-          class="form-control"
-          id="username"
-          placeholder="Your username"
-        />
-      </div>
-    </div>
-    <div class="col-xl-12" v-for="(prop, index) in list_props" :key="index">
-      <div class="form-group mb-3">
-        <label class="form-label" for="phone">Các thuộc tính</label>
         <table>
           <tr>
             <td>Tên thuộc tính</td>
@@ -66,7 +59,7 @@
             </td>
           </tr>
           <tr v-else>
-            <td>Danh sách</td>
+            <td>Giá trị</td>
             <td>
               <input
                 v-model="prop.defaultText[jndex]"
@@ -142,7 +135,7 @@
   <button
     type="button"
     data-bs-dismiss="modal"
-    class="btn btn-primary pr-2"
+    class="btn btn-primary mx-2"
     @click="(event) => saveCategory(event, createCategory)"
   >
     Save
@@ -196,7 +189,6 @@ export default {
           defaultNumber = p.values;
         }
 
-        console.log(defaultText, defaultNumber);
         return {
           name: p.name,
           type: p.type,

@@ -15,7 +15,6 @@ export const mutations = {
     state.product = product;
   },
   setListproduct(state: any, listProduct: any) {
-    console.log("heheh")
     state.listProduct = listProduct;
   },
   setOrder(state: any, order: any) {

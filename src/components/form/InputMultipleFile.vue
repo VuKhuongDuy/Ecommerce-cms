@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="m-4">
+    <h5>Chọn files</h5>
     <input
       type="file"
       :accept="onlyImage ? 'image/*' : 'image/*,video/*'"

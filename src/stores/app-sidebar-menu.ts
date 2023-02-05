@@ -40,8 +40,13 @@ export const useAppSidebarMenuStore = defineStore({
       },
       {
         url: "/log",
-        icon: "fa fa-pen",
+        icon: "fa fa-file-alt",
         text: "Log",
+      },
+      {
+        url: "/banner",
+        icon: "fa fa-images",
+        text: "Banner",
       },
       {
         is_divider: true,

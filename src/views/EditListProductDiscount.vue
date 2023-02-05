@@ -18,7 +18,7 @@
               </td>
             </tr>
             <tr>
-              <td>Danh sách</td>
+              <td>Giá trị</td>
               <td>
                 <input
                   v-model="filter.value[jndex]"

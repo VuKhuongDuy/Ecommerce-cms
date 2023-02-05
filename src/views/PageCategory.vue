@@ -19,13 +19,15 @@
     <div class="tab-content p-4">
       <div class="tab-pane fade show active" id="allTab">
         <!-- BEGIN input-group -->
-        <div class="input-group mb-4">
+        <div class="input-group mb-3">
           <div class="flex-fill position-relative">
             <div class="input-group">
               <input
                 type="text"
                 class="form-control ps-35px"
-                placeholder="Filter orders"
+                placeholder="Tìm danh mục"
+                v-model="searchData"
+                @change="(event) => search()"
               />
               <div
                 class="
@@ -42,40 +44,11 @@
               </div>
             </div>
           </div>
-          <button
-            class="btn btn-default dropdown-toggle rounded-0"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            <span class="d-none d-md-inline">Payment Status</span
-            ><span class="d-inline d-md-none"
-              ><i class="fa fa-credit-card"></i
-            ></span>
-            &nbsp;
+          <button class="btn btn-default dropdown-toggle" type="button">
+            <span class="d-none d-md-inline">Tìm kiếm</span>
           </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-          <button
-            class="btn btn-default dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            <span class="d-none d-md-inline">Fulfillment status</span
-            ><span class="d-inline d-md-none"><i class="fa fa-check"></i></span>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
         </div>
+
         <!-- END input-group -->
 
         <!-- BEGIN table -->
@@ -94,7 +67,7 @@
               <tr
                 v-for="(category, index) in listCategory"
                 :class="getClassEditted(index)"
-                :key="index"
+                :key="category.id"
               >
                 <td class="w-10px align-middle">
                   <div class="form-check">
@@ -144,15 +117,20 @@
                     data-bs-toggle="modal"
                     :data-bs-target="'#modalCoverExample' + index"
                   >
-                    Xem
+                    Xem/Sửa
                   </button>
 
-                  <div
-                    class="modal modal-cover fade"
-                    :id="'modalCoverExample' + index"
-                  >
-                    <div class="modal-dialog">
-                      <div class="modal-content">
+                  <div class="modal fade" :id="'modalCoverExample' + index">
+                    <div class="modal-dialog modal-xl">
+                      <div class="modal-content p-5">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Sửa thông tin danh mục</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                          ></button>
+                        </div>
                         <edit-category
                           @saveProp="setParentFilters($event, index)"
                           :listProp="category.filters"
@@ -164,7 +142,7 @@
                 <td>
                   <button
                     type="button"
-                    class="btn btn-primary pr-2"
+                    class="btn btn-primary mx-2 mx-2"
                     @click="savecategory(category, index)"
                   >
                     Save
@@ -201,15 +179,14 @@
                             <tr>
                               <td><b>Thuôc tính</b></td>
                               <td>
-                                <p>
-                                  <span
-                                    v-for="(filter, findex) in category.filters"
-                                    :key="findex"
-                                  >
-                                    {{ filter.name }} : {{ filter.values }}
-                                    <br />
-                                  </span>
-                                </p>
+                                :
+                                <span
+                                  v-for="(filter, findex) in category.filters"
+                                  :key="findex"
+                                >
+                                  {{ filter.name }} : {{ filter.values }}
+                                  <br />
+                                </span>
                               </td>
                             </tr>
                           </table>
@@ -241,23 +218,40 @@
         </div>
         <!-- END table -->
 
-        <div class="d-md-flex align-items-center">
-          <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
-            Showing 1 to 10 of 57 entries
-          </div>
+        <div class="d-md-flex align-items-center mt-3">
+          <div class="me-md-auto text-md-left text-center mb-2 mb-md-0"></div>
           <ul class="pagination mb-0 justify-content-center">
-            <li class="page-item disabled">
-              <a class="page-link">Previous</a>
+            <li class="page-item" v-if="this.page - 2 > 0">
+              <a class="page-link" @click="goToPage(this.page - 2)">{{
+                this.page - 2
+              }}</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">2</a>
+            <li class="page-item" v-if="this.page - 1 > 0">
+              <a class="page-link" @click="goToPage(this.page - 1)">{{
+                this.page - 1
+              }}</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">6</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item active" v-if="this.page - 0 > 0">
+              <a class="page-link" @click="goToPage(this.page)">{{
+                this.page - 0
+              }}</a>
+            </li>
+            <li
+              class="page-item"
+              v-if="this.page + 1 > 0 && this.page + 1 <= this.totalPage"
+            >
+              <a class="page-link" @click="goToPage(this.page + 1)">{{
+                this.page + 1
+              }}</a>
+            </li>
+            <li
+              class="page-item"
+              v-if="this.page + 2 > 0 && this.page + 2 <= this.totalPage"
+            >
+              <a class="page-link" @click="goToPage(this.page + 2)">{{
+                this.page + 2
+              }}</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -308,8 +302,9 @@
 import { CategoryService } from "../services/category.service";
 import EditCategory from "./EditCategory.vue";
 import { Toast } from "bootstrap";
-import { delayTime } from "../mixin/mixin";
+import { delayTime, isEmptyObject } from "../mixin/mixin";
 import { ImageService } from "../services/image.service";
+const PERPAGE = import.meta.env.VITE_PERPAGE;
 
 export default {
   mixins: [
@@ -330,11 +325,13 @@ export default {
       image_list: [],
       error_message: "",
       success_message: "",
+      searchData: "",
+      page: 1,
+      totalData: 0,
     };
   },
   async mounted() {
-    this.listCategory = await CategoryService().getAll();
-    this.listEditted = Array(this.listCategory.length).fill(false);
+    await this.search(false);
     this.preview_list = await Promise.all(
       this.listCategory.map(async (category) => {
         if (category.image) return ImageService.getBlobSrc(category.image);
@@ -342,7 +339,38 @@ export default {
     );
     this.image_list = Array(this.preview_list.length).fill("");
   },
+  computed: {
+    searchQuery: {
+      get() {
+        const page = this.page;
+        let query = { page, limit: PERPAGE };
+        if (this.searchData) {
+          query.q = this.searchData;
+        }
+        return query;
+      },
+    },
+    totalPage: {
+      get() {
+        return Math.ceil(this.totalData / PERPAGE) || 1;
+      },
+    },
+  },
   methods: {
+    async search(searchEvent = true) {
+      if (searchEvent) {
+        this.page = 1;
+      }
+      this.listEditted = [];
+      const response = await CategoryService().findCategory(this.searchQuery);
+      this.listCategory = response.data;
+      this.totalData = response.total;
+      console.log(response);
+      this.$router.push({
+        path: "category",
+        query: this.searchQuery,
+      });
+    },
     async savecategory(category, index) {
       try {
         let presignData = {};
@@ -357,8 +385,13 @@ export default {
 
         await CategoryService().updateOne(category);
         //upload image
-        if (presignData) {
-          ImageService.uploadPresignFile(presignData.formData, this.image);
+        if (!isEmptyObject(presignData)) {
+          console.log(presignData);
+          console.log(this.image_list[index]);
+          ImageService.uploadMultiplePresign(
+            [this.image_list[index]],
+            [presignData.formData]
+          );
         }
 
         const toast = new Toast(
@@ -367,6 +400,7 @@ export default {
         this.success_message = "Cập nhật category thành công";
         toast.show();
       } catch (e) {
+        console.log(e);
         this.error_message = e;
         const toast = new Toast(document.getElementById("toast-update-error"));
         toast.show();
@@ -383,14 +417,7 @@ export default {
         this.success_message = "Xóa category thành công";
 
         //mounted
-        this.listCategory = await CategoryService().getAll();
-        this.listEditted = Array(this.listCategory.length).fill(false);
-        this.preview_list = await Promise.all(
-          this.listCategory.map(async (category) => {
-            if (category.image) return ImageService.getBlobSrc(category.image);
-          })
-        );
-        this.image_list = Array(this.preview_list.length).fill("");
+        await this.search(false);
       } catch (e) {
         this.error_message = e;
         const toast = new Toast(document.getElementById("toast-update-error"));
@@ -417,6 +444,11 @@ export default {
         this.image_list[index] = input.files[0];
         reader.readAsDataURL(input.files[0]);
       }
+    },
+
+    goToPage(page) {
+      this.page = page;
+      this.search(false);
     },
   },
 };

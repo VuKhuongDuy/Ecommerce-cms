@@ -18,7 +18,7 @@
               </td>
             </tr>
             <tr>
-              <td>Danh sách</td>
+              <td>Giá trị</td>
               <td>
                 <input
                   v-model="filter.value[jndex]"
@@ -54,7 +54,7 @@
   <button
     type="button"
     data-bs-dismiss="modal"
-    class="btn btn-primary pr-2"
+    class="btn btn-primary mx-2"
     @click="(event) => saveParentFilter(event, filters)"
   >
     Save

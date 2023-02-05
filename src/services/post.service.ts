@@ -24,4 +24,16 @@ export const PostService = () => ({
     const response =  await httpClient.delete(`/post/${id}`);
     return response.data.data
   },
+
+  async findPost(searchData: {q?: string, limit: number, page: number}) {
+    let query = []
+    for (const [key, value] of Object.entries(searchData)) {
+      query.push( `${key}=${value}`);
+    }
+
+    const response = await httpClient.get(
+      `/post?${query.join("&")}`
+    );
+    return response.data.data;
+  },
 });

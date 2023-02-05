@@ -108,6 +108,10 @@ export function getClassEditted(index: number) {
   return this.listEditted[index] ? ["row-editted"] : [];
 }
 
-export function formatCurrenct(amount){
-  return 
+export function formatCurrenct(amount) {
+  return
+}
+
+export function isEmptyObject(obj: object) {
+  return Object.keys(obj).length == 0
 }

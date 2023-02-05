@@ -142,7 +142,7 @@
   </div>
   <button
     type="button"
-    class="btn btn-primary pr-2"
+    class="btn btn-primary mx-2"
     @click="(event) => saveDiscount(event, createDiscount)"
   >
     Save

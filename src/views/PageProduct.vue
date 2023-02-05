@@ -19,25 +19,16 @@
     <div class="tab-content p-4">
       <div class="tab-pane fade show active" id="allTab">
         <!-- BEGIN input-group -->
-        <div class="input-group mb-4">
-          <button
-            class="btn btn-default dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Filter products &nbsp;
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
+        <div class="input-group">
           <div class="flex-fill position-relative">
             <div class="input-group">
+              <input
+                type="text"
+                class="form-control ps-35px"
+                placeholder="Tìm sản phẩm"
+                v-model="searchProduct"
+                @change="(event) => search()"
+              />
               <div
                 class="
                   input-group-text
@@ -51,13 +42,29 @@
               >
                 <i class="fa fa-search opacity-5"></i>
               </div>
-              <input
-                type="text"
-                class="form-control ps-35px"
-                placeholder="Search products"
-              />
             </div>
           </div>
+          <button class="btn btn-default dropdown-toggle" type="button">
+            <span class="d-none d-md-inline">Tìm kiếm</span>
+          </button>
+        </div>
+        <div class="form-group mb-4" style="max-width: 150px">
+          <label class="form-label" for="exampleFormControlSelect1"></label>
+          <select
+            v-model="searchCategory"
+            class="form-select"
+            id="exampleFormControlSelect1"
+            @change="(event) => search()"
+          >
+            <option value="">Danh mục</option>
+            <option
+              :value="category.slug"
+              v-for="(category, index) in categories"
+              :key="index"
+            >
+              {{ category.name }}
+            </option>
+          </select>
         </div>
         <!-- END input-group -->
 
@@ -74,7 +81,8 @@
                 <th class="pt-0 pb-2">Giá mặc định</th>
                 <th class="pt-0 pb-2">Giá bán</th>
                 <th class="pt-0 pb-2">Mã SKU</th>
-                <th class="pt-0 pb-2">SaleCount</th>
+                <th class="pt-0 pb-2">Số hàng tồn</th>
+                <th class="pt-0 pb-2">Số hàng đã bán</th>
                 <th class="pt-0 pb-2">Danh mục</th>
                 <th class="pt-0 pb-2">Thuộc tính</th>
                 <th class="pt-0 pb-2">Filters</th>
@@ -84,19 +92,9 @@
             <tbody>
               <tr
                 v-for="(product, index) in listProducts"
-                :key="index"
+                :key="product.id"
                 :class="getClassEditted(index)"
               >
-                <!-- <td class="w-10px align-middle">
-                  <div class="form-check">
-                    <input
-                      type="checkbox"
-                      class="form-check-input"
-                      id="product1"
-                    />
-                    <label class="form-check-label" for="product1"></label>
-                  </div>
-                </td> -->
                 <td>
                   <img
                     class="preview-media"
@@ -109,9 +107,8 @@
                   <video
                     width="320"
                     height="240"
-                    controls=""
+                    controls
                     class="preview-media"
-                    alt=""
                     v-else
                   >
                     <source :src="listImageThumbnail?.[index]?.[0]?.data" />
@@ -127,6 +124,14 @@
                   <div class="modal fade" :id="'modalThumbnail' + index">
                     <div class="modal-dialog modal-xl">
                       <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Cập nhật thumbnails</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                          ></button>
+                        </div>
                         <input-multiple-file
                           :index="index"
                           :keyListFile="'previewThumbnail'"
@@ -159,6 +164,14 @@
                   <div class="modal fade" :id="'modalImages' + index">
                     <div class="modal-dialog modal-xl">
                       <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Cập nhật hình ảnh</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                          ></button>
+                        </div>
                         <input-multiple-file
                           :index="index"
                           :keyListFile="'previewFiles'"
@@ -228,6 +241,15 @@
                   <textarea
                     @input="checkRowEdit(index)"
                     type="text"
+                    name="quantity"
+                    id="quantity"
+                    v-model="product.quantity"
+                  ></textarea>
+                </td>
+                <td class="align-middle">
+                  <textarea
+                    @input="checkRowEdit(index)"
+                    type="text"
                     name="saleCount"
                     id="saleCount"
                     v-model="product.sale_count"
@@ -251,12 +273,17 @@
                     Xem
                   </button>
 
-                  <div
-                    class="modal modal-cover fade"
-                    :id="'modalCoverExample' + index"
-                  >
+                  <div class="modal fade" :id="'modalCoverExample' + index">
                     <div class="modal-dialog">
                       <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Cập nhật thuộc tính</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                          ></button>
+                        </div>
                         <edit-property-product
                           @setParentProps="setParentProps($event, index)"
                           :propertiesList="product.properties"
@@ -276,12 +303,17 @@
                     Xem
                   </button>
 
-                  <div
-                    class="modal modal-cover fade"
-                    :id="'editProdFilters' + index"
-                  >
+                  <div class="modal fade" :id="'editProdFilters' + index">
                     <div class="modal-dialog">
                       <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Xác nhận filters</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                          ></button>
+                        </div>
                         <edit-filters-product
                           @saveParentFilter="saveParentFilter($event, index)"
                           :filtersList="product.filters"
@@ -293,7 +325,7 @@
                 <td class="align-middle">
                   <button
                     type="button"
-                    class="btn btn-primary pr-2"
+                    class="btn btn-primary mx-2"
                     @click="updateProduct(index)"
                   >
                     Save
@@ -355,24 +387,40 @@
           </table>
         </div>
         <!-- END table -->
-
-        <div class="d-md-flex align-items-center">
-          <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
-            Showing 1 to 10 of 57 entries
-          </div>
+        <div class="d-md-flex align-items-center mt-3">
+          <div class="me-md-auto text-md-left text-center mb-2 mb-md-0"></div>
           <ul class="pagination mb-0 justify-content-center">
-            <li class="page-item disabled">
-              <a class="page-link">Previous</a>
+            <li class="page-item" v-if="this.page - 2 > 0">
+              <a class="page-link" @click="goToPage(this.page - 2)">{{
+                this.page - 2
+              }}</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">2</a>
+            <li class="page-item" v-if="this.page - 1 > 0">
+              <a class="page-link" @click="goToPage(this.page - 1)">{{
+                this.page - 1
+              }}</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">6</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item active" v-if="this.page - 0 > 0">
+              <a class="page-link" @click="goToPage(this.page)">{{
+                this.page - 0
+              }}</a>
+            </li>
+            <li
+              class="page-item"
+              v-if="this.page + 1 > 0 && this.page + 1 <= this.totalPage"
+            >
+              <a class="page-link" @click="goToPage(this.page + 1)">{{
+                this.page + 1
+              }}</a>
+            </li>
+            <li
+              class="page-item"
+              v-if="this.page + 2 > 0 && this.page + 2 <= this.totalPage"
+            >
+              <a class="page-link" @click="goToPage(this.page + 2)">{{
+                this.page + 2
+              }}</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -400,6 +448,8 @@ import {
   toastSuccess,
   toastError,
 } from "../mixin/mixin";
+
+const PERPAGE = import.meta.env.VITE_PERPAGE;
 export default {
   mixins: [
     {
@@ -425,8 +475,13 @@ export default {
       categories: [],
       listImageCategory: [],
       listImages: [],
+      listImageThumbnail: [],
       success_message: "",
       error_message: "",
+      searchProduct: "",
+      searchCategory: "",
+      page: 1,
+      totalData: 0,
     };
   },
   methods: {
@@ -492,11 +547,12 @@ export default {
         updateProduct.thumb_image = newThumb;
         updateProduct.images = newImage;
         updateProduct.filters = this.extractFilters(updateProduct.filters);
-        console.log(this.removeNullValue(updateProduct.properties));
         updateProduct.properties = this.removeNullValue(
           updateProduct.properties
         );
-        updateProduct.category = updateProduct.category?.id;
+        updateProduct.category =
+          this.$store.state.listProduct[index]?.category?.id ??
+          updateProduct.category?.id;
 
         delete updateProduct.best_seller;
         delete updateProduct.featured;
@@ -539,32 +595,68 @@ export default {
     async deleteProduct(id) {
       try {
         const response = await ProductService().deleteOne(id);
+        await this.search(false);
         this.toastSuccess("Delete successfully");
       } catch (e) {
         this.toastError("Error deleting product");
       }
     },
     removeNullValue(properties) {
-      console.log(properties);
       return properties.map((property) => {
         property.value = property.value.filter((e) => e);
         return property;
       });
     },
-  },
+    async search(searchEvent = true) {
+      if (searchEvent) {
+        this.page = 1;
+      }
+      this.listEditted = [];
+      const response = await ProductService().findProduct(this.searchQuery);
+      this.listProducts = response.data;
+      this.$store.commit("setListproduct", response.data);
+      this.totalData = response.total;
 
+      this.$router.push({
+        path: "product",
+        query: this.searchQuery,
+      });
+    },
+
+    goToPage(page) {
+      this.page = page;
+      this.search(false);
+    },
+  },
   computed: {
-    listImageThumbnail: {
+    searchQuery: {
       get() {
-        return this.$store.state.previewThumbnail;
+        const offset = this.page;
+        let query = { offset, limit: PERPAGE };
+        if (this.searchProduct) {
+          query.q = this.searchProduct;
+        }
+        if (this.searchCategory) {
+          query.category = this.searchCategory;
+        }
+        return query;
+      },
+    },
+    totalPage: {
+      get() {
+        return Math.ceil(this.totalData / PERPAGE) || 1;
       },
     },
   },
   async mounted() {
     this.listEditted = Array(this.listProducts.length).fill(false);
+    this.categories = await CategoryService().getAllNotPage();
 
-    const res = await ProductService().getProductPage();
-    this.listProducts = res.data;
+    // const res = await ProductService().getProductPage();
+    // this.listProducts = res.data;
+    // this.totalData = res.total;
+
+    await this.search(false);
     // this.$store.commit("setListproduct", this.listProducts);
 
     this.listImageCategory = await Promise.all(
@@ -587,7 +679,6 @@ export default {
         this.listImageThumbnail[index] =
           (await Promise.all(
             product.thumb_image.map(async (img) => {
-              console.log(img);
               return {
                 data: await ImageService.getBlobSrc(img.url),
                 type: img.type,

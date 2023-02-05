@@ -1,5 +1,5 @@
 <template>
-  <div class="col-xl-12">
+  <div class="col-xl-12 mt-3">
     <div class="form-group mb-3">
       <label class="form-label" for="phone">Các thuộc tính</label>
       <div v-for="(prop, index) in properties" :key="index">
@@ -12,13 +12,13 @@
                   v-model="prop.name"
                   type="text"
                   class="form-control"
-                  id="username"
-                  placeholder="Giá trị"
+                  id="prop_name"
+                  placeholder="Tên thuộc tính"
                 />
               </td>
             </tr>
             <tr>
-              <td>Danh sách</td>
+              <td>Giá trị</td>
               <td>
                 <input
                   v-model="prop.value[jndex]"
@@ -54,7 +54,7 @@
   <button
     type="button"
     data-bs-dismiss="modal"
-    class="btn btn-primary pr-2"
+    class="btn btn-primary mx-2"
     @click="(event) => saveParentProp(event, properties)"
   >
     Save
@@ -65,8 +65,8 @@
 import * as lodash from "lodash";
 
 const DefaultProp = {
-  name: "Tên thuộc tính",
-  value: ["Giá trị 1"],
+  name: "",
+  value: [""],
 };
 
 export default {
@@ -80,12 +80,16 @@ export default {
     };
   },
   mounted() {
-    this.properties = lodash.cloneDeep(
-      this.propertiesList.map((props) => {
-        props.value.push("");
-        return props;
-      })
-    );
+    if (this.propertiesList.length == 0) {
+      this.properties = [DefaultProp];
+    } else {
+      this.properties = lodash.cloneDeep(
+        this.propertiesList.map((props) => {
+          props.value.push("");
+          return props;
+        })
+      );
+    }
   },
   methods: {
     addOrDelTextProp(event, index, jindex) {

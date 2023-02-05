@@ -7,7 +7,7 @@
           <button
             type="button"
             data-bs-dismiss="modal"
-            class="btn btn-primary pr-2"
+            class="btn btn-primary mx-2"
             @click="(event) => saveCategory(event)"
           >
             Save

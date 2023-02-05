@@ -16,13 +16,31 @@
         <div class="input-group mb-4">
           <div class="flex-fill position-relative">
             <div class="input-group">
-              <input type="text" class="form-control ps-35px" placeholder="Filter orders" />
-              <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0" style="z-index: 1020">
+              <input
+                type="text"
+                class="form-control ps-35px"
+                placeholder="Filter orders"
+              />
+              <div
+                class="
+                  input-group-text
+                  position-absolute
+                  top-0
+                  bottom-0
+                  bg-none
+                  border-0
+                "
+                style="z-index: 1020"
+              >
                 <i class="fa fa-search opacity-5"></i>
               </div>
             </div>
           </div>
-          <button class="btn btn-default dropdown-toggle rounded-0" type="button" data-bs-toggle="dropdown">
+          <button
+            class="btn btn-default dropdown-toggle rounded-0"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
             <span class="d-none d-md-inline">Tìm kiếm</span>
             &nbsp;
           </button>
@@ -33,9 +51,13 @@
             <div role="separator" class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
           </div>
-          <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown">
-            <span class="d-none d-md-inline">Fulfillment status</span><span class="d-inline d-md-none"><i
-                class="fa fa-check"></i></span>
+          <button
+            class="btn btn-default dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <span class="d-none d-md-inline">Fulfillment status</span
+            ><span class="d-inline d-md-none"><i class="fa fa-check"></i></span>
           </button>
           <div class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item" href="#">Action</a>
@@ -61,28 +83,28 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(log, index) in listLog" :key="index">
-                <td class=" w-10px align-middle">
+              <tr v-for="log in listLog" :key="log.id">
+                <td class="w-10px align-middle">
                   {{ log.id }}
                 </td>
 
-                <td class=" w-10px align-left">
+                <td class="w-10px align-left">
                   {{ log.actor.username }}
                 </td>
 
-                <td class=" w-10px align-left">
+                <td class="w-10px align-left">
                   {{ log.type }}
                 </td>
 
-                <td class=" w-10px align-left">
+                <td class="w-10px align-left">
                   {{ log.table }}
                 </td>
 
-                <td class=" w-10px align-left">
+                <td class="w-10px align-left">
                   {{ log.content }}
                 </td>
 
-                <td class=" w-10px align-left">
+                <td class="w-10px align-left">
                   {{ formatFullDatetime(log.created_at) }}
                 </td>
               </tr>
@@ -115,29 +137,26 @@
   </card>
 </template>
 <script>
-import { LogService } from '../services/log.service'
-import {
-  formatFullDatetime
-} from '../mixin/mixin'
+import { LogService } from "../services/log.service";
+import { formatFullDatetime } from "../mixin/mixin";
 export default {
-  mixins: [{
-    methods: {
-      formatFullDatetime
-    }
-  }],
+  mixins: [
+    {
+      methods: {
+        formatFullDatetime,
+      },
+    },
+  ],
   data() {
     return {
       listLog: [],
-    }
+    };
   },
   async mounted() {
-    this.listLog = await LogService().getAll()
+    this.listLog = await LogService().getAll();
   },
-  methods: {
-
-  }
-
-}
+  methods: {},
+};
 </script>
 <style>
 #default_discount {
@@ -148,15 +167,15 @@ input {
   border: none;
 }
 
-.table-hover>tbody>tr.row-editted>* {
+.table-hover > tbody > tr.row-editted > * {
   background: #bcd3ff !important;
 }
 
-.table-hover>tbody>tr.row-editted input {
+.table-hover > tbody > tr.row-editted input {
   background: #bcd3ff !important;
 }
 
-.table-hover>tbody>tr:hover input {
+.table-hover > tbody > tr:hover input {
   background: rgba(218, 224, 236, 0.85) !important;
 }
 </style>

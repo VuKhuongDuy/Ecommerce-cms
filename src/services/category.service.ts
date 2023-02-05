@@ -34,8 +34,20 @@ export const CategoryService = () => ({
     return await httpClient.delete(`/category/${categoryId}`);
   },
 
-  async searchCategory(text: string){
+  async searchCategory(text: string) {
     const response = await httpClient.get(`/category?q=${text}&limit=10&page=1`)
+    return response.data.data.data;
+  },
+
+  async findCategory(searchData: { q?: string, limit: number, page: number }) {
+    let query = []
+    for (const [key, value] of Object.entries(searchData)) {
+      query.push(`${key}=${value}`);
+    }
+
+    const response = await httpClient.get(
+      `/category?${query.join("&")}`
+    );
     return response.data.data;
-  }
+  },
 });

@@ -83,7 +83,20 @@
       </div>
       <div class="col-xl-6">
         <div class="form-group mb-3">
-          <label class="form-label" for="saleCount">saleCount</label>
+          <label class="form-label" for="quantity">Số lượng hàng có sẵn</label>
+          <input
+            v-model="createProduct.quantity"
+            type="text"
+            class="form-control"
+            id="quantity"
+            placeholder="your quantity"
+            name="quantity"
+          />
+        </div>
+      </div>
+      <!-- <div class="col-xl-6">
+        <div class="form-group mb-3">
+          <label class="form-label" for="saleCount">Số lượng hàng đã bán</label>
           <input
             v-model="createProduct.sale_count"
             type="text"
@@ -93,7 +106,7 @@
             name="sale_count"
           />
         </div>
-      </div>
+      </div> -->
       <div class="col-xl-6">
         <div class="form-group mb-3">
           <label class="form-label" for="role">Danh mục</label>
@@ -177,19 +190,19 @@
                       v-model="prop.name"
                       type="text"
                       class="form-control"
-                      id="username"
+                      id="name"
                       placeholder="Tên thuộc tính"
                     />
                   </td>
                 </tr>
                 <tr>
-                  <td>Danh sách</td>
+                  <td>Giá trị</td>
                   <td>
                     <input
                       v-model="prop.value[jndex]"
                       type="text"
                       class="form-control"
-                      id="username"
+                      id="value"
                       placeholder="Giá trị"
                       v-for="(text, jndex) in prop.value"
                       :key="jndex"
@@ -239,19 +252,21 @@
                       v-model="filter.name"
                       type="text"
                       class="form-control"
-                      id="username"
+                      id="filter_name"
+                      name="filter_name"
                       placeholder="Tên filter"
                     />
                   </td>
                 </tr>
                 <tr>
-                  <td>Danh sách</td>
+                  <td>Giá trị</td>
                   <td>
                     <input
                       v-model="filter.value[jndex]"
                       type="text"
                       class="form-control"
-                      id="username"
+                      id="filter_values"
+                      name="filter_values"
                       placeholder="Giá trị"
                       v-for="(text, jndex) in filter.value"
                       :key="jndex"
@@ -332,7 +347,7 @@
 
       <button
         type="button"
-        class="btn btn-primary pr-2"
+        class="btn btn-primary mx-2"
         @click="(event) => saveProduct(event, createProduct)"
       >
         Save

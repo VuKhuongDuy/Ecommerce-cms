@@ -138,6 +138,8 @@ export default {
 .preview_category ul {
   list-style: none;
   padding-left: 0px;
+  max-height: 40vh;
+  overflow-y: scroll;
 }
 
 .preview_category .list-group-item:hover {

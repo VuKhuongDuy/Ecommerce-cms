@@ -1,33 +1,10 @@
 <template>
   <div class="row form-create">
-    <div class="col-xl-6">
-      <div class="form-group mb-3">
-        <label class="form-label" for="title">Tiêu đề</label>
-        <input
-          v-model="createPost.title"
-          type="text"
-          class="form-control"
-          id="title"
-          placeholder="Tiêu đề"
-        />
-      </div>
-    </div>
-    <div class="col-xl-6">
-      <div class="form-group mb-3">
-        <label class="form-label" for="description">Mô tả</label>
-        <textarea
-          v-model="createPost.description"
-          type="text"
-          class="form-control"
-          id="description"
-          placeholder="Mô tả"
-        ></textarea>
-      </div>
-    </div>
-    <div class="col-xl-6">
+    <div class="col-xl-12">
       <div class="form-group mb-3">
         <label class="form-label" for="password">Ảnh đại diện</label>
         <input-multiple-file
+          :isMultiple="false"
           :onlyImage="true"
           :index="0"
           :keyListFile="'previewThumbnail'"
@@ -38,14 +15,77 @@
         <img :src="preview" class="img-fluid" />
       </div>
     </div>
-    <div class="">
+    <div class="col-xl-6">
       <div class="form-group mb-3">
-        <label class="form-label" for="birthday">Nội dung</label>
-        <ckeditor
-          :editor="editor"
-          v-model="createPost.content"
-          :config="configEdit"
-        ></ckeditor>
+        <label class="form-label" for="name">Tên banner</label>
+        <input
+          v-model="createBanner.name"
+          type="text"
+          class="form-control"
+          id="name"
+          name="banner-name"
+          placeholder="Tên banner"
+        />
+      </div>
+    </div>
+
+    <div class="col-xl-6">
+      <div class="form-group mb-3">
+        <label class="form-label" for="redirect_url">Đường dẫn</label>
+        <input
+          v-model="createBanner.redirect_url"
+          type="text"
+          class="form-control"
+          id="redirect_url"
+          name="banner-redirect-url"
+          placeholder="Đường dẫn"
+        />
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="form-group mb-3">
+        <label class="form-label" for="title">Tiêu đề 1</label>
+        <input
+          v-model="createBanner.title"
+          type="text"
+          class="form-control"
+          name="banner-title"
+          id="title"
+          placeholder="Tiêu đề 1"
+        />
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="form-group mb-3">
+        <label class="form-label" for="title2">Tiêu đề 2</label>
+        <input
+          v-model="createBanner.title2"
+          type="text"
+          class="form-control"
+          name="banner-title2"
+          id="title2"
+          placeholder="Tiêu đề 2"
+        />
+      </div>
+    </div>
+
+    <div class="col-xl-6">
+      <div class="form-group mb-3">
+        <label class="form-label" for="type">Loại banner</label>
+        <select class="form-select" id="type" v-model="createBanner.type">
+          <option :value="BannerType.HomeBanner">
+            {{ BannerType.HomeBanner }}
+          </option>
+          <option :value="BannerType.HomeCenter">
+            {{ BannerType.HomeCenter }}
+          </option>
+          <option :value="BannerType.HomeSlide">
+            {{ BannerType.HomeSlide }}
+          </option>
+          <option :value="BannerType.ProductSidebarLeft">
+            {{ BannerType.ProductSidebarLeft }}
+          </option>
+        </select>
       </div>
     </div>
   </div>
@@ -66,7 +106,7 @@
           data-bs-dismiss="toast"
         ></button>
       </div>
-      <div class="toast-body">Tạo bài viết thành công</div>
+      <div class="toast-body">Tạo banner thành công</div>
     </div>
     <div
       class="toast fade hide mb-3"
@@ -92,7 +132,7 @@
   <button
     type="button"
     class="btn btn-primary mx-2"
-    @click="(event) => savePost(event, createPost)"
+    @click="(event) => saveBanner(event, createBanner)"
   >
     Save
   </button>
@@ -112,11 +152,12 @@ import {
   GenderUserString,
 } from "../enums/user.enum";
 
-import { PostService } from "../services/post.service";
+import { BannerService } from "../services/banner.service";
 import { Toast } from "bootstrap";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import InputMultipleFile from "../components/form/InputMultipleFile.vue";
 import { ImageService } from "../services/image.service";
+import { BannerType } from "../enums/banner.enum";
 
 export default {
   components: {
@@ -139,12 +180,13 @@ export default {
       RoleUserString: RoleUserString,
       GenderUser: GenderUser,
       GenderUserString: GenderUserString,
-      createPost: {},
+      createBanner: {},
       error_message: "",
       preview: null,
       image: null,
       preview_list: [],
       image_list: [],
+      BannerType: BannerType,
     };
   },
   mounted() {
@@ -152,7 +194,7 @@ export default {
     this.$store.commit("setUploadThumbnail", [[]]);
   },
   methods: {
-    async savePost(event, user) {
+    async saveBanner(event, user) {
       event.preventDefault();
 
       try {
@@ -163,10 +205,10 @@ export default {
             file.name
           );
           presignFormData = JSON.parse(response.data.data).formData;
-          this.createPost.image = presignFormData.key;
+          this.createBanner.image = presignFormData.key;
         }
 
-        await PostService().createOne(this.createPost);
+        await BannerService().createOne(this.createBanner);
         if (presignFormData) {
           ImageService.uploadMultiplePresign([file], [presignFormData]);
         }
@@ -176,7 +218,7 @@ export default {
         );
         toast.show();
         await this.delayTime();
-        this.$router.push("/post");
+        this.$router.push("/banner");
       } catch (e) {
         this.error_message = e;
         const toast = new Toast(document.getElementById("toast-create-error"));

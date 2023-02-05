@@ -68,7 +68,9 @@ export default {
     setProductCategory(selectcategory) {
       this._category = selectcategory;
       console.log(this.$store.state.listProduct, this.index);
-      this.$store.state.listProduct[this.index].category = selectcategory;
+      const listProduct = this.$store.state.listProduct;
+      listProduct[this.index].category = selectcategory;
+      this.$store.commit("setListproduct", listProduct);
     },
   },
 };

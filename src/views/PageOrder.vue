@@ -9,16 +9,25 @@
     </div>
 
     <div class="ms-auto">
-      <a href="#" class="btn btn-primary"><i class="fa fa-plus-circle fa-fw me-1"></i> Create Orders</a>
+      <a href="#" class="btn btn-primary"
+        ><i class="fa fa-plus-circle fa-fw me-1"></i> Create Orders</a
+      >
     </div>
   </div>
 
   <div class="mb-md-4 mb-3 d-md-flex">
     <div class="mt-md-0 mt-2">
-      <a href="#" class="text-dark text-decoration-none"><i class="fa fa-download fa-fw me-1 text-muted"></i> Export</a>
+      <a href="#" class="text-dark text-decoration-none"
+        ><i class="fa fa-download fa-fw me-1 text-muted"></i> Export</a
+      >
     </div>
     <div class="ms-md-4 mt-md-0 mt-2 dropdown-toggle">
-      <a href="#" data-bs-toggle="dropdown" class="text-dark text-decoration-none">More Actions</a>
+      <a
+        href="#"
+        data-bs-toggle="dropdown"
+        class="text-dark text-decoration-none"
+        >More Actions</a
+      >
       <div class="dropdown-menu">
         <a class="dropdown-item" href="#">Action</a>
         <a class="dropdown-item" href="#">Another action</a>
@@ -32,22 +41,34 @@
   <card>
     <ul class="nav nav-tabs nav-tabs-v2 px-4">
       <li class="nav-item me-3">
-        <a href="#allTab" class="nav-link active px-2" data-bs-toggle="tab">All</a>
+        <a href="#allTab" class="nav-link active px-2" data-bs-toggle="tab"
+          >All</a
+        >
       </li>
       <li class="nav-item me-3">
-        <a href="#publishedTab" class="nav-link px-2" data-bs-toggle="tab">Unfulfilled</a>
+        <a href="#publishedTab" class="nav-link px-2" data-bs-toggle="tab"
+          >Unfulfilled</a
+        >
       </li>
       <li class="nav-item me-3">
-        <a href="#expiredTab" class="nav-link px-2" data-bs-toggle="tab">Unpaid</a>
+        <a href="#expiredTab" class="nav-link px-2" data-bs-toggle="tab"
+          >Unpaid</a
+        >
       </li>
       <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab">Open</a>
+        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab"
+          >Open</a
+        >
       </li>
       <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab">Closed</a>
+        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab"
+          >Closed</a
+        >
       </li>
       <li class="nav-item me-3">
-        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab">Local delivery</a>
+        <a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab"
+          >Local delivery</a
+        >
       </li>
     </ul>
     <div class="tab-content p-4">
@@ -56,15 +77,35 @@
         <div class="input-group mb-4">
           <div class="flex-fill position-relative">
             <div class="input-group">
-              <input type="text" class="form-control ps-35px" placeholder="Filter orders" />
-              <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0" style="z-index: 1020">
+              <input
+                type="text"
+                class="form-control ps-35px"
+                placeholder="Filter orders"
+              />
+              <div
+                class="
+                  input-group-text
+                  position-absolute
+                  top-0
+                  bottom-0
+                  bg-none
+                  border-0
+                "
+                style="z-index: 1020"
+              >
                 <i class="fa fa-search opacity-5"></i>
               </div>
             </div>
           </div>
-          <button class="btn btn-default dropdown-toggle rounded-0" type="button" data-bs-toggle="dropdown">
-            <span class="d-none d-md-inline">Payment Status</span><span class="d-inline d-md-none"><i
-                class="fa fa-credit-card"></i></span>
+          <button
+            class="btn btn-default dropdown-toggle rounded-0"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <span class="d-none d-md-inline">Payment Status</span
+            ><span class="d-inline d-md-none"
+              ><i class="fa fa-credit-card"></i
+            ></span>
             &nbsp;
           </button>
           <div class="dropdown-menu">
@@ -74,9 +115,13 @@
             <div role="separator" class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
           </div>
-          <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown">
-            <span class="d-none d-md-inline">Fulfillment status</span><span class="d-inline d-md-none"><i
-                class="fa fa-check"></i></span>
+          <button
+            class="btn btn-default dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <span class="d-none d-md-inline">Fulfillment status</span
+            ><span class="d-inline d-md-none"><i class="fa fa-check"></i></span>
           </button>
           <div class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item" href="#">Action</a>
@@ -95,7 +140,7 @@
               <tr>
                 <th class="border-top-0 pt-0 pb-2">#</th>
                 <th class="border-top-0 pt-0 pb-2">Người mua</th>
-                <th class="border-top-0 pt-0 pb-2">Danh sách sản phẩm</th>
+                <th class="border-top-0 pt-0 pb-2">Giá trị sản phẩm</th>
                 <th class="border-top-0 pt-0 pb-2">Trạng thái</th>
                 <th class="border-top-0 pt-0 pb-2">Mã giảm giả</th>
                 <th class="border-top-0 pt-0 pb-2">Ngày tạo</th>
@@ -110,11 +155,16 @@
                   {{ order.user_order_id.username }}
                 </td>
                 <td>
-                  <div v-for="(product, index2) in order.list_prodcuct" :key="index2">
-                    <p>{{ product.product.name }} - {{ product.discountEvent.name }} - {{ product.property.name }} </p>
-
+                  <div
+                    v-for="(product, index2) in order.list_prodcuct"
+                    :key="index2"
+                  >
+                    <p>
+                      {{ product.product.name }} -
+                      {{ product.discountEvent.name }} -
+                      {{ product.property.name }}
+                    </p>
                   </div>
-
                 </td>
                 <td class="w-10px align-middle">
                   {{ order.state }}
@@ -125,7 +175,6 @@
                 <td class="w-10px align-middle">
                   {{ formatFullDatetime(order.create_at) }}
                 </td>
-
               </tr>
             </tbody>
           </table>
@@ -156,24 +205,24 @@
   </card>
 </template>
 <script>
-import { OrderService } from '../services/order.service';
-import {
-  formatFullDatetime
-} from '../mixin/mixin'
+import { OrderService } from "../services/order.service";
+import { formatFullDatetime } from "../mixin/mixin";
 export default {
-  mixins: [{
-    methods: {
-      formatFullDatetime
-    }
-  }],
+  mixins: [
+    {
+      methods: {
+        formatFullDatetime,
+      },
+    },
+  ],
   data() {
     return {
-      listOrder: []
-    }
+      listOrder: [],
+    };
   },
   async mounted() {
-    this.listOrder = await OrderService().getAll()
-  }
-}
+    this.listOrder = await OrderService().getAll();
+  },
+};
 </script>
 
