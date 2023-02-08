@@ -111,7 +111,7 @@ export default {
     async selectCategory(category) {
       this.$store.commit("setCategory", category);
       if (category.image)
-        this.image = await ImageService.getBlobSrc(category.image);
+        this.image = await ImageService.getMediaSrc(category.image);
     },
     deleteCategory() {
       this.$store.commit("setCategory", {});

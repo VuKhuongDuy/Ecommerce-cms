@@ -2,8 +2,8 @@ import axios from "axios";
 import { httpClient } from "./httpClient";
 
 export class ImageService {
-  static async getPresignUrlImageProduct(file_name: string) {
-    return await httpClient.get(`/product/s3?image_name=${file_name}`);
+  static async getPresignUrlImageProduct(file_name: string, contentType: string) {
+    return await httpClient.get(`/product/s3?image_name=${file_name}&content_type=${contentType}`);
   }
 
   static async uploadFile(formData: any) {
@@ -21,12 +21,8 @@ export class ImageService {
     return new RegExp(/^data:image/).test(file);
   }
 
-  static async getBlobSrc(minioUrl: string) {
-    if (!minioUrl) return ""
-    // if(!minioUrl) throw new Error("blable")
-    const res = await fetch(`http://localhost:9000/ecommerce/${minioUrl}`)
-    const blob = await res.blob()
-    return URL.createObjectURL(blob)
+  static async getMediaSrc(minioUrl: string) {
+    return `http://localhost:9000/ecommerce/${minioUrl}`
   }
 
   static uploadMultiplePresign(listFile: File[] = [], presignDatas: object[] = []) {

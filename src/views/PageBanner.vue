@@ -340,7 +340,7 @@ export default {
           listUploadFiles[index] = [banner.image];
           this.listImages[index] = [
             {
-              data: await ImageService.getBlobSrc(banner.image),
+              data: await ImageService.getMediaSrc(banner.image),
               type: "image",
             },
           ];
@@ -381,7 +381,8 @@ export default {
         let presignFormData;
         if (file instanceof File) {
           const response = await ImageService.getPresignUrlImageProduct(
-            file.name
+            file.name,
+            file.type
           );
           presignFormData = JSON.parse(response.data.data).formData;
           banner.image = presignFormData.key;

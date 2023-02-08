@@ -254,7 +254,8 @@ export default {
         //get presign url image
         if (this.preview) {
           const responsePresign = await ImageService.getPresignUrlImageProduct(
-            this.image.name
+            this.image.name,
+            this.image.type
           );
           presignData = JSON.parse(responsePresign.data.data);
           category.image = presignData.formData.key;

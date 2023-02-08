@@ -62,6 +62,7 @@ export function previewImage(event?: any) {
       this.preview = e.target.result;
     };
     this.image = input.files[0];
+    console.log(this.image)
     reader.readAsDataURL(input.files[0]);
   }
 }

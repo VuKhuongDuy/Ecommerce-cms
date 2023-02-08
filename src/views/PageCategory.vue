@@ -334,7 +334,7 @@ export default {
     await this.search(false);
     this.preview_list = await Promise.all(
       this.listCategory.map(async (category) => {
-        if (category.image) return ImageService.getBlobSrc(category.image);
+        if (category.image) return ImageService.getMediaSrc(category.image);
       })
     );
     this.image_list = Array(this.preview_list.length).fill("");
@@ -377,7 +377,8 @@ export default {
         //get presign url image
         if (this.image_list[index]) {
           const responsePresign = await ImageService.getPresignUrlImageProduct(
-            this.image_list[index].name
+            this.image_list[index].name,
+            this.image_list[index].type
           );
           presignData = JSON.parse(responsePresign.data.data);
           category.image = presignData.formData.key;

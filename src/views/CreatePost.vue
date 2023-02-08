@@ -160,7 +160,8 @@ export default {
         let presignFormData;
         if (file) {
           const response = await ImageService.getPresignUrlImageProduct(
-            file.name
+            file.name,
+            file.type
           );
           presignFormData = JSON.parse(response.data.data).formData;
           this.createPost.image = presignFormData.key;

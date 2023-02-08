@@ -406,7 +406,7 @@ export default {
   },
   methods: {
     // async test() {
-    //   return await ImageService.getBlobSrc(
+    //   return await ImageService.getMediaSrc(
     //     "9J00FBao2FthWq6QGa43cbs5lRMzQUNsSJ9nv41n8"
     //   );
     // },
@@ -418,7 +418,8 @@ export default {
       const presignDatas = [];
       for (const thumb of listFile) {
         const response = await ImageService.getPresignUrlImageProduct(
-          thumb.name
+          thumb.name,
+          thumb.type
         );
         presignDatas.push(JSON.parse(response.data.data).formData);
       }

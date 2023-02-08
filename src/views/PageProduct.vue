@@ -150,7 +150,7 @@
                     :src="listImages?.[index]?.[0]?.data"
                     v-if="isImageFileType(listImages?.[index]?.[0]?.type)"
                   />
-                  <video class="preview-media" alt="" v-else>
+                  <video class="preview-media" alt="" controls v-else>
                     <source :src="listImages?.[index]?.[0]?.data" />
                   </video>
                   <button
@@ -582,7 +582,8 @@ export default {
         listFile.map(async (file) => {
           if (file instanceof File) {
             const response = await ImageService.getPresignUrlImageProduct(
-              file.name
+              file.name,
+              file.type
             );
             return JSON.parse(response.data.data).formData;
           }
@@ -662,7 +663,7 @@ export default {
     this.listImageCategory = await Promise.all(
       this.listProducts.map(async (product) => {
         if (product.category?.image) {
-          return await ImageService.getBlobSrc(product.category?.image);
+          return await ImageService.getMediaSrc(product.category?.image);
         }
       })
     );
@@ -680,7 +681,7 @@ export default {
           (await Promise.all(
             product.thumb_image.map(async (img) => {
               return {
-                data: await ImageService.getBlobSrc(img.url),
+                data: await ImageService.getMediaSrc(img.url),
                 type: img.type,
               };
             })
@@ -693,7 +694,7 @@ export default {
           (await Promise.all(
             product.images.map(async (img) => {
               return {
-                data: await ImageService.getBlobSrc(img.url),
+                data: await ImageService.getMediaSrc(img.url),
                 type: img.type,
               };
             })
@@ -731,8 +732,8 @@ textarea {
 
 table img.preview-media,
 table video.preview-media {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 150px;
   object-fit: fill;
   display: block;
 }

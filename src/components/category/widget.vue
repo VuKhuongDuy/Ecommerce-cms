@@ -60,7 +60,7 @@ export default {
       async get() {
         if (this.image) return image;
         if (this._category?.image)
-          return await ImageService.getBlobSrc(this._category?.image);
+          return await ImageService.getMediaSrc(this._category?.image);
       },
     },
   },
