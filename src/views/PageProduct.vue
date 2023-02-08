@@ -519,7 +519,7 @@ export default {
             };
           else
             return {
-              url: currentUploadThumb[index],
+              url: currentUploadThumb[i],
               type: new RegExp(/image/).test(this[previewKey][index][i].type)
                 ? "image"
                 : "video",
@@ -624,9 +624,59 @@ export default {
       });
     },
 
-    goToPage(page) {
+    async goToPage(page) {
       this.page = page;
-      this.search(false);
+      await this.search(false);
+
+      this.listImageCategory = await Promise.all(
+      this.listProducts.map(async (product) => {
+        if (product.category?.image) {
+          return await ImageService.getMediaSrc(product.category?.image);
+        }
+      })
+    );
+
+    const listUploadThumbnails = [];
+    const listUploadFiles = [];
+    //add all file to blob
+    await Promise.all(
+      this.listProducts.map(async (product, index) => {
+        //thumb image
+
+        listUploadThumbnails[index] =
+          product.thumb_image?.map((img) => img.url) ?? [];
+        this.listImageThumbnail[index] =
+          (await Promise.all(
+            product.thumb_image.map(async (img) => {
+              return {
+                data: await ImageService.getMediaSrc(img.url),
+                type: img.type,
+              };
+            })
+          )) ?? [];
+
+        //images detail
+        const countImages = product.images.length;
+        listUploadFiles[index] = product.images?.map((img) => img.url) ?? [];
+        this.listImages[index] =
+          (await Promise.all(
+            product.images.map(async (img) => {
+              return {
+                data: await ImageService.getMediaSrc(img.url),
+                type: img.type,
+              };
+            })
+          )) ?? [];
+      })
+    );
+
+    //save thumbnail to store
+    this.$store.commit("setPreviewThumbnail", this.listImageThumbnail);
+    this.$store.commit("setUploadThumbnail", listUploadThumbnails);
+
+    //save details image to store
+    this.$store.commit("setPreviewFiles", this.listImages);
+    this.$store.commit("setUploadFiles", listUploadFiles);
     },
   },
   computed: {
@@ -659,7 +709,6 @@ export default {
 
     await this.search(false);
     // this.$store.commit("setListproduct", this.listProducts);
-
     this.listImageCategory = await Promise.all(
       this.listProducts.map(async (product) => {
         if (product.category?.image) {

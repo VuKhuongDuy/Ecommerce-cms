@@ -46,11 +46,44 @@
           type="text"
           class="form-control"
           id="default_value"
-          placeholder="your location"
+          placeholder="Giảm giá mặc định"
           name="default_value"
+          @keydown="$event => {
+            createDiscount.default_percent = ''
+          }"
         />
       </div>
     </div>
+    <div class="col-xl-6">
+      <div class="form-group mb-3">
+        <label class="form-label" for="address">% giảm giá mặc định</label>
+        <input
+          v-model="createDiscount.default_percent"
+          type="text"
+          class="form-control"
+          id="default_percent"
+          placeholder="% giảm giá mặc định"
+          name="default_percent"
+          @keydown="$event => {
+            createDiscount.default_value = ''
+          }"
+        />
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="form-group mb-3">
+        <label class="form-label" for="address">Tối đa giảm giá</label>
+        <input
+          v-model="createDiscount.max_value"
+          type="text"
+          class="form-control"
+          id="max_value"
+          placeholder="Tối đa giảm giá"
+          name="max_value"
+        />
+      </div>
+    </div>
+
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="select-discount-type"

@@ -59,6 +59,8 @@
                 <th class="border-top-0 pt-0 pb-2">Bắt đầu</th>
                 <th class="border-top-0 pt-0 pb-2">Kết thúc</th>
                 <th class="border-top-0 pt-0 pb-2">Giảm giá mặc định</th>
+                <th class="border-top-0 pt-0 pb-2">% giảm giá mặc định</th>
+                <th class="border-top-0 pt-0 pb-2">Tối đa giảm giá</th>
                 <th class="border-top-0 pt-0 pb-2">Loại giảm giá</th>
                 <th class="border-top-0 pt-0 pb-2">Mã giảm giá</th>
                 <th class="border-top-0 pt-0 pb-2">Danh sách sản phẩm</th>
@@ -105,7 +107,29 @@
                     v-model="discount.default_value"
                     style="text-align: right"
                   />
+                  $
+                </td>
+                <td class="align-middle">
+                  <input
+                    @input="checkRowEdit(index)"
+                    type="text"
+                    name="default_percent"
+                    id="default_percent"
+                    v-model="discount.default_percent"
+                    style="text-align: right"
+                  />
                   %
+                </td>
+                <td class="align-middle">
+                  <input
+                    @input="checkRowEdit(index)"
+                    type="text"
+                    name="max_value"
+                    id="max_value"
+                    v-model="discount.max_value"
+                    style="text-align: right"
+                  />
+                  $
                 </td>
                 <td class="align-middle">
                   <select
@@ -128,7 +152,7 @@
                     type="text"
                     class="form-control"
                     id="voucher_code"
-                    placeholder="your location"
+                    placeholder="VOUCHER_CODE"
                     name="voucher_code"
                   />
                 </td>
@@ -387,8 +411,8 @@ export default {
 };
 </script>
 <style>
-#default_discount {
-  max-width: 30px;
+#default_discount, #max_value, #default_percent {
+  max-width: 100px;
 }
 
 input {
