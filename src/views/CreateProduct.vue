@@ -18,9 +18,10 @@
         <div class="form-group mb-3">
           <div class="form-group mb-3">
             <label class="form-label" for="description">Mô tả</label>
-            <input
+            <textarea
               v-model="createProduct.description"
               type="text"
+              rows="4"
               class="form-control"
               id="description"
               placeholder="Your description"
@@ -111,6 +112,42 @@
         <div class="form-group mb-3">
           <label class="form-label" for="role">Danh mục</label>
           <search-category></search-category>
+        </div>
+      </div>
+      <div class="col-xl-12 row form-create">
+        <label class="form-label" for="role">Loại sản phẩm</label>
+
+        <div class="col-xl-4">
+          <div class="form-group mb-3">
+            <input type="checkbox" id="new" name="new" value="new" @click="() => selectProductType('new')"/>
+            <label for="new">Giá bán</label>
+          </div>
+        </div>
+
+        <div class="col-xl-4">
+          <div class="form-group mb-3">
+            <input
+              type="checkbox"
+              id="featured"
+              name="featured"
+              value="featured"
+              @click="() => selectProductType('featured')"
+            />
+            <label for="featured">Sản phẩm đặc sắc</label>
+          </div>
+        </div>
+
+        <div class="col-xl-4">
+          <div class="form-group mb-3">
+            <input
+              type="checkbox"
+              id="best_seller"
+              name="best_seller"
+              value="best_seller"
+              @click="() => selectProductType('best_seller')"
+            />
+            <label for="best_seller">Sản phẩm bán chạy</label>
+          </div>
         </div>
       </div>
       <div class="col-xl-12">
@@ -451,6 +488,10 @@ export default {
         });
       }
       return listData;
+    },
+
+    selectProductType(type) {
+      this.createProduct[type] = !this.createProduct[type];
     },
 
     async saveProduct() {
