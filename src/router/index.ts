@@ -156,6 +156,7 @@ const router = createRouter({
     { path: "/calendar", component: () => import("../views/Calendar.vue") },
     { path: "/settings", component: () => import("../views/Settings.vue") },
     { path: "/helper", component: () => import("../views/Helper.vue") },
+    { path: "/", component: () => import("../views/PageProduct.vue") },
   ],
 });
 

@@ -123,7 +123,7 @@
                   </button>
                   <div class="modal fade" :id="'modalThumbnail' + index">
                     <div class="modal-dialog modal-xl">
-                      <div class="modal-content">
+                      <div class="modal-content" style="overflow: auto">
                         <div class="modal-header">
                           <h5 class="modal-title">Cập nhật thumbnails</h5>
                           <button
@@ -163,7 +163,7 @@
                   </button>
                   <div class="modal fade" :id="'modalImages' + index">
                     <div class="modal-dialog modal-xl">
-                      <div class="modal-content">
+                      <div class="modal-content" style="overflow: auto">
                         <div class="modal-header">
                           <h5 class="modal-title">Cập nhật hình ảnh</h5>
                           <button
@@ -275,9 +275,9 @@
 
                   <div class="modal fade" :id="'modalCoverExample' + index">
                     <div class="modal-dialog">
-                      <div class="modal-content">
+                      <div class="modal-content" style="overflow: auto">
                         <div class="modal-header">
-                          <h5 class="modal-title">Cập nhật thuộc tính</h5>
+                          <h5 class="modal-title">Các mẫu sản phẩm</h5>
                           <button
                             type="button"
                             class="btn-close"
@@ -305,9 +305,9 @@
 
                   <div class="modal fade" :id="'editProdFilters' + index">
                     <div class="modal-dialog">
-                      <div class="modal-content">
+                      <div class="modal-content" style="overflow: auto">
                         <div class="modal-header">
-                          <h5 class="modal-title">Xác nhận filters</h5>
+                          <h5 class="modal-title">Các thuộc tính áp dụng filters</h5>
                           <button
                             type="button"
                             class="btn-close"
@@ -340,7 +340,7 @@
                   </button>
                   <div class="modal fade" :id="'modalDeleteProduct' + index">
                     <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
+                      <div class="modal-content" style="overflow: auto">
                         <div class="modal-header">
                           <h5 class="modal-title">Xác nhận san pham</h5>
                           <button
@@ -720,9 +720,9 @@ textarea {
 }
 
 .modal-dialog {
-  max-width: 80%;
+  max-width: 50%;
   align-items: start !important;
-  height: 90vh;
+  height: 70vh;
 }
 
 .modal-content {

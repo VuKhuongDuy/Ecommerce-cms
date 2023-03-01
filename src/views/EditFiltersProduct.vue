@@ -1,56 +1,50 @@
 <template>
   <div class="col-xl-12">
     <div class="form-group mb-3">
-      <label class="form-label" for="phone">Các filters</label>
+      <!-- <label class="form-label" for="phone">Các filters</label> -->
       <div v-for="(filter, index) in filters" :key="index">
-        <div class="form-group mb-3">
-          <table>
-            <tr>
-              <td>Tên filters</td>
-              <td>
-                <input
-                  v-model="filter.name"
-                  type="text"
-                  class="form-control"
-                  id="username"
-                  placeholder="Giá trị"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Giá trị</td>
-              <td>
-                <input
-                  v-model="filter.value[jndex]"
-                  type="text"
-                  class="form-control"
-                  id="username"
-                  placeholder="Giá trị"
-                  v-for="(text, jndex) in filter.value"
-                  :key="jndex"
-                  @input="(event) => addOrDelTextFilter(event, index, jndex)"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <div style="width: 100%">
-                  <button
-                    type="button"
-                    class="btn btn-default"
-                    style="width: 100%"
-                    @click="addFilters"
-                  >
-                    +
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </table>
+        <div class="form-group mb-3 mt-3 container text-center">
+          <div class="row">
+            <div class="col-1">{{ index + 1 }}.</div>
+            <div class="col-3 text-start">Tên thuộc tính</div>
+            <div class="col-6">
+              <input
+                v-model="filter.name"
+                type="text"
+                class="form-control"
+                id="username"
+                placeholder="Giá trị"
+              />
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-1"></div>
+            <div class="col-3 text-start">Giá trị</div>
+            <div class="col-6">
+              <input
+                v-model="filter.value[jndex]"
+                type="text"
+                class="form-control"
+                id="username"
+                placeholder="Giá trị"
+                v-for="(text, jndex) in filter.value"
+                :key="jndex"
+                @input="(event) => addOrDelTextFilter(event, index, jndex)"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <button
+    type="button"
+    class="btn btn-default mb-1 mx-2"
+    style="backgroundColor: #4aca4a; color: #fff"
+    @click="addFilters"
+  >
+    Thêm thuộc tính
+  </button>
   <button
     type="button"
     data-bs-dismiss="modal"

@@ -119,14 +119,22 @@
 
         <div class="col-xl-4">
           <div class="form-group mb-3">
-            <input type="checkbox" id="new" name="new" value="new" @click="() => selectProductType('new')"/>
-            <label for="new">Giá bán</label>
+            <input
+              class="mx-1"
+              type="checkbox"
+              id="new"
+              name="new"
+              value="new"
+              @click="() => selectProductType('new')"
+            />
+            <label for="new">Sản phẩm mới</label>
           </div>
         </div>
 
         <div class="col-xl-4">
           <div class="form-group mb-3">
             <input
+              class="mx-1"
               type="checkbox"
               id="featured"
               name="featured"
@@ -140,6 +148,7 @@
         <div class="col-xl-4">
           <div class="form-group mb-3">
             <input
+              class="mx-1"
               type="checkbox"
               id="best_seller"
               name="best_seller"
@@ -151,13 +160,13 @@
         </div>
       </div>
       <div class="col-xl-12">
-        <div class="form-group mb-3">
-          <label class="form-label" for="role">Ảnh</label>
+        <div class="form-group mb-3 row">
+          <label class="form-label col-1" for="role">Ảnh</label>
           <input
             type="file"
             multiple="multiple"
             @change="previewMultiImages"
-            class="form-control-file"
+            class="form-control-file mx-1 col-3"
             id="my-file"
           />
           <div class="border p-2 mt-3 row" style="overflow-x: auto">
@@ -182,14 +191,14 @@
         </div>
       </div>
       <div class="col-xl-12">
-        <div class="form-group mb-3">
-          <label class="form-label" for="role">Thumbnail</label>
+        <div class="form-group mb-3 row">
+          <label class="form-label col-1" for="role">Thumbnail</label>
           <input
             type="file"
             accept="image/*"
             multiple="multiple"
             @change="previewMultiThumbnail"
-            class="form-control-file"
+            class="form-control-file col-3"
             id="my-file"
           />
           <div class="border p-2 mt-3 row" style="overflow-x: auto">
@@ -217,127 +226,113 @@
       <div class="col-xl-12">
         <div class="form-group mb-3">
           <label class="form-label" for="phone">Các thuộc tính</label>
-          <div v-for="(prop, index) in properties" :key="index">
-            <div class="form-group mb-3">
-              <table>
-                <tr>
-                  <td>Tên thuộc tính</td>
-                  <td>
-                    <input
-                      v-model="prop.name"
-                      type="text"
-                      class="form-control"
-                      id="name"
-                      placeholder="Tên thuộc tính"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Giá trị</td>
-                  <td>
-                    <input
-                      v-model="prop.value[jndex]"
-                      type="text"
-                      class="form-control"
-                      id="value"
-                      placeholder="Giá trị"
-                      v-for="(text, jndex) in prop.value"
-                      :key="jndex"
-                      @input="(event) => addOrDelTextProp(event, index, jndex)"
-                    />
-                  </td>
-                  <td rowspan="2">
-                    <button
-                      type="button"
-                      class="btn btn-default"
-                      style="width: 100%"
-                      @click="deleteProp(index)"
-                    >
-                      Xoa
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <div style="width: 100%">
-                      <button
-                        type="button"
-                        class="btn btn-default"
-                        style="width: 100%"
-                        @click="addProp"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </table>
+          <template v-for="(prop, index) in properties" :key="index">
+              <div class="row mb-1">
+                <div class="col-xl-1">{{ index + 1 }}.</div>
+                <div class="col-xl-4">
+                  <input
+                    v-model="prop.name"
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    placeholder="Tên thuộc tính"
+                  />
+                </div>
+                <div class="col-xl-1">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    style="backgroundColor: #ef5656; color: white"
+                    @click="deleteProp(index)"
+                  >
+                    <i class="fa fa-trash fa-lg me-0"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-xl-1"></div>
+                <div class="col-xl-4">
+                  <input
+                    v-model="prop.value[jndex]"
+                    type="text"
+                    class="form-control"
+                    id="value"
+                    placeholder="Giá trị"
+                    v-for="(text, jndex) in prop.value"
+                    :key="jndex"
+                    @input="(event) => addOrDelTextProp(event, index, jndex)"
+                  />
+                </div>
+            </div>
+          </template>
+          <div class="row mb-1">
+            <div class="col-xl-1"></div>
+            <div class="col-xl-4">
+              <button
+                type="button"
+                class="btn btn-default mb-1"
+                style="backgroundColor: #4aca4a; color: #fff"
+                @click="addProp"
+              >
+                Thêm thuộc tính
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div class="col-xl-12">
         <div class="form-group mb-3">
-          <label class="form-label" for="phone">Các filters</label>
-          <div v-for="(filter, index) in filters" :key="index">
-            <div class="form-group mb-3">
-              <table>
-                <tr>
-                  <td>Tên filters</td>
-                  <td>
-                    <input
-                      v-model="filter.name"
-                      type="text"
-                      class="form-control"
-                      id="filter_name"
-                      name="filter_name"
-                      placeholder="Tên filter"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Giá trị</td>
-                  <td>
-                    <input
-                      v-model="filter.value[jndex]"
-                      type="text"
-                      class="form-control"
-                      id="filter_values"
-                      name="filter_values"
-                      placeholder="Giá trị"
-                      v-for="(text, jndex) in filter.value"
-                      :key="jndex"
-                      @input="
-                        (event) => addOrDelTextFilter(event, index, jndex)
-                      "
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <div style="width: 100%">
-                      <button
-                        type="button"
-                        class="btn btn-default"
-                        style="width: 100%"
-                        @click="addFilter"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </td>
-                  <td rowspan="2">
-                    <button
-                      type="button"
-                      class="btn btn-default"
-                      style="width: 100%"
-                      @click="deleteFilters(index)"
-                    >
-                      Xoa
-                    </button>
-                  </td>
-                </tr>
-              </table>
+          <label class="form-label" for="phone">Các thuộc tính filter</label>
+          <template v-for="(filter, index) in filters" :key="index">
+            <div class="row mb-1">
+              <div class="col-xl-1">{{ index + 1 }}.</div>
+              <div class="col-xl-4">
+                <input
+                  v-model="filter.name"
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Tên thuộc tính"
+                />
+              </div>
+              <div class="col-xl-1">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  style="backgroundColor: #ef5656; color: white"
+                  @click="deleteFilters(index)"
+                >
+                  <i class="fa fa-trash fa-lg me-0"></i>
+                </button>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-xl-1"></div>
+              <div class="col-xl-4">
+                <input
+                  v-model="filter.value[jndex]"
+                  type="text"
+                  class="form-control"
+                  id="value"
+                  placeholder="Giá trị"
+                  v-for="(text, jndex) in filter.value"
+                  :key="jndex"
+                  @input="(event) => addOrDelTextFilter(event, index, jndex)"
+                />
+              </div>
+            </div>
+          </template>
+          <div class="row mb-1">
+            <div class="col-xl-1"></div>
+            <div class="col-xl-4">
+              <button
+                type="button"
+                class="btn btn-default mb-1"
+                style="backgroundColor: #4aca4a; color: #fff"
+                @click="addFilter"
+              >
+                Thêm thuộc tính
+              </button>
             </div>
           </div>
         </div>

@@ -1,56 +1,52 @@
 <template>
   <div class="col-xl-12 mt-3">
     <div class="form-group mb-3">
-      <label class="form-label" for="phone">Các thuộc tính</label>
+      <!-- <label class="form-label" for="phone">Các thuộc tính</label> -->
       <div v-for="(prop, index) in properties" :key="index">
-        <div class="form-group mb-3">
-          <table>
-            <tr>
-              <td>Tên thuộc tính</td>
-              <td>
-                <input
-                  v-model="prop.name"
-                  type="text"
-                  class="form-control"
-                  id="prop_name"
-                  placeholder="Tên thuộc tính"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Giá trị</td>
-              <td>
-                <input
-                  v-model="prop.value[jndex]"
-                  type="text"
-                  class="form-control"
-                  id="username"
-                  placeholder="Giá trị"
-                  v-for="(text, jndex) in prop.value"
-                  :key="jndex"
-                  @input="(event) => addOrDelTextProp(event, index, jndex)"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <div style="width: 100%">
-                  <button
-                    type="button"
-                    class="btn btn-default"
-                    style="width: 100%"
-                    @click="addProp"
-                  >
-                    +
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </table>
+        <div class="form-group mb-3 container text-center">
+          <!-- <table> -->
+          <div class="row">
+            <div class="col-1">{{ index + 1 }}.</div>
+            <div class="col-3 text-start">Tên thuộc tính</div>
+            <div class="col-6">
+              <input
+                v-model="prop.name"
+                type="text"
+                class="form-control"
+                id="prop_name"
+                placeholder="Tên thuộc tính"
+              />
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-1"></div>
+            <div class="col-3 text-start">Giá trị</div>
+            <div class="col-6">
+              <input
+                v-model="prop.value[jndex]"
+                type="text"
+                class="form-control mt-1"
+                id="username"
+                placeholder="Giá trị"
+                v-for="(text, jndex) in prop.value"
+                :key="jndex"
+                @input="(event) => addOrDelTextProp(event, index, jndex)"
+              />
+            </div>
+          </div>
+          <!-- </table> -->
         </div>
       </div>
     </div>
   </div>
+  <button
+    type="button"
+    class="btn btn-default mb-1 mx-2"
+    style="backgroundColor: #4aca4a; color: #fff"
+    @click="addProp"
+  >
+    Thêm thuộc tính
+  </button>
   <button
     type="button"
     data-bs-dismiss="modal"
