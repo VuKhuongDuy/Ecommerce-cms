@@ -115,11 +115,11 @@
                   </video>
                   <button
                     type="button"
-                    class="btn btn-outline-default btn-sm d-block"
+                    class="btn btn-outline-default btn-sm d-block mt-1"
                     data-bs-toggle="modal"
                     :data-bs-target="'#modalThumbnail' + index"
                   >
-                    Sủa
+                    Sửa
                   </button>
                   <div class="modal fade" :id="'modalThumbnail' + index">
                     <div class="modal-dialog modal-xl">
@@ -155,11 +155,11 @@
                   </video>
                   <button
                     type="button"
-                    class="btn btn-outline-default btn-sm d-block"
+                    class="btn btn-outline-default btn-sm d-block mt-1"
                     data-bs-toggle="modal"
                     :data-bs-target="'#modalImages' + index"
                   >
-                    Sủa
+                    Sửa
                   </button>
                   <div class="modal fade" :id="'modalImages' + index">
                     <div class="modal-dialog modal-xl">

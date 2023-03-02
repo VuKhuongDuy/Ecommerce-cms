@@ -176,7 +176,7 @@
 
         <button
           type="button"
-          class="btn btn-primary mx-2"
+          class="btn btn-primary mx-2 mb-3"
           @click="(event) => saveProductDiscount(event)"
           data-bs-dismiss="modal"
         >
@@ -215,6 +215,9 @@ export default {
   mounted() {
     if (this.listUpdatedSelectedProduct) {
       this.listSelectedProduct = this.listUpdatedSelectedProduct.map((p) => {
+        if (!p) {
+          return p;
+        }
         if (p.price != undefined) {
           p.product_discount_type = "amount";
         }
@@ -358,6 +361,10 @@ input {
 .modal-body .row > div,
 .modal-body .row {
   height: 100%;
+}
+
+.modal-body {
+  overflow: auto;
 }
 
 .product_detail {
