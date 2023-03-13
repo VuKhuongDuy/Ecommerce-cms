@@ -83,6 +83,7 @@
                 <th class="pt-0 pb-2">Mã SKU</th>
                 <th class="pt-0 pb-2">Số hàng tồn</th>
                 <th class="pt-0 pb-2">Số hàng đã bán</th>
+                <th class="pt-0 pb-2">Loại sản phẩm</th>
                 <th class="pt-0 pb-2">Danh mục</th>
                 <th class="pt-0 pb-2">Thuộc tính</th>
                 <th class="pt-0 pb-2">Filters</th>
@@ -190,12 +191,14 @@
                     name="discountName"
                     id="discountName"
                     v-model="product.name"
+                    class="p-2"
                   ></textarea>
                 </td>
                 <td class="align-middle">
                   <textarea
                     @input="checkRowEdit(index)"
                     type="text"
+                    class="p-2"
                     name="discountName"
                     id="discountName"
                     v-model="product.description"
@@ -205,6 +208,7 @@
                   <textarea
                     @input="checkRowEdit(index)"
                     type="text"
+                    class="p-2"
                     name="discountName"
                     id="discountName"
                     v-model="product.addinfo"
@@ -214,6 +218,7 @@
                   <textarea
                     @input="checkRowEdit(index)"
                     type="text"
+                    class="p-2"
                     name="discountName"
                     id="discountName"
                     v-model="product.default_price"
@@ -223,6 +228,7 @@
                   <textarea
                     @input="checkRowEdit(index)"
                     type="text"
+                    class="p-2"
                     name="selling_price"
                     id="selling_price"
                     v-model="product.selling_price"
@@ -232,6 +238,7 @@
                   <textarea
                     @input="checkRowEdit(index)"
                     type="text"
+                    class="p-2"
                     name="sku"
                     id="sku"
                     v-model="product.sku"
@@ -241,6 +248,7 @@
                   <textarea
                     @input="checkRowEdit(index)"
                     type="text"
+                    class="p-2"
                     name="quantity"
                     id="quantity"
                     v-model="product.quantity"
@@ -250,10 +258,49 @@
                   <textarea
                     @input="checkRowEdit(index)"
                     type="text"
+                    class="p-2"
                     name="saleCount"
                     id="saleCount"
                     v-model="product.sale_count"
                   ></textarea>
+                </td>
+                <td class="align-middle">
+                  <div class="form-group mb-3">
+                    <input
+                      class="mx-1"
+                      type="checkbox"
+                      id="new"
+                      name="new"
+                      value="new"
+                      v-model="product.new"
+                      @click="() => selectProductType(index, 'new')"
+                    />
+                    <label for="new">Sản phẩm mới</label>
+                  </div>
+                  <div class="form-group mb-3">
+                    <input
+                      class="mx-1"
+                      type="checkbox"
+                      id="featured"
+                      name="featured"
+                      value="featured"
+                      v-model="product.featured"
+                      @click="() => selectProductType(index, 'featured')"
+                    />
+                    <label for="featured">Sản phẩm đặc sắc</label>
+                  </div>
+                  <div class="form-group mb-3">
+                    <input
+                      class="mx-1"
+                      type="checkbox"
+                      id="best_seller"
+                      name="best_seller"
+                      value="best_seller"
+                      v-model="product.best_seller"
+                      @click="() => selectProductType(index, 'best_seller')"
+                    />
+                    <label for="best_seller">Sản phẩm bán chạy</label>
+                  </div>
                 </td>
                 <td class="align-middle">
                   <category-widget
@@ -485,6 +532,9 @@ export default {
     };
   },
   methods: {
+    selectProductType(index, value) {
+      this.listProducts[index][value] = !this.listProducts[index][value];
+    },
     viewProductDetail: function (id) {
       this.$router.push(`/product/${id}`);
     },
@@ -554,11 +604,11 @@ export default {
           this.$store.state.listProduct[index]?.category?.id ??
           updateProduct.category?.id;
 
-        delete updateProduct.best_seller;
-        delete updateProduct.featured;
-        delete updateProduct.new;
-        delete updateProduct.slug;
-        delete updateProduct.stop_sell;
+        updateProduct.best_seller;
+        updateProduct.featured;
+        updateProduct.new;
+        updateProduct.slug;
+        updateProduct.stop_sell;
 
         await ProductService().updateOne(updateProduct);
 

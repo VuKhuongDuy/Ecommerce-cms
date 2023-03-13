@@ -30,14 +30,7 @@
                 @change="(event) => search()"
               />
               <div
-                class="
-                  input-group-text
-                  position-absolute
-                  top-0
-                  bottom-0
-                  bg-none
-                  border-0
-                "
+                class="input-group-text position-absolute top-0 bottom-0 bg-none border-0"
                 style="z-index: 1020"
               >
                 <i class="fa fa-search opacity-5"></i>
@@ -146,6 +139,7 @@
                           type="button"
                           data-bs-dismiss="modal"
                           class="btn btn-primary mx-2"
+                          @click="savePost(index)"
                         >
                           Save
                         </button>
@@ -266,11 +260,17 @@
 </template>
 <script>
 import { PostService } from "../services/post.service";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { ImageService } from "../services/image.service";
 import InputMultipleFile from "../components/form/InputMultipleFile.vue";
 import ToastMessage from "../components/toast/ToastMessage.vue";
 import { toastSuccess, toastError } from "../mixin/mixin";
+// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
+import * as customCkeditor from '../../ckeditor_build'
+// import ClassicEditor from "../utils/builderCkeditor";
+// import UploadPlugin from "@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter";
+import { env } from '../utils/config';
+
 import * as lodash from "lodash";
 const PERPAGE = import.meta.env.VITE_PERPAGE;
 
@@ -289,10 +289,24 @@ export default {
   ],
   data() {
     return {
-      editor: ClassicEditor,
+      editor: customCkeditor,
       configEdit: {
         width: "1000px",
         height: "80%",
+        // plugins: [SimpleUploadAdapter],
+        simpleUpload: {
+            // The URL that the images are uploaded to.
+            uploadUrl: `${env.s3Url}/post/`,
+
+            // Enable the XMLHttpRequest.withCredentials property.
+            withCredentials: false,
+
+            // Headers sent along with the XMLHttpRequest to the upload server.
+            // headers: {
+            //     'X-CSRF-TOKEN': 'CSRF-Token',
+            //     Authorization: 'Bearer <JSON Web Token>'
+            // }
+        }
       },
       listPost: [],
       listEditted: [],
@@ -312,7 +326,7 @@ export default {
     searchQuery: {
       get() {
         const page = this.page;
-        let query = { page, limit: PERPAGE };
+        const query = { page, limit: PERPAGE };
         if (this.searchData) {
           query.q = this.searchData;
         }

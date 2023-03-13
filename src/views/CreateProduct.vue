@@ -241,8 +241,7 @@
                 <div class="col-xl-1">
                   <button
                     type="button"
-                    class="btn btn-default"
-                    style="backgroundColor: #ef5656; color: white"
+                    class="btn btn-danger"
                     @click="deleteProp(index)"
                   >
                     <i class="fa fa-trash fa-lg me-0"></i>
@@ -270,8 +269,7 @@
             <div class="col-xl-4">
               <button
                 type="button"
-                class="btn btn-default mb-1"
-                style="backgroundColor: #4aca4a; color: #fff"
+                class="btn btn-success mb-1"
                 @click="addProp"
               >
                 Thêm thuộc tính
@@ -298,8 +296,7 @@
               <div class="col-xl-1">
                 <button
                   type="button"
-                  class="btn btn-default"
-                  style="backgroundColor: #ef5656; color: white"
+                  class="btn btn-danger"
                   @click="deleteFilters(index)"
                 >
                   <i class="fa fa-trash fa-lg me-0"></i>
@@ -327,8 +324,7 @@
             <div class="col-xl-4">
               <button
                 type="button"
-                class="btn btn-default mb-1"
-                style="backgroundColor: #4aca4a; color: #fff"
+                class="btn btn-success mb-1"
                 @click="addFilter"
               >
                 Thêm thuộc tính

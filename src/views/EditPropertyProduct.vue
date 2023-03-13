@@ -39,12 +39,7 @@
       </div>
     </div>
   </div>
-  <button
-    type="button"
-    class="btn btn-default mb-1 mx-2"
-    style="backgroundColor: #4aca4a; color: #fff"
-    @click="addProp"
-  >
+  <button type="button" class="btn btn-success mb-1 mx-2" @click="addProp">
     Thêm thuộc tính
   </button>
   <button

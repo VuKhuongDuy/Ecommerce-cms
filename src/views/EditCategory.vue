@@ -1,5 +1,5 @@
 <template>
-  <div class="row form-create mt-3">
+  <div class="row mt-3" style="overflow: auto">
     <label class="form-label" for="listCategoryValue">Các thuộc tính</label>
     <div
       class="col-xl-12"
@@ -8,87 +8,106 @@
       :key="index"
     >
       <div class="form-group mb-3">
-        <table>
-          <tr>
-            <td>Tên thuộc tính</td>
-            <td>
-              <input v-model="prop.name" type="text" class="form-control" />
-            </td>
-          </tr>
-          <tr>
-            <td>Loại thuộc tính</td>
-            <td>
-              <select v-model="prop.type" class="form-control">
-                <option :value="PropTypes.string">
-                  {{ PropTypesString.string }}
-                </option>
-                <option :value="PropTypes.number">
-                  {{ PropTypesString.number }}
-                </option>
-              </select>
-            </td>
-            <td rowspan="2">
-              <button
-                type="button"
-                class="btn btn-default"
-                style="width: 100%"
-                @click="addProp"
-              >
-                Xoa
-              </button>
-            </td>
-          </tr>
+        <div class="row mt-2">
+          <div class="col-1">{{ index + 1 }}.</div>
+          <div class="col-3">
+            <label class="form-label" for="name">Tên thuộc tính</label>
+          </div>
 
-          <tr v-if="prop.type === PropTypes.number">
-            <td>Khoảng</td>
-            <td>
-              <input
-                v-model="prop.defaultNumber[0]"
-                type="number"
-                class="form-control"
-                id="username"
-                placeholder="Bắt đầu"
-              />
-              <input
-                v-model="prop.defaultNumber[1]"
-                type="number"
-                class="form-control"
-                id="username"
-                placeholder="Kết thúc"
-              />
-            </td>
-          </tr>
-          <tr v-else>
-            <td>Giá trị</td>
-            <td>
-              <input
-                v-model="prop.defaultText[jndex]"
-                type="text"
-                class="form-control"
-                id="username"
-                placeholder="Giá trị"
-                v-for="(text, jndex) in prop.defaultText"
-                :key="jndex"
-                @input="(event) => addOrDelTextProp(event, index, jndex)"
-              />
-            </td>
-          </tr>
+          <div class="col-6">
+            <input v-model="prop.name" type="text" class="form-control" />
+          </div>
+        </div>
 
-          <tr v-if="index === list_props.length - 1 && list_props.length < 3">
-            <td colspan="2">
-              <div style="width: 100%">
-                <button
-                  type="button"
-                  class="btn btn-default"
-                  style="width: 100%"
-                  @click="addProp"
-                >
-                  +
-                </button>
-              </div>
-            </td>
-          </tr>
-        </table>
+        <div class="row mt-2">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label class="form-label" for="name">Loại thuộc tính</label>
+          </div>
+
+          <div class="col-6">
+            <select v-model="prop.type" class="form-control">
+              <option :value="PropTypes.string">
+                {{ PropTypesString.string }}
+              </option>
+              <option :value="PropTypes.number">
+                {{ PropTypesString.number }}
+              </option>
+            </select>
+          </div>
+          <div class="col-2">
+            <button
+              type="button"
+              class="btn btn-danger"
+              style="width: 100%"
+              @click="deleteProp"
+            >
+              Xoa
+            </button>
+          </div>
+        </div>
+
+        <div class="row mt-2" v-if="prop.type === PropTypes.number">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label class="form-label" for="name">Khoảng</label>
+          </div>
+
+          <div class="col-3">
+            <input
+              v-model="prop.defaultNumber[0]"
+              type="number"
+              class="form-control"
+              id="username"
+              placeholder="Bắt đầu"
+            />
+          </div>
+          <div class="col-3">
+            <input
+              v-model="prop.defaultNumber[1]"
+              type="number"
+              class="form-control"
+              id="username"
+              placeholder="Kết thúc"
+            />
+          </div>
+        </div>
+
+        <div class="row mt-2" v-else>
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label class="form-label" for="name">Giá trị</label>
+          </div>
+
+          <div class="col-6">
+            <input
+              v-model="prop.defaultText[jndex]"
+              type="text"
+              class="form-control"
+              id="username"
+              placeholder="Giá trị"
+              v-for="(text, jndex) in prop.defaultText"
+              :key="jndex"
+              @input="(event) => addOrDelTextProp(event, index, jndex)"
+            />
+          </div>
+        </div>
+
+        <div
+          class="row mt-2"
+          v-if="index === list_props.length - 1 && list_props.length < 3"
+        >
+          <div style="width: 100%">
+            <button
+              type="button"
+              class="btn btn-success mt-3"
+              style="width: 100%"
+              @click="addProp"
+            >
+              Thêm
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

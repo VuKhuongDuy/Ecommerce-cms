@@ -11,50 +11,54 @@
             id="category_name"
             placeholder=""
           />
-          <label class="form-label mt-3" for="phone">Các thuộc tính</label>
         </div>
       </div>
+      <label class="form-label mt-3">Danh sách thuộc tính</label>
+      <hr />
       <div class="col-xl-12" v-for="(prop, index) in list_props" :key="index">
         <div class="form-group mb-3">
-          <table>
-            <tr>
-              <td>Tên thuộc tính</td>
-              <td>
-                <input
-                  v-model="prop.name"
-                  type="text"
-                  class="form-control"
-                  name="category_prop_name"
-                />
-              </td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-default"
-                  style="width: 100%"
-                  @click="deleteProp(index)"
-                >
-                  Xoa
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Loại thuộc tính</td>
-              <td>
-                <select v-model="prop.type" class="form-control">
-                  <option :value="PropTypes.text">
-                    {{ PropTypesString.text }}
-                  </option>
-                  <option :value="PropTypes.number">
-                    {{ PropTypesString.number }}
-                  </option>
-                </select>
-              </td>
-            </tr>
-
-            <tr v-if="prop.type === PropTypes.number">
-              <td>Khoảng</td>
-              <td>
+          <div class="row mt-2">
+            <div class="col-3">
+              <label class="form-label" for="name">Tên thuộc tính</label>
+            </div>
+            <div class="col-6">
+              <input
+                v-model="prop.name"
+                type="text"
+                class="form-control"
+                name="category_prop_name"
+              />
+            </div>
+            <div class="col-3">
+              <button
+                type="button"
+                class="btn btn-danger"
+                @click="deleteProp(index)"
+              >
+                Xoa
+              </button>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-3">
+              <label class="form-label" for="name">Loại thuộc tính</label></div>
+            <div class="col-6">
+            <select v-model="prop.type" class="form-control">
+              <option :value="PropTypes.text">
+                {{ PropTypesString.text }}
+              </option>
+              <option :value="PropTypes.number">
+                {{ PropTypesString.number }}
+              </option>
+            </select>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <template v-if="prop.type === PropTypes.number">
+              <div class="col-3">
+                <label class="form-label" for="name">Khoảng</label>
+              </div>
+              <div class="col-3">
                 <input
                   v-model="prop.defaultNumber[0]"
                   type="number"
@@ -62,6 +66,8 @@
                   id="username"
                   placeholder="Bắt đầu"
                 />
+              </div>
+              <div class="col-3">
                 <input
                   v-model="prop.defaultNumber[1]"
                   type="number"
@@ -69,11 +75,13 @@
                   id="username"
                   placeholder="Kết thúc"
                 />
-              </td>
-            </tr>
-            <tr v-else>
-              <td>Giá trị</td>
-              <td>
+              </div>
+            </template>
+            <template v-else>
+              <div class="col-3">
+                <label class="form-label" for="name">Giá trị</label>
+              </div>
+              <div class="col-6">
                 <input
                   v-model="prop.defaultText[jndex]"
                   type="text"
@@ -84,35 +92,35 @@
                   :key="jndex"
                   @input="(event) => addOrDelTextProp(event, index, jndex)"
                 />
-              </td>
-            </tr>
-
-            <tr v-if="index === list_props.length - 1 && list_props.length < 3">
-              <td colspan="2">
-                <div style="width: 100%">
-                  <button
-                    type="button"
-                    class="btn btn-default"
-                    style="width: 100%"
-                    @click="addProp"
-                  >
-                    +
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </table>
+              </div>
+            </template>
+          </div>
+            <div
+              class="form-group mb-3 row mt-5"
+              v-if="index === list_props.length - 1 && list_props.length < 3"
+            >
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  style="width: 100%"
+                  @click="addProp"
+                >
+                  Thêm
+                </button>
+              </div>
+          </div>
         </div>
       </div>
 
       <div class="col-xl-12 preview-create-category">
-        <div class="form-group mb-3">
-          <label class="form-label" for="role">Images</label>
+        <div class="form-group mb-3 mt-5">
+          <label class="form-label" for="role">Ảnh: </label>
           <input
             type="file"
             accept="image/*"
             @change="previewImage"
-            class="form-control-file"
+            class="form-control-file mx-2"
             id="my-file"
           />
           <div class="border p-2 mt-3 row" style="overflow-x: auto">

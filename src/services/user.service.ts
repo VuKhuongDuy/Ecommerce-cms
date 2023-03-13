@@ -3,7 +3,7 @@ import axios from "axios";
 import { authHeader } from "./auth-header";
 import { httpClient } from "./httpClient";
 
-const API_URL = "http://localhost:8080/api/v1/";
+const API_URL = "http://localhost:3005/";
 
 export const UserService = () => ({
   getPublicContent: () => {

@@ -56,7 +56,7 @@
           <table class="table table-hover text-nowrap">
             <thead>
               <tr>
-                <th class="border-top-0 pt-0 pb-2">ID</th>
+                <th class="border-top-0 pt-0 pb-2">STT</th>
                 <th class="border-top-0 pt-0 pb-2">Image</th>
                 <th class="border-top-0 pt-0 pb-2">Tên</th>
                 <th class="border-top-0 pt-0 pb-2">Thuộc tính</th>
@@ -71,7 +71,7 @@
               >
                 <td class="w-10px align-middle">
                   <div class="form-check">
-                    {{ index }}
+                    {{ index + 1 }}
                   </div>
                 </td>
                 <td class="w-10px align-middle">
@@ -478,5 +478,10 @@ input {
 .category_image {
   max-width: 150px;
   display: block;
+}
+
+.modal-content {
+  height: 100%;
+  padding: 50px;
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title">Giá trị sản phẩm</h3>
+          <h3 class="modal-title">Danh sách sản phẩm</h3>
           <button
             type="button"
             class="btn-close"
@@ -23,14 +23,7 @@
                       @keyup="(event) => findProduct(event)"
                     />
                     <div
-                      class="
-                        input-group-text
-                        position-absolute
-                        top-0
-                        bottom-0
-                        bg-none
-                        border-0
-                      "
+                      class="input-group-text position-absolute top-0 bottom-0 bg-none border-0"
                       style="z-index: 1020"
                     >
                       <i class="fa fa-search opacity-5"></i>
@@ -65,7 +58,8 @@
                                 class="form-check-input"
                                 :checked="
                                   listSelectedProduct.find(
-                                    (select) => select.id === product.id
+                                    (select) =>
+                                      product && select.id === product.id
                                   )
                                 "
                                 @onchange="switchSelectProduct(product, index)"
@@ -98,21 +92,19 @@
                 v-for="(product, index) in listSelectedProduct"
                 :key="index"
               >
-                <div class="list-group-item d-flex align-items-center">
+                <div
+                  class="list-group-item d-flex align-items-center"
+                  v-if="product != null"
+                >
                   <div
-                    class="
-                      w-40px
-                      h-40px
-                      d-flex
-                      align-items-center
-                      justify-content-center
-                      bg-gradient-cyan-blue
-                      text-white
-                      rounded-2
-                      ms-n1
-                    "
+                    class="w-40px h-40px d-flex align-items-center justify-content-center bg-gradient-cyan-blue text-white rounded-2 ms-n1"
                   >
-                    <i class="fab fa-apple fa-lg"></i>
+                    <!-- <i class="fab fa-apple fa-lg"></i> -->
+                    <img
+                      :src="s3Url+product.thumb_image.url"
+                      alt=""
+                      class="card-img"
+                    />
                   </div>
                   <div class="flex-fill ps-3 pe-3 col-xl-3">
                     <div class="fw-600">{{ product?.name }}</div>
@@ -190,6 +182,7 @@
 <script>
 import { ProductService } from "../../services/product.service";
 import { closeSearchResult } from "../../mixin/mixin";
+import { env } from "../../utils/config";
 const PERPAGE = import.meta.env.VITE_PERPAGE;
 
 const productService = ProductService();
@@ -210,6 +203,7 @@ export default {
       listSearchProduct: [],
       listSelectedProduct: [],
       selectAll: true,
+      s3Url: env.s3Url,
     };
   },
   mounted() {
