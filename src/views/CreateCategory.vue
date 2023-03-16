@@ -272,7 +272,7 @@ export default {
         await categoryService.createOne(category);
 
         //upload image
-        if (isEmptyObject(presignData)) {
+        if (!isEmptyObject(presignData)) {
           ImageService.uploadMultiplePresign(
             [this.image],
             [presignData.formData]

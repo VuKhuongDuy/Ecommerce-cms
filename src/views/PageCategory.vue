@@ -330,15 +330,6 @@ export default {
       totalData: 0,
     };
   },
-  async mounted() {
-    await this.search(false);
-    this.preview_list = await Promise.all(
-      this.listCategory.map(async (category) => {
-        if (category.image) return ImageService.getMediaSrc(category.image);
-      })
-    );
-    this.image_list = Array(this.preview_list.length).fill("");
-  },
   computed: {
     searchQuery: {
       get() {
@@ -356,20 +347,30 @@ export default {
       },
     },
   },
+  async mounted() {
+    await this.fetchData();
+  },
   methods: {
+    async fetchData() {
+      if (this.page < 1) {
+        this.page = 1;
+      }
+      const response = await CategoryService().findCategory(this.searchQuery);
+      this.listCategory = response.data;
+      this.totalData = response.total;
+      this.preview_list = await Promise.all(
+        this.listCategory.map(async (category) => {
+          if (category.image) return ImageService.getMediaSrc(category.image);
+        })
+      );
+      this.image_list = Array(this.preview_list.length).fill("");
+    },
     async search(searchEvent = true) {
       if (searchEvent) {
         this.page = 1;
       }
       this.listEditted = [];
-      const response = await CategoryService().findCategory(this.searchQuery);
-      this.listCategory = response.data;
-      this.totalData = response.total;
-      console.log(response);
-      this.$router.push({
-        path: "category",
-        query: this.searchQuery,
-      });
+      this.fetchData();
     },
     async savecategory(category, index) {
       try {
@@ -476,6 +477,8 @@ input {
 }
 
 .category_image {
+  width: 150px;
+  height: 150px;
   max-width: 150px;
   display: block;
 }
