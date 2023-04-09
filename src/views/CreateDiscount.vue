@@ -40,17 +40,24 @@
 
     <div class="col-xl-6">
       <div class="form-group mb-3">
-        <label class="form-label" for="address">Giảm giá mặc định</label>
-        <input
-          v-model="createDiscount.default_value"
-          type="text"
-          class="form-control"
-          id="default_value"
-          placeholder="your location"
-          name="default_value"
-        />
+        <label class="form-label" for="address">Giá trị giảm (mặc định)</label>
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">vnđ</span>
+          </div>
+          <input
+            v-model="createDiscount.default_value"
+            type="text"
+            class="form-control"
+            id="default_value"
+            placeholder="your location"
+            name="default_value"
+          />
+        </div>
       </div>
     </div>
+    <div class="col-xl-6"></div>
     <div class="col-xl-6">
       <div class="form-group mb-3">
         <label class="form-label" for="select-discount-type"

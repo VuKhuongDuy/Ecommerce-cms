@@ -101,7 +101,11 @@
                   >
                     <!-- <i class="fab fa-apple fa-lg"></i> -->
                     <img
-                      :src="s3Url+product.thumb_image.url"
+                      :src="
+                        product.thumb_image && product.thumb_image.length > 0
+                          ? s3Url + '/ecommerce/' + product.thumb_image[0].url
+                          : ''
+                      "
                       alt=""
                       class="card-img"
                     />
@@ -207,7 +211,11 @@ export default {
     };
   },
   mounted() {
-    if (this.listUpdatedSelectedProduct) {
+    this.findProduct();
+    if (
+      this.listUpdatedSelectedProduct &&
+      this.listUpdatedSelectedProduct.length > 0
+    ) {
       this.listSelectedProduct = this.listUpdatedSelectedProduct.map((p) => {
         if (!p) {
           return p;
@@ -236,7 +244,7 @@ export default {
     async findProduct(event) {
       this.$store.commit("setShowSearchResult", true);
 
-      const text = event.target.value;
+      const text = event ? event.target.value : "";
       const response = await productService.findProduct({
         q: text,
         limit: PERPAGE,
@@ -296,6 +304,8 @@ export default {
         (product) => {
           const discount = {
             id: product.id,
+            name: product.name,
+            thumb_image: [{ url: product.thumb_image[0].url }],
           };
           if (product.product_discount_type === "amount") {
             discount.price = product.price;

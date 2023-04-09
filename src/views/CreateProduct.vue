@@ -225,43 +225,43 @@
       </div>
       <div class="col-xl-12">
         <div class="form-group mb-3">
-          <label class="form-label" for="phone">Các thuộc tính</label>
+          <label class="form-label" for="phone">Các mẫu sản phẩm</label>
           <template v-for="(prop, index) in properties" :key="index">
-              <div class="row mb-1">
-                <div class="col-xl-1">{{ index + 1 }}.</div>
-                <div class="col-xl-4">
-                  <input
-                    v-model="prop.name"
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    placeholder="Tên thuộc tính"
-                  />
-                </div>
-                <div class="col-xl-1">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    @click="deleteProp(index)"
-                  >
-                    <i class="fa fa-trash fa-lg me-0"></i>
-                  </button>
-                </div>
+            <div class="row mb-1">
+              <div class="col-xl-1">{{ index + 1 }}.</div>
+              <div class="col-xl-4">
+                <input
+                  v-model="prop.name"
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Tên"
+                />
               </div>
-              <div class="row mb-1">
-                <div class="col-xl-1"></div>
-                <div class="col-xl-4">
-                  <input
-                    v-model="prop.value[jndex]"
-                    type="text"
-                    class="form-control"
-                    id="value"
-                    placeholder="Giá trị"
-                    v-for="(text, jndex) in prop.value"
-                    :key="jndex"
-                    @input="(event) => addOrDelTextProp(event, index, jndex)"
-                  />
-                </div>
+              <div class="col-xl-1">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  @click="deleteProp(index)"
+                >
+                  <i class="fa fa-trash fa-lg me-0"></i>
+                </button>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-xl-1"></div>
+              <div class="col-xl-4">
+                <input
+                  v-model="prop.value[jndex]"
+                  type="text"
+                  class="form-control"
+                  id="value"
+                  placeholder="Giá trị"
+                  v-for="(text, jndex) in prop.value"
+                  :key="jndex"
+                  @input="(event) => addOrDelTextProp(event, index, jndex)"
+                />
+              </div>
             </div>
           </template>
           <div class="row mb-1">
@@ -272,7 +272,7 @@
                 class="btn btn-success mb-1"
                 @click="addProp"
               >
-                Thêm thuộc tính
+                Thêm
               </button>
             </div>
           </div>
@@ -327,7 +327,7 @@
                 class="btn btn-success mb-1"
                 @click="addFilter"
               >
-                Thêm thuộc tính
+                Thêm
               </button>
             </div>
           </div>
@@ -506,7 +506,7 @@ export default {
         }
 
         this.createProduct.filters = this.extractFilters();
-        this.createProduct.properties = this.properties;
+        this.createProduct.properties = this.formatData(this.properties);
 
         this.upLoadPresignImage(this.imageList, imagePresignData);
         this.upLoadPresignImage(this.thumbnailList, thumbNailPresignedData);
@@ -578,6 +578,15 @@ export default {
           index++;
         }
       }
+    },
+
+    formatData(properties) {
+      properties.forEach((elem) => {
+        elem.value.splice(elem.value.length - 1, 1);
+      });
+
+      console.log(properties);
+      return properties;
     },
 
     addOrDelTextProp(event, index, jindex) {

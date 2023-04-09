@@ -96,16 +96,19 @@
                     hideInputIcon
                   />
                 </td>
-                <td class="align-middle">
-                  <input
-                    @input="checkRowEdit(index)"
-                    type="text"
-                    name="default_discount"
-                    id="default_discount"
-                    v-model="discount.default_value"
-                    style="text-align: right"
-                  />
-                  %
+                <td class="align-items-end">
+                  <div class="input-group">
+                    <input
+                      @input="checkRowEdit(index)"
+                      type="text"
+                      name="default_discount"
+                      id="default_discount"
+                      v-model="discount.default_value"
+                    />
+                    <div class="input-group-append">
+                      <span class="input-group-text">vnđ</span>
+                    </div>
+                  </div>
                 </td>
                 <td class="align-middle">
                   <select
@@ -304,7 +307,6 @@ export default {
     };
   },
   async mounted() {
-    console.log(this.$route.query);
     await this.search(false);
 
     const listProductDiscount = this.listDiscount.map(
@@ -341,7 +343,6 @@ export default {
       const listProductDiscount = this.listDiscount.map(
         (discount) => discount.listproduct
       );
-      console.log("listProductDiscount", listProductDiscount);
       this.$store.commit("setListproduct", listProductDiscount);
       this.$router.push({
         path: "discount",
@@ -388,7 +389,7 @@ export default {
 </script>
 <style>
 #default_discount {
-  max-width: 30px;
+  max-width: 90%;
 }
 
 input {

@@ -91,7 +91,7 @@
                     data-bs-toggle="modal"
                     :data-bs-target="'#modalThumbnail' + index"
                   >
-                    Sủa
+                    Sửa
                   </button>
                   <div class="modal fade" :id="'modalThumbnail' + index">
                     <div class="modal-dialog modal-xl">

@@ -13,7 +13,8 @@
           />
         </div>
       </div>
-      <label class="form-label mt-3">Danh sách thuộc tính</label>
+      <label class="form-label mt-3 text-md-left">Danh sách thuộc tính: </label>
+      <p style="font-style: italic; opacity: 0.5">dùng để filter sản phẩm</p>
       <hr />
       <div class="col-xl-12" v-for="(prop, index) in list_props" :key="index">
         <div class="form-group mb-3">

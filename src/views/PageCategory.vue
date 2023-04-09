@@ -356,8 +356,10 @@ export default {
         this.page = 1;
       }
       const response = await CategoryService().findCategory(this.searchQuery);
+      console.log(response)
       this.listCategory = response.data;
       this.totalData = response.total;
+
       this.preview_list = await Promise.all(
         this.listCategory.map(async (category) => {
           if (category.image) return ImageService.getMediaSrc(category.image);
